@@ -10,37 +10,45 @@
 
 namespace App\Http\Middleware;
 
+use App\Jobs\RequestLogJob;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Jenssegers\Agent\Agent;
 
 class RequestLogMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
+        return $next($request);
+    }
+
+    public function terminate($request, $response)
+    {
         $environment = app()->environment();
 
-        $response = $next($request);
-
         if ($environment === 'production') {
-//            dispatch(new RequestLogJob([
-//                'url' => $request->fullUrl(),
-//                'method' => $request->method(),
-//                'ip' => $request->getClientIp(),
-//                'params' => json_encode($request->all(), JSON_UNESCAPED_UNICODE),
-//                'response_params' => $response->getContent(),
-//                'user_id' => $request->user() ? $request->user()->id : 0,
-//            ]));
-            $arr = [
-                'url' => $request->fullUrl(),
-                'method' => $request->method(),
-                'ip' => $request->getClientIp(),
-                'params' => json_encode($request->all(), JSON_UNESCAPED_UNICODE),
-                'http_code' => $response->getStatusCode(),
+
+            // 计算请求处理时间（毫秒）
+            $endTime = microtime(true);
+            $processingTime = round(($endTime - LARAVEL_START) * 1000, 2); // 转换为毫秒，并保留两位小数
+            $agent = new Agent();
+
+            $ip = $request->getClientIp();
+            $locationResult = geoip($ip)->toArray();
+            dispatch(new RequestLogJob([
+                'request_url' => $request->fullUrl(),
+                'request_method' => $request->method(),
+                'client_ip' => $ip,
+                'request_body' => json_encode($request->all()),
+                'response_body' => $response->getContent(),
                 'user_id' => $request->user() ? $request->user()->id : 0,
-            ];
-            Log::channel('request')->info(null, $arr);
+                'status_code' => $response->getStatusCode(),
+                'location' => sprintf('%s%s%s', $locationResult['country'], $locationResult['state_name'], $locationResult['city']),
+                'browser' => $agent->browser(),
+                'request_header' => json_encode($request->headers->all()),
+                'duration' => $processingTime
+            ]));
+
         }
-        return $response;
     }
 }

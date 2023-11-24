@@ -35,14 +35,7 @@ class RequestLogJob implements ShouldQueue
      */
     public function handle()
     {
-        $log = new RequestLog([
-            'url' => $this->data['url'],
-            'method' => $this->data['method'],
-            'ip' => $this->data['ip'],
-            'params' => $this->data['params'],
-            'response_params' => $this->data['response_params'],
-            'user_id' => $this->data['user_id'],
-        ]);
+        $log = new RequestLog($this->data);
         $log->save();
     }
 }
