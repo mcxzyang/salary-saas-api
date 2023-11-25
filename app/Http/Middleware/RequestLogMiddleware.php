@@ -10,7 +10,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Jobs\RequestLogJob;
+use App\Jobs\ClientRequestLogJob;
 use Closure;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
@@ -26,8 +26,8 @@ class RequestLogMiddleware
     {
         $environment = app()->environment();
 
+        // production
         if ($environment === 'production') {
-
             // 计算请求处理时间（毫秒）
             $endTime = microtime(true);
             $processingTime = round(($endTime - LARAVEL_START) * 1000, 2); // 转换为毫秒，并保留两位小数
@@ -35,7 +35,7 @@ class RequestLogMiddleware
 
             $ip = $request->getClientIp();
             $locationResult = geoip($ip)->toArray();
-            dispatch(new RequestLogJob([
+            dispatch(new ClientRequestLogJob([
                 'request_url' => $request->fullUrl(),
                 'request_method' => $request->method(),
                 'client_ip' => $ip,
@@ -48,7 +48,6 @@ class RequestLogMiddleware
                 'request_header' => json_encode($request->headers->all()),
                 'duration' => $processingTime
             ]));
-
         }
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Admin\AdminMenuController;
 use App\Http\Controllers\Api\Admin\AdminRoleController;
 use App\Http\Controllers\Api\Admin\AdminUserController;
 use App\Http\Controllers\Api\Admin\AuthController;
+use App\Http\Controllers\Api\Admin\ClientRequestLogController;
 use App\Http\Controllers\Api\Admin\CommonController;
 use App\Http\Controllers\Api\Admin\DashboardController;
 use App\Http\Controllers\Api\Admin\ToolsController;
@@ -35,5 +36,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
 
     Route::resource('/adminUser', AdminUserController::class);
     Route::resource('/adminRole', AdminRoleController::class);
+
+    Route::resource('/clientRequestLog', ClientRequestLogController::class);
 
 });
