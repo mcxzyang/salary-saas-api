@@ -7,6 +7,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class BaseResource extends JsonResource
 {
+
+    public static $wrap = 'list';
     /**
      * @var array
      */

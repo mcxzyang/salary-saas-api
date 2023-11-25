@@ -5,8 +5,10 @@ use App\Http\Controllers\Api\Admin\AdminMenuController;
 use App\Http\Controllers\Api\Admin\AdminRoleController;
 use App\Http\Controllers\Api\Admin\AdminUserController;
 use App\Http\Controllers\Api\Admin\AuthController;
+use App\Http\Controllers\Api\Admin\ClientController;
 use App\Http\Controllers\Api\Admin\ClientRequestLogController;
 use App\Http\Controllers\Api\Admin\CommonController;
+use App\Http\Controllers\Api\Admin\CompanyController;
 use App\Http\Controllers\Api\Admin\DashboardController;
 use App\Http\Controllers\Api\Admin\ToolsController;
 use Illuminate\Support\Facades\Route;
@@ -38,5 +40,10 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::resource('/adminRole', AdminRoleController::class);
 
     Route::resource('/clientRequestLog', ClientRequestLogController::class);
+
+    Route::resource('/company', CompanyController::class);
+
+    Route::resource('/client', ClientController::class);
+    Route::get('/client/type/list', [ClientController::class, 'typeList']);
 
 });

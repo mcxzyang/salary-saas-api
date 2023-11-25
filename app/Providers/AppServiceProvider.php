@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Resources\Collections\BaseResourceCollection;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,5 +31,7 @@ class AppServiceProvider extends ServiceProvider
             $paging = request('paging', 1);
             return $paging ? $this->paginate(request('size', config('app.size'))) : $this->get();
         });
+
+//        BaseResourceCollection::withoutWrapping();
     }
 }
