@@ -12,6 +12,21 @@ class ClientRequestLog extends Model
     use FormatDate;
 
     protected $fillable = [
-        'request_url', 'request_method', 'status_code', 'location', 'browser', 'client_ip', 'user_id', 'request_body', 'request_header', 'duration', 'response_body'
+        'request_url', 'request_method', 'status_code', 'location', 'browser', 'client_ip', 'company_user_id', 'request_body', 'request_header', 'duration', 'response_body'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::creating(function (ClientRequestLog $clientRequestLog) {
+            if ($body = $clientRequestLog->request_body) {
+                $formatJson = json_decode($body, true);
+                if (isset($formatJson['password']) && $formatJson['password']) {
+                    $formatJson['password'] = '******';
+                    $clientRequestLog->request_body = json_encode($formatJson);
+                }
+            }
+        });
+    }
 }

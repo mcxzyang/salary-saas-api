@@ -27,7 +27,7 @@ class RequestLogMiddleware
         $environment = app()->environment();
 
         // production
-        if ($environment === 'production') {
+        if ($environment === 'production' || $environment === 'local') {
             // 计算请求处理时间（毫秒）
             $endTime = microtime(true);
             $processingTime = round(($endTime - LARAVEL_START) * 1000, 2); // 转换为毫秒，并保留两位小数
@@ -41,7 +41,7 @@ class RequestLogMiddleware
                 'client_ip' => $ip,
                 'request_body' => json_encode($request->all()),
                 'response_body' => $response->getContent(),
-                'user_id' => $request->user() ? $request->user()->id : 0,
+                'company_user_id' => auth('client')->user() ? auth('client')->user()->id : 0,
                 'status_code' => $response->getStatusCode(),
                 'location' => sprintf('%s%s%s', $locationResult['country'], $locationResult['state_name'], $locationResult['city']),
                 'browser' => $agent->browser(),

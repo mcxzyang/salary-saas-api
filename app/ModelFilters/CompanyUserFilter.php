@@ -4,7 +4,7 @@ namespace App\ModelFilters;
 
 use EloquentFilter\ModelFilter;
 
-class ClientFilter extends ModelFilter
+class CompanyUserFilter extends ModelFilter
 {
     /**
     * Related Models that have ModelFilters as well as the method on the ModelFilter
