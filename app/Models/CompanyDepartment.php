@@ -19,6 +19,4 @@ class CompanyDepartment extends Model
     public static $primaryName = 'name';
 
     protected $fillable = ['company_id', 'name', 'supervisor_id', 'status'];
-
-
 }
