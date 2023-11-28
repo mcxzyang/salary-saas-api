@@ -31,10 +31,8 @@ class RequestLogMiddleware
             // 计算请求处理时间（毫秒）
             $endTime = microtime(true);
             $processingTime = round(($endTime - LARAVEL_START) * 1000, 2); // 转换为毫秒，并保留两位小数
-            $agent = new Agent();
 
             $ip = $request->getClientIp();
-            $locationResult = geoip($ip)->toArray();
             dispatch(new ClientRequestLogJob([
                 'request_url' => $request->fullUrl(),
                 'request_method' => $request->method(),
@@ -43,8 +41,8 @@ class RequestLogMiddleware
                 'response_body' => $response->getContent(),
                 'company_user_id' => auth('client')->user() ? auth('client')->user()->id : 0,
                 'status_code' => $response->getStatusCode(),
-                'location' => sprintf('%s%s%s', $locationResult['country'], $locationResult['state_name'], $locationResult['city']),
-                'browser' => $agent->browser(),
+                'location' => getLocation($ip),
+                'browser' => getBrowser(),
                 'request_header' => json_encode($request->headers->all()),
                 'duration' => $processingTime
             ]));

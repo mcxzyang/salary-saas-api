@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ClientOperateLogJob;
 use App\Models\CompanyUser;
+use App\Services\ClientOperateLogService;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -25,6 +27,8 @@ class AuthController extends Controller
             return $this->failed('密码不正确');
         }
         $token = auth('client')->login($user);
+
+        app(ClientOperateLogService::class)->save($user, '登录', sprintf('用户名：%s - 账号登录', $user->username));
 
         return $this->success($this->respondWithToken($token));
     }
