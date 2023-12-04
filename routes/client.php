@@ -16,4 +16,6 @@ Route::group(['middleware' => 'auth:client'], function () {
     Route::resource('/companyRole', CompanyRoleController::class);
 
     Route::resource('/companyDepartment', CompanyDepartmentController::class);
+
+    Route::get('/auth/menu', [AuthController::class, 'menu']);
 });

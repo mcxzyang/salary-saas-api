@@ -17,4 +17,9 @@ class CompanyRole extends Model
     public static $primaryName = 'name';
 
     protected $fillable = ['company_id', 'name', 'status'];
+
+    public function companyMenus()
+    {
+        return $this->belongsToMany(CompanyMenu::class, 'company_role_menus', 'company_role_id', 'company_menu_id');
+    }
 }

@@ -45,6 +45,10 @@ class CompanyRoleController extends Controller
         $companyRole->fill(array_merge($params, ['company_id' => $user->company_id]));
         $companyRole->save();
 
+        if (isset($params['menu_ids']) && count($params['menu_ids'])) {
+            $companyRole->companyMenus()->sync($params['menu_ids']);
+        }
+
         return $this->message('操作成功');
     }
 
@@ -59,6 +63,10 @@ class CompanyRoleController extends Controller
 
         $companyRole->fill($params);
         $companyRole->save();
+
+        if (isset($params['menu_ids']) && count($params['menu_ids'])) {
+            $companyRole->companyMenus()->sync($params['menu_ids']);
+        }
 
         return $this->message('操作成功');
     }
