@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BaseResource;
 use App\Jobs\ClientOperateLogJob;
 use App\Models\CompanyMenu;
 use App\Models\CompanyRoleMenu;
@@ -74,5 +75,12 @@ class AuthController extends Controller
             'menu' => $list,
             'permission' => $permissions
         ]);
+    }
+
+    public function me()
+    {
+        $user = auth('client')->user();
+
+        return $this->success(new BaseResource($user->load(['company'])));
     }
 }
