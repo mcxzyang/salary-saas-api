@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use App\Services\ClientOperateLogService;
 use App\Traits\BootableTrait;
 use App\Traits\FormatDate;
 use EloquentFilter\Filterable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class CompanyDepartment extends Model

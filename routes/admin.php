@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Admin\ClientController;
 use App\Http\Controllers\Api\Admin\ClientRequestLogController;
 use App\Http\Controllers\Api\Admin\CommonController;
 use App\Http\Controllers\Api\Admin\CompanyController;
+use App\Http\Controllers\Api\Admin\CompanyMenuController;
 use App\Http\Controllers\Api\Admin\CompanyUserController;
 use App\Http\Controllers\Api\Admin\DashboardController;
 use App\Http\Controllers\Api\Admin\ToolsController;
@@ -48,5 +49,8 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('/client/type/list', [ClientController::class, 'typeList']);
 
     Route::resource('/companyUser', CompanyUserController::class);
+
+    Route::resource('/companyMenu', CompanyMenuController::class);
+    Route::get('/companyMenu/list/tree', [CompanyMenuController::class, 'tree']);
 
 });
