@@ -16,7 +16,7 @@ class HookController extends Controller
 {
     public function webhook(Request $request)
     {
-        $target = '/var/www/shopping-mall-api';
+        $target = '/var/www/salary-admin.cunguangmed.com';
         // $cmd = "cd $target && git pull 2>&1";
         $cmd = 'git pull';
 
