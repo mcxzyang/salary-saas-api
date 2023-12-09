@@ -27,7 +27,7 @@ class RequestLogMiddleware
         $environment = app()->environment();
 
         // production
-        if ($environment === 'production' || $environment === 'local') {
+        if ($environment === 'production') {
             // 计算请求处理时间（毫秒）
             $endTime = microtime(true);
             $processingTime = round(($endTime - LARAVEL_START) * 1000, 2); // 转换为毫秒，并保留两位小数
