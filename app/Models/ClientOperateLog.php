@@ -11,4 +11,9 @@ class ClientOperateLog extends Model
     use FormatDate;
 
     protected $fillable = ['company_id', 'company_user_id', 'module', 'content', 'client_ip', 'location', 'browser'];
+
+    public function companyUser()
+    {
+        return $this->belongsTo(CompanyUser::class);
+    }
 }
