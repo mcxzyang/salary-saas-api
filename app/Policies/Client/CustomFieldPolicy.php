@@ -14,5 +14,4 @@ class CustomFieldPolicy
     {
         return $user->company_id === $customField->company_id;
     }
-
 }

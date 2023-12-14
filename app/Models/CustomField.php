@@ -36,7 +36,7 @@ class CustomField extends Model
         self::TYPE_RADIO => '单选',
         self::TYPE_CHECKBOX => '多选',
         self::TYPE_DATE => '日期选择器',
-        self::TYPE_DATETIME => '时期时间选择器',
+        self::TYPE_DATETIME => '日期时间选择器',
         self::TYPE_DATE_RANGE => '日期范围选择器'
     ];
 
