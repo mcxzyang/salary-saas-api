@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\Admin\CompanyController;
 use App\Http\Controllers\Api\Admin\CompanyMenuController;
 use App\Http\Controllers\Api\Admin\CompanyUserController;
 use App\Http\Controllers\Api\Admin\DashboardController;
+use App\Http\Controllers\Api\Admin\DictController;
+use App\Http\Controllers\Api\Admin\DictItemController;
 use App\Http\Controllers\Api\Admin\ToolsController;
 use Illuminate\Support\Facades\Route;
 
@@ -52,5 +54,8 @@ Route::group(['middleware' => 'auth:admin'], function () {
 
     Route::resource('/companyMenu', CompanyMenuController::class);
     Route::get('/companyMenu/list/tree', [CompanyMenuController::class, 'tree']);
+
+    Route::resource('/dict', DictController::class);
+    Route::resource('/dictItem', DictItemController::class);
 
 });

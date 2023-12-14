@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Client\ClientOperateLogController;
 use App\Http\Controllers\Api\Client\CommonController;
 use App\Http\Controllers\Api\Client\CompanyDepartmentController;
 use App\Http\Controllers\Api\Client\CompanyRoleController;
+use App\Http\Controllers\Api\Client\CustomFieldController;
 use App\Http\Controllers\Api\Client\ProductController;
 use App\Http\Controllers\Api\Client\ToolsController;
 
@@ -36,4 +37,9 @@ Route::group(['middleware' => 'auth:client'], function () {
 
     // 商品
     Route::resource('/product', ProductController::class);
+
+    // 自定义字段
+    Route::resource('/customField', CustomFieldController::class);
+    Route::get('/customField/type/list', [CustomFieldController::class, 'typeList']);
+    Route::get('/customField/module/list', [CustomFieldController::class, 'moduleList']);
 });
