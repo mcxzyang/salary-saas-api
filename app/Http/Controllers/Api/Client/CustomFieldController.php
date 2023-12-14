@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseResource;
 use App\Models\CustomField;
+use App\Models\CustomModule;
 use Illuminate\Http\Request;
 
 class CustomFieldController extends Controller
@@ -24,15 +25,20 @@ class CustomFieldController extends Controller
     public function store(Request $request, CustomField $customField)
     {
         $this->validate($request, [
-            'module_id' => 'required|numeric',
             'name' => 'required',
             'type' => 'required|numeric',
+            'custom_module_ids' => 'array'
         ]);
 
         $user = auth('client')->user();
 
         $customField->fill(array_merge($request->all(), ['company_id' => $user->company_id]));
         $customField->save();
+
+        $customModuleIds = $request->input('custom_module_ids');
+        if (isset($customModuleIds) && count($customModuleIds)) {
+            $customField->customModules()->sync($customModuleIds);
+        }
 
         return $this->message('操作成功');
     }
@@ -43,6 +49,9 @@ class CustomFieldController extends Controller
 
         $customField->fill($request->all());
         $customField->save();
+
+        $customModuleIds = $request->input('custom_module_ids');
+        $customField->customModules()->sync($customModuleIds ?? []);
 
         return $this->message('操作成功');
     }
@@ -79,15 +88,8 @@ class CustomFieldController extends Controller
 
     public function moduleList()
     {
-        $list = CustomField::$moduleMap;
-        $arr = [];
-        foreach ($list as $key => $value) {
-            $arr[] = [
-                'id' => $key,
-                'name' => $value
-            ];
-        }
+        $list = CustomModule::query()->get();
 
-        return $this->success($arr);
+        return $this->success($list);
     }
 }

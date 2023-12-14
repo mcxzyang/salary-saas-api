@@ -40,11 +40,10 @@ class CustomField extends Model
         self::TYPE_DATE_RANGE => '日期范围选择器'
     ];
 
-    public const MODULE_CUSTOMER = 1;
+    protected $fillable = ['id', 'company_id', 'name', 'type', 'options', 'is_required', 'sort', 'status'];
 
-    public static $moduleMap = [
-        self::MODULE_CUSTOMER => '客资模块'
-    ];
-
-    protected $fillable = ['id', 'company_id', 'module_id', 'name', 'type', 'options', 'is_required', 'sort', 'status'];
+    public function customModules()
+    {
+        return $this->belongsToMany(CustomModule::class, 'custom_field_modules', 'custom_field_id', 'custom_module_id');
+    }
 }
