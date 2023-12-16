@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseResource;
+use App\Models\Company;
 use App\Models\DictItem;
 use Illuminate\Http\Request;
 
@@ -34,6 +35,14 @@ class DictItemController extends Controller
         $dictItem->fill(array_merge($request->all(), ['is_system' => 1]));
         $dictItem->save();
 
+        $companyList = Company::query()->get();
+        foreach ($companyList as $company) {
+            $newItem = $dictItem->replicate();
+            $newItem->company_id = $company->id;
+            $newItem->is_system = 0;
+            $newItem->save();
+        }
+
         return $this->message('操作成功');
     }
 
@@ -47,6 +56,10 @@ class DictItemController extends Controller
 
     public function destroy(DictItem $dictItem)
     {
+        DictItem::query()->where(['dict_id' => $dictItem->dict_id, 'value' => $dictItem->value])
+            ->where('id', '!=', $dictItem->id)
+            ->delete();
+
         $dictItem->delete();
 
         return $this->message('操作成功');
