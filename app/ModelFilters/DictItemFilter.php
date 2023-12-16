@@ -18,4 +18,9 @@ class DictItemFilter extends ModelFilter
     {
         return $this->where('dict_id', $dictId);
     }
+
+    public function code($code)
+    {
+        return $this->whereRelation('dict', 'code', '=', $code);
+    }
 }

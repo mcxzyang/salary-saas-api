@@ -18,4 +18,9 @@ class DictFilter extends ModelFilter
     {
         return $this->where('name', 'like', sprintf('%%%s%%', $name));
     }
+
+    public function code($code)
+    {
+        return $this->where('code', $code);
+    }
 }

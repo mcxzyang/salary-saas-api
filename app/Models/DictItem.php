@@ -13,4 +13,9 @@ class DictItem extends Model
     use Filterable;
 
     protected $fillable = ['id', 'dict_id', 'value', 'sort', 'description', 'is_system', 'company_id'];
+
+    public function dict()
+    {
+        return $this->belongsTo(Dict::class);
+    }
 }
