@@ -10,8 +10,10 @@ class CustomModule extends Model
 {
     use FormatDate;
 
+    public const CODE_CUSTOMER = 'customer';
+
     protected $fillable = [
-        'name'
+        'name', 'code'
     ];
 
     public function customFields()

@@ -2,6 +2,7 @@
 
 namespace App\ModelFilters;
 
+use App\Models\CustomFieldModule;
 use EloquentFilter\ModelFilter;
 
 class CustomFieldFilter extends ModelFilter
@@ -16,7 +17,11 @@ class CustomFieldFilter extends ModelFilter
 
     public function module($moduleId)
     {
-        return $this->where('module_id', $moduleId);
+        if (!is_array($moduleId)) {
+            $moduleId = [$moduleId];
+        }
+        $customFields = CustomFieldModule::query()->whereIn('custom_module_id', $moduleId)->pluck('custom_field_id');
+        return $this->whereIn('id', $customFields);
     }
 
     public function type($type)

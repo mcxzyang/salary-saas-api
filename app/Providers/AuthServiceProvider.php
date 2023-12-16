@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\CustomField;
 use App\Models\DictItem;
 use App\Models\Product;
 use App\Policies\Client\CategoryPolicy;
+use App\Policies\Client\CustomerPolicy;
 use App\Policies\Client\CustomFieldPolicy;
 use App\Policies\Client\DictItemPolicy;
 use App\Policies\Client\ProductPolicy;
@@ -26,6 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         Product::class => ProductPolicy::class,
         CustomField::class => CustomFieldPolicy::class,
         DictItem::class => DictItemPolicy::class,
+        Customer::class => CustomerPolicy::class,
     ];
 
     /**

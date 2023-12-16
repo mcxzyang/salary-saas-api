@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Client\ClientOperateLogController;
 use App\Http\Controllers\Api\Client\CommonController;
 use App\Http\Controllers\Api\Client\CompanyDepartmentController;
 use App\Http\Controllers\Api\Client\CompanyRoleController;
+use App\Http\Controllers\Api\Client\CustomerController;
 use App\Http\Controllers\Api\Client\CustomFieldController;
 use App\Http\Controllers\Api\Client\DictController;
 use App\Http\Controllers\Api\Client\DictItemController;
@@ -48,4 +49,7 @@ Route::group(['middleware' => 'auth:client'], function () {
     // 字典管理
     Route::get('/dict', [DictController::class, 'index']);
     Route::resource('/dictItem', DictItemController::class);
+
+    // 客资管理
+    Route::resource('/customer', CustomerController::class);
 });
