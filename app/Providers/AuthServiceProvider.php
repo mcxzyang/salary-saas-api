@@ -7,11 +7,15 @@ use App\Models\Customer;
 use App\Models\CustomField;
 use App\Models\DictItem;
 use App\Models\Product;
+use App\Models\StockEnter;
+use App\Models\StockOut;
 use App\Policies\Client\CategoryPolicy;
 use App\Policies\Client\CustomerPolicy;
 use App\Policies\Client\CustomFieldPolicy;
 use App\Policies\Client\DictItemPolicy;
 use App\Policies\Client\ProductPolicy;
+use App\Policies\Client\StockEnterPolicy;
+use App\Policies\Client\StockOutPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -29,6 +33,8 @@ class AuthServiceProvider extends ServiceProvider
         CustomField::class => CustomFieldPolicy::class,
         DictItem::class => DictItemPolicy::class,
         Customer::class => CustomerPolicy::class,
+        StockEnter::class => StockEnterPolicy::class,
+        StockOut::class => StockOutPolicy::class,
     ];
 
     /**

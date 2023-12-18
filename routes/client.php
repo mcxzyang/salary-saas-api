@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\Client\CustomFieldController;
 use App\Http\Controllers\Api\Client\DictController;
 use App\Http\Controllers\Api\Client\DictItemController;
 use App\Http\Controllers\Api\Client\ProductController;
+use App\Http\Controllers\Api\Client\StockEnterController;
+use App\Http\Controllers\Api\Client\StockOutController;
 use App\Http\Controllers\Api\Client\ToolsController;
 
 // common
@@ -52,4 +54,10 @@ Route::group(['middleware' => 'auth:client'], function () {
 
     // 客资管理
     Route::resource('/customer', CustomerController::class);
+
+    // 入库单
+    Route::resource('/stockEnter', StockEnterController::class);
+
+    // 出库单
+    Route::resource('/stockOut', StockOutController::class);
 });
