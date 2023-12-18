@@ -13,6 +13,7 @@ class DictItemController extends Controller
     public function index(Request $request)
     {
         $list = DictItem::filter($request->all())
+            ->where('is_system', 0)
             ->orderBy('sort', 'asc')
             ->orderBy('id', 'desc')
             ->paginateOrGet();
