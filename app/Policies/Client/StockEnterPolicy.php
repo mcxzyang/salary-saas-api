@@ -14,5 +14,4 @@ class StockEnterPolicy
     {
         return $user->company_id === $stockEnter->company_id;
     }
-
 }

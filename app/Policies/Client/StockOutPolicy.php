@@ -14,5 +14,4 @@ class StockOutPolicy
     {
         return $user->company_id === $stockOut->company_id;
     }
-
 }
