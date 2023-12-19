@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Client\CompanyDepartmentController;
 use App\Http\Controllers\Api\Client\CompanyRoleController;
 use App\Http\Controllers\Api\Client\CustomerController;
 use App\Http\Controllers\Api\Client\CustomFieldController;
+use App\Http\Controllers\Api\Client\CustomFieldTypeController;
 use App\Http\Controllers\Api\Client\DictController;
 use App\Http\Controllers\Api\Client\DictItemController;
 use App\Http\Controllers\Api\Client\ProductController;
@@ -22,6 +23,9 @@ Route::get('/common/captcha/img', [CommonController::class, 'captcha']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::post('/tools/uploadPic', [ToolsController::class, 'uploadPic']);
+
+// 自定义字段类型
+Route::resource('/customFieldType', CustomFieldTypeController::class);
 
 Route::group(['middleware' => 'auth:client'], function () {
     // 角色
