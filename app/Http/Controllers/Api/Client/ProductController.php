@@ -36,7 +36,7 @@ class ProductController extends Controller
             'content' => 'required',
             'product_skus.*.sales_price' => 'numeric',
             'product_skus.*.original_price' => 'numeric',
-            'product_skus.*.sku_number' => 'required',
+            'product_skus.*.sku_number' => 'required|unique:product_skus,sku_number',
             'product_skus.*.sku_name' => 'required',
             'product_skus.*.unit' => 'required',
         ], [
