@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\Client\DictItemController;
 use App\Http\Controllers\Api\Client\ProductController;
 use App\Http\Controllers\Api\Client\StockEnterController;
 use App\Http\Controllers\Api\Client\StockOutController;
+use App\Http\Controllers\Api\Client\TestController;
 use App\Http\Controllers\Api\Client\ToolsController;
 
 // common
@@ -23,6 +24,8 @@ Route::get('/common/captcha/img', [CommonController::class, 'captcha']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::post('/tools/uploadPic', [ToolsController::class, 'uploadPic']);
+
+//Route::get('/test', [TestController::class, 'index']);
 
 // 自定义字段类型
 Route::resource('/customFieldType', CustomFieldTypeController::class);
