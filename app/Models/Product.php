@@ -26,6 +26,11 @@ class Product extends Model
 
     public function productSkus()
     {
+        return $this->hasMany(ProductSku::class)->where('is_deleted', 0);
+    }
+
+    public function allProductSkus()
+    {
         return $this->hasMany(ProductSku::class);
     }
 

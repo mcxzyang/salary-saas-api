@@ -103,7 +103,7 @@ class ProductController extends Controller
                 $productSkus[] = $productSku->id;
             }
         }
-        ProductSku::query()->where(['product_id' => $product->id, 'company_id' => $product->company_id])->whereNotIn('id', $productSkus)->delete();
+        ProductSku::query()->where(['product_id' => $product->id, 'company_id' => $product->company_id])->whereNotIn('id', $productSkus)->update(['is_deleted' => 1]);
 
         return $this->message('操作成功');
     }
@@ -112,7 +112,7 @@ class ProductController extends Controller
     {
         $this->authorize('own', $product);
 
-        $product->productSkus()->delete();
+        $product->allProductSkus()->delete();
         $product->delete();
 
         return $this->message('删除成功');

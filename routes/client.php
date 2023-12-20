@@ -26,6 +26,8 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/tools/uploadPic', [ToolsController::class, 'uploadPic']);
 
 //Route::get('/test', [TestController::class, 'index']);
+//Route::get('/setStock', [TestController::class, 'setStock']);
+//Route::get('/decr', [TestController::class, 'decr']);
 
 // 自定义字段类型
 Route::resource('/customFieldType', CustomFieldTypeController::class);

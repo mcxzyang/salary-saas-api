@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\ProductSku;
 use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
+
+//use Illuminate\Support\Facades\Redis;
 
 class TestController extends Controller
 {
@@ -25,12 +28,14 @@ class TestController extends Controller
     {
         try {
             return Cache::lock('productSku:1', 10)->block(5, function () {
-                $productSku = ProductSku::query()->where('id', 1)->first();
-                if ($productSku->stock <= 0) {
+//                $productSku = ProductSku::query()->where('id', 1)->first();
+                $stock = Redis::get('productSku');
+                if ($stock <= 0) {
+                    \Log::info('卖完了');
                     return $this->failed('已卖完');
                 }
-                \Log::info($productSku->stock);
-                $productSku->decrement('stock');
+                \Log::info($stock);
+                Redis::decr('productSku');
 
                 return $this->message('秒杀成功');
             });
@@ -41,6 +46,15 @@ class TestController extends Controller
             \Log::info('发生错误');
             return $this->failed('发生错误');
         }
+    }
 
+    public function setStock()
+    {
+        Redis::set('productSku', 100);
+    }
+
+    public function decr()
+    {
+        Redis::decr('productSku');
     }
 }
