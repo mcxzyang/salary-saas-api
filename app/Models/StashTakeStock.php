@@ -35,5 +35,3 @@ class StashTakeStock extends Model
         return $this->hasMany(StashTakeStockItem::class);
     }
 }
-
-

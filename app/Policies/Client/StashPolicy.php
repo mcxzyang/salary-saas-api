@@ -14,5 +14,4 @@ class StashPolicy
     {
         return $user->company_id === $stash->company_id;
     }
-
 }
