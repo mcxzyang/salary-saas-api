@@ -17,7 +17,7 @@ class StockOut extends Model
     public static $moduleName = '出库单';
     public static $primaryName = 'no';
 
-    protected $fillable = ['id', 'company_id', 'no', 'type_id', 'out_at', 'image', 'status', 'description'];
+    protected $fillable = ['id', 'company_id', 'no', 'type_id', 'out_at', 'image', 'status', 'description', 'stash_id'];
 
     public function stockOutItems()
     {

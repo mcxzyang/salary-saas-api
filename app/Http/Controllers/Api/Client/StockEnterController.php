@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseResource;
 use App\Models\ProductSku;
+use App\Models\Stock;
 use App\Models\StockEnter;
 use App\Models\StockEnterItem;
 use Illuminate\Http\Request;
@@ -33,6 +34,7 @@ class StockEnterController extends Controller
     {
         $this->validate($request, [
             'no' => 'required',
+            'stash_id' => 'required',
             'type_id' => 'required|numeric',
             'enter_at' => 'required|date',
             'stock_enter_items' => 'array'
@@ -47,13 +49,16 @@ class StockEnterController extends Controller
 
         if (isset($params['stock_enter_items']) && count($params['stock_enter_items'])) {
             foreach ($params['stock_enter_items'] as $stockEnterItem) {
-                StockEnterItem::query()->create([
+                $stockEnterItem = StockEnterItem::query()->create([
                     'stock_enter_id' => $stockEnter->id,
                     'company_id' => $user->company_id,
                     'product_id' => $stockEnterItem['product_id'],
                     'product_sku_id' => $stockEnterItem['product_sku_id'],
                     'number' => $stockEnterItem['number']
                 ]);
+
+                $stock = Stock::query()->where(['company_id' => $user->company_id, 'stash_id' => $stockEnter->stash_id, 'product_id' => $stockEnterItem->product_id, 'product_sku_id' => $stockEnterItem->product_sku_id])->firstOrCreate(['number' => 0]);
+                $stock->increment($stockEnterItem->number);
 
                 ProductSku::query()->where('id', $stockEnterItem['product_sku_id'])->increment('stock', $stockEnterItem['number']);
             }

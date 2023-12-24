@@ -17,7 +17,7 @@ class StockEnter extends Model
     public static $moduleName = '入库单';
     public static $primaryName = 'no';
 
-    protected $fillable = ['id', 'company_id', 'no', 'type_id', 'enter_at', 'description', 'status'];
+    protected $fillable = ['id', 'company_id', 'no', 'type_id', 'enter_at', 'description', 'status', 'stash_id'];
 
     public function stockEnterItems()
     {

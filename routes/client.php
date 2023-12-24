@@ -12,6 +12,9 @@ use App\Http\Controllers\Api\Client\CustomFieldTypeController;
 use App\Http\Controllers\Api\Client\DictController;
 use App\Http\Controllers\Api\Client\DictItemController;
 use App\Http\Controllers\Api\Client\ProductController;
+use App\Http\Controllers\Api\Client\StashController;
+use App\Http\Controllers\Api\Client\StashTakeStockController;
+use App\Http\Controllers\Api\Client\StockController;
 use App\Http\Controllers\Api\Client\StockEnterController;
 use App\Http\Controllers\Api\Client\StockOutController;
 use App\Http\Controllers\Api\Client\TestController;
@@ -69,4 +72,13 @@ Route::group(['middleware' => 'auth:client'], function () {
 
     // 出库单
     Route::resource('/stockOut', StockOutController::class);
+
+    // 仓库管理
+    Route::resource('/stash', StashController::class);
+
+    // 仓库盘点
+    Route::resource('/stashTakeStock', StashTakeStockController::class);
+
+    // 库存查询
+    Route::resource('/stock', StockController::class);
 });

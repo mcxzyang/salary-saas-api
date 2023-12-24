@@ -7,6 +7,9 @@ use App\Models\Customer;
 use App\Models\CustomField;
 use App\Models\DictItem;
 use App\Models\Product;
+use App\Models\Stash;
+use App\Models\StashTakeStock;
+use App\Models\Stock;
 use App\Models\StockEnter;
 use App\Models\StockOut;
 use App\Policies\Client\CategoryPolicy;
@@ -14,8 +17,11 @@ use App\Policies\Client\CustomerPolicy;
 use App\Policies\Client\CustomFieldPolicy;
 use App\Policies\Client\DictItemPolicy;
 use App\Policies\Client\ProductPolicy;
+use App\Policies\Client\StashPolicy;
+use App\Policies\Client\StashTakeStockPolicy;
 use App\Policies\Client\StockEnterPolicy;
 use App\Policies\Client\StockOutPolicy;
+use App\Policies\Client\StockPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -35,6 +41,9 @@ class AuthServiceProvider extends ServiceProvider
         Customer::class => CustomerPolicy::class,
         StockEnter::class => StockEnterPolicy::class,
         StockOut::class => StockOutPolicy::class,
+        Stash::class => StashPolicy::class,
+        StashTakeStock::class => StashTakeStockPolicy::class,
+        Stock::class => StockPolicy::class,
     ];
 
     /**
