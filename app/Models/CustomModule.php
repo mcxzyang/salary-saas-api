@@ -11,6 +11,7 @@ class CustomModule extends Model
     use FormatDate;
 
     public const CODE_CUSTOMER = 'customer';
+    public const CODE_DEFECTIVE = 'defective';
 
     protected $fillable = [
         'name', 'code'

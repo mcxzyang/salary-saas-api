@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Client\CompanyRoleController;
 use App\Http\Controllers\Api\Client\CustomerController;
 use App\Http\Controllers\Api\Client\CustomFieldController;
 use App\Http\Controllers\Api\Client\CustomFieldTypeController;
+use App\Http\Controllers\Api\Client\DefectiveController;
 use App\Http\Controllers\Api\Client\DictController;
 use App\Http\Controllers\Api\Client\DictItemController;
 use App\Http\Controllers\Api\Client\ProductController;
@@ -19,6 +20,8 @@ use App\Http\Controllers\Api\Client\StockEnterController;
 use App\Http\Controllers\Api\Client\StockOutController;
 use App\Http\Controllers\Api\Client\TestController;
 use App\Http\Controllers\Api\Client\ToolsController;
+use App\Http\Controllers\Api\Client\WorkingProcessController;
+use App\Http\Controllers\Api\Client\WorkingTechnologyController;
 
 // common
 Route::get('/common/captcha/img', [CommonController::class, 'captcha']);
@@ -81,4 +84,13 @@ Route::group(['middleware' => 'auth:client'], function () {
 
     // 库存查询
     Route::resource('/stock', StockController::class);
+
+    // 工序
+    Route::resource('/workingProcess', WorkingProcessController::class);
+
+    // 工艺
+    Route::resource('/workingTechnology', WorkingTechnologyController::class);
+
+    // 不良品项
+    Route::resource('/defective', DefectiveController::class);
 });
