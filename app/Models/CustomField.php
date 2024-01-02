@@ -42,8 +42,17 @@ class CustomField extends Model
 
     protected $fillable = ['id', 'company_id', 'name', 'type', 'options', 'is_required', 'sort', 'status'];
 
+    protected $appends = [
+        'type_text'
+    ];
+
     public function customModules()
     {
         return $this->belongsToMany(CustomModule::class, 'custom_field_modules', 'custom_field_id', 'custom_module_id');
+    }
+
+    public function getTypeTextAttribute()
+    {
+        return self::$typeMap[$this->type];
     }
 }
