@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\Approve;
 use App\Models\Category;
 use App\Models\Customer;
 use App\Models\CustomField;
 use App\Models\Defective;
 use App\Models\DictItem;
+use App\Models\Goods;
 use App\Models\Product;
 use App\Models\Stash;
 use App\Models\StashTakeStock;
@@ -15,11 +17,13 @@ use App\Models\StockEnter;
 use App\Models\StockOut;
 use App\Models\WorkingProcess;
 use App\Models\WorkingTechnology;
+use App\Policies\Client\ApprovePolicy;
 use App\Policies\Client\CategoryPolicy;
 use App\Policies\Client\CustomerPolicy;
 use App\Policies\Client\CustomFieldPolicy;
 use App\Policies\Client\DefectivePolicy;
 use App\Policies\Client\DictItemPolicy;
+use App\Policies\Client\GoodsPolicy;
 use App\Policies\Client\ProductPolicy;
 use App\Policies\Client\StashPolicy;
 use App\Policies\Client\StashTakeStockPolicy;
@@ -53,6 +57,8 @@ class AuthServiceProvider extends ServiceProvider
         WorkingProcess::class => WorkingProcessPolicy::class,
         WorkingTechnology::class => WorkingTechnologyPolicy::class,
         Defective::class => DefectivePolicy::class,
+        Goods::class => GoodsPolicy::class,
+        Approve::class => ApprovePolicy::class,
     ];
 
     /**

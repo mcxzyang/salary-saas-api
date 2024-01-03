@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Client\ApproveController;
 use App\Http\Controllers\Api\Client\AuthController;
 use App\Http\Controllers\Api\Client\CategoryController;
 use App\Http\Controllers\Api\Client\ClientOperateLogController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Api\Client\CustomFieldTypeController;
 use App\Http\Controllers\Api\Client\DefectiveController;
 use App\Http\Controllers\Api\Client\DictController;
 use App\Http\Controllers\Api\Client\DictItemController;
+use App\Http\Controllers\Api\Client\GoodsController;
 use App\Http\Controllers\Api\Client\ProductController;
 use App\Http\Controllers\Api\Client\StashController;
 use App\Http\Controllers\Api\Client\StashTakeStockController;
@@ -93,4 +95,15 @@ Route::group(['middleware' => 'auth:client'], function () {
 
     // 不良品项
     Route::resource('/defective', DefectiveController::class);
+
+    // 产品
+    Route::get('/goods', [GoodsController::class, 'index']);
+    Route::get('/goods/{goods}', [GoodsController::class, 'show']);
+    Route::post('/goods', [GoodsController::class, 'store']);
+    Route::put('/goods/{goods}', [GoodsController::class, 'update']);
+    Route::delete('/goods/{goods}', [GoodsController::class, 'destroy']);
+
+    // 自定义审批
+    Route::get('/approve/type/list', [ApproveController::class, 'typeList']);
+    Route::resource('/approve', ApproveController::class);
 });

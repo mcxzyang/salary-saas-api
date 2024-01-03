@@ -12,6 +12,7 @@ class CustomModule extends Model
 
     public const CODE_CUSTOMER = 'customer';
     public const CODE_DEFECTIVE = 'defective';
+    public const CODE_GOODS = 'goods';
 
     protected $fillable = [
         'name', 'code'

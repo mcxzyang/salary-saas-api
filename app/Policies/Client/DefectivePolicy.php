@@ -14,5 +14,4 @@ class DefectivePolicy
     {
         return $user->company_id === $defective->company_id;
     }
-
 }

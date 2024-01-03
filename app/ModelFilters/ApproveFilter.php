@@ -4,7 +4,7 @@ namespace App\ModelFilters;
 
 use EloquentFilter\ModelFilter;
 
-class DefectiveFilter extends ModelFilter
+class ApproveFilter extends ModelFilter
 {
     /**
     * Related Models that have ModelFilters as well as the method on the ModelFilter
@@ -13,4 +13,9 @@ class DefectiveFilter extends ModelFilter
     * @var array
     */
     public $relations = [];
+
+    public function name($name)
+    {
+        return $this->where('name', 'like', sprintf('%%%s%%', $name));
+    }
 }
