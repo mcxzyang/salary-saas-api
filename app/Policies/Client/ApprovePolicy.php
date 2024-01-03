@@ -15,5 +15,4 @@ class ApprovePolicy
     {
         return $user->company_id === $approve->company_id;
     }
-
 }
