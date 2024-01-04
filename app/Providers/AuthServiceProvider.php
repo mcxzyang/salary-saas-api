@@ -17,6 +17,7 @@ use App\Models\StockEnter;
 use App\Models\StockOut;
 use App\Models\WorkingProcess;
 use App\Models\WorkingTechnology;
+use App\Models\Workorder;
 use App\Policies\Client\ApprovePolicy;
 use App\Policies\Client\CategoryPolicy;
 use App\Policies\Client\CustomerPolicy;
@@ -32,6 +33,7 @@ use App\Policies\Client\StockOutPolicy;
 use App\Policies\Client\StockPolicy;
 use App\Policies\Client\WorkingProcessPolicy;
 use App\Policies\Client\WorkingTechnologyPolicy;
+use App\Policies\Client\WorkorderPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -59,6 +61,7 @@ class AuthServiceProvider extends ServiceProvider
         Defective::class => DefectivePolicy::class,
         Goods::class => GoodsPolicy::class,
         Approve::class => ApprovePolicy::class,
+        Workorder::class => WorkorderPolicy::class,
     ];
 
     /**

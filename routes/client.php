@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\Client\TestController;
 use App\Http\Controllers\Api\Client\ToolsController;
 use App\Http\Controllers\Api\Client\WorkingProcessController;
 use App\Http\Controllers\Api\Client\WorkingTechnologyController;
+use App\Http\Controllers\Api\Client\WorkorderController;
 
 // common
 Route::get('/common/captcha/img', [CommonController::class, 'captcha']);
@@ -106,4 +107,7 @@ Route::group(['middleware' => 'auth:client'], function () {
     // 自定义审批
     Route::get('/approve/type/list', [ApproveController::class, 'typeList']);
     Route::resource('/approve', ApproveController::class);
+
+    // 工单
+    Route::resource('/workorder', WorkorderController::class);
 });
