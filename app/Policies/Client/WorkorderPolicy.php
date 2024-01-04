@@ -14,5 +14,4 @@ class WorkorderPolicy
     {
         return $user->company_id === $workorder->company_id;
     }
-
 }
