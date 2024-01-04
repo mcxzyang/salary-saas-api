@@ -8,8 +8,10 @@ use App\Jobs\ClientOperateLogJob;
 use App\Models\CompanyMenu;
 use App\Models\CompanyRoleMenu;
 use App\Models\CompanyUser;
+use App\Models\CompanyUserToken;
 use App\Services\ClientOperateLogService;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 
 class AuthController extends Controller
 {
@@ -30,6 +32,19 @@ class AuthController extends Controller
             return $this->failed('密码不正确');
         }
         $token = auth('client')->login($user);
+
+        $companyUserToken = CompanyUserToken::query()->where(['company_user_id' => $user->id])->first();
+        if ($companyUserToken && $companyUserToken->token) {
+            try {
+                \JWTAuth::setToken($companyUserToken->token)->invalidate();
+            } catch (TokenExpiredException $e) {
+                //因为让一个过期的token再失效，会抛出异常，所以我们捕捉异常，不需要做任何处理
+            }
+        }
+        CompanyUserToken::query()->create([
+            'company_user_id' => $user->id,
+            'token' => $token
+        ]);
 
         app(ClientOperateLogService::class)->save($user, '登录', sprintf('用户名：%s - 账号登录', $user->username));
 
