@@ -28,6 +28,7 @@
         "overtrue/laravel-wechat": "^5.1",
         "predis/predis": "^1.1",
         "rap2hpoutre/laravel-log-viewer": "^2.3",
+        "spatie/laravel-activitylog": "^4.7",
         "torann/geoip": "^3.0",
         "tucker-eric/eloquentfilter": "^3.0",
         "tymon/jwt-auth": "^1.0"

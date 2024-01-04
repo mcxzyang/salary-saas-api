@@ -4,17 +4,18 @@ namespace App\Models;
 
 use App\Traits\BootableTrait;
 use App\Traits\FormatDate;
+use App\Traits\LogsActivityTrait;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Model;
 
 class CustomField extends Model
 {
     use FormatDate;
-    use BootableTrait;
+    use LogsActivityTrait;
     use Filterable;
 
-    public static $moduleName = '自定义字段';
-    public static $primaryName = 'name';
+//    public static $moduleName = '自定义字段';
+//    public static $primaryName = 'name';
 
     public const TYPE_INPUT = 1;
     public const TYPE_TEXTAREA = 2;

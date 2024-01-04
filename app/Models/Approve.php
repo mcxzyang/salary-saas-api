@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use App\Traits\FormatDate;
+use App\Traits\LogsActivityTrait;
 use EloquentFilter\Filterable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Approve extends Model
 {
     use FormatDate;
     use Filterable;
+    use LogsActivityTrait;
 
     public const TYPE_CUSTOM_PRODUCT = 1;
     public const TYPE_ORDER_APPROVE = 2;

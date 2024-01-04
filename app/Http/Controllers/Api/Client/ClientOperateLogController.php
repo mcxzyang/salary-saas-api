@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseResource;
 use App\Models\ClientOperateLog;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\Models\Activity;
 
 class ClientOperateLogController extends Controller
 {
@@ -13,11 +14,15 @@ class ClientOperateLogController extends Controller
     {
         $user = auth('client')->user();
 
-        $list = ClientOperateLog::query()
-            ->with(['companyUser'])
-            ->where('company_id', $user->company_id)
+        $list = Activity::query()->where('company_id', $user->company_id)
+            ->with(['causer'])
             ->orderBy('id', 'desc')
             ->paginateOrGet();
+//        $list = ClientOperateLog::query()
+//            ->with(['companyUser'])
+//            ->where('company_id', $user->company_id)
+//            ->orderBy('id', 'desc')
+//            ->paginateOrGet();
         return $this->success(BaseResource::collection($list));
     }
 }

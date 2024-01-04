@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\BootableTrait;
 use App\Traits\FormatDate;
+use App\Traits\LogsActivityTrait;
 use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,9 +13,9 @@ class StashTakeStock extends Model
 {
     use FormatDate;
     use Filterable;
-    use BootableTrait;
+    use LogsActivityTrait;
 
-    public static $moduleName = '盘点';
+//    public static $moduleName = '盘点';
 
     protected $fillable = [
         'id', 'company_id', 'no', 'stash_id', 'take_stock_at', 'created_by', 'remark', 'status'
