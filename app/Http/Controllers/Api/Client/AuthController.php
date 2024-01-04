@@ -37,6 +37,7 @@ class AuthController extends Controller
         if ($companyUserToken && $companyUserToken->token) {
             try {
                 \JWTAuth::setToken($companyUserToken->token)->invalidate();
+                $companyUserToken->delete();
             } catch (TokenExpiredException $e) {
                 //因为让一个过期的token再失效，会抛出异常，所以我们捕捉异常，不需要做任何处理
             }
