@@ -14,5 +14,4 @@ class MaterielPolicy
     {
         return $user->company_id === $materiel->company_id;
     }
-
 }
