@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\Client\DefectiveController;
 use App\Http\Controllers\Api\Client\DictController;
 use App\Http\Controllers\Api\Client\DictItemController;
 use App\Http\Controllers\Api\Client\GoodsController;
+use App\Http\Controllers\Api\Client\MaterielController;
 use App\Http\Controllers\Api\Client\ProductController;
 use App\Http\Controllers\Api\Client\StashController;
 use App\Http\Controllers\Api\Client\StashTakeStockController;
@@ -110,4 +111,7 @@ Route::group(['middleware' => 'auth:client'], function () {
 
     // 工单
     Route::resource('/workorder', WorkorderController::class);
+
+    // 物料
+    Route::resource('/materiel', MaterielController::class);
 });

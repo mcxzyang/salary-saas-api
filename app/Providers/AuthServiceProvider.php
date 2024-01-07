@@ -9,6 +9,7 @@ use App\Models\CustomField;
 use App\Models\Defective;
 use App\Models\DictItem;
 use App\Models\Goods;
+use App\Models\Materiel;
 use App\Models\Product;
 use App\Models\Stash;
 use App\Models\StashTakeStock;
@@ -25,6 +26,7 @@ use App\Policies\Client\CustomFieldPolicy;
 use App\Policies\Client\DefectivePolicy;
 use App\Policies\Client\DictItemPolicy;
 use App\Policies\Client\GoodsPolicy;
+use App\Policies\Client\MaterielPolicy;
 use App\Policies\Client\ProductPolicy;
 use App\Policies\Client\StashPolicy;
 use App\Policies\Client\StashTakeStockPolicy;
@@ -62,6 +64,7 @@ class AuthServiceProvider extends ServiceProvider
         Goods::class => GoodsPolicy::class,
         Approve::class => ApprovePolicy::class,
         Workorder::class => WorkorderPolicy::class,
+        Materiel::class => MaterielPolicy::class,
     ];
 
     /**
