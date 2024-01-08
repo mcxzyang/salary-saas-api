@@ -69,6 +69,8 @@ class ApproveController extends Controller
                 $approveItem = ApproveItem::query()->create([
                     'approve_id' => $approve->id,
                     'is_allow_edit' => $approveItemParams['is_allow_edit'] ?? null,
+                    'condition_type' => $approveItemParams['condition_type'] ?? null,
+                    'sort' => $approveItemParams['sort'] ?? null,
                     'status' => 1
                 ]);
 
@@ -124,6 +126,8 @@ class ApproveController extends Controller
                 $approveItem = ApproveItem::query()->firstOrCreate([
                     'approve_id' => $approve->id,
                     'is_allow_edit' => $approveItemParams['is_allow_edit'] ?? null,
+                    'condition_type' => $approveItemParams['condition_type'] ?? null,
+                    'sort' => $approveItemParams['sort'] ?? null,
                     'status' => 1
                 ]);
                 $approveItemIds[] = $approveItem->id;
