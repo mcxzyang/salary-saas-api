@@ -14,7 +14,7 @@ class StockController extends Controller
         $user = auth('client')->user();
 
         $list = Stock::filter($request->all())
-            ->with(['product', 'productSku'])
+            ->with(['stash', 'goods'])
             ->where('company_id', $user->company_id)
             ->orderBy('id', 'desc')
             ->paginateOrGet();
@@ -25,6 +25,6 @@ class StockController extends Controller
     {
         $this->authorize('own', $stock);
 
-        return $this->success(new BaseResource($stock->load(['product', 'productSku'])));
+        return $this->success(new BaseResource($stock->load(['stash', 'goods'])));
     }
 }
