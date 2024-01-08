@@ -28,7 +28,7 @@ class StockOutController extends Controller
     {
         $this->authorize('own', $stockOut);
 
-        return $this->success(new BaseResource($stockOut->load(['stockOutItems.product', 'stockOutItems.productSku', 'type'])));
+        return $this->success(new BaseResource($stockOut->load(['stockOutItems.goods', 'type'])));
     }
 
     public function store(Request $request, StockOut $stockOut)
@@ -58,19 +58,16 @@ class StockOutController extends Controller
                     $stockOutItem = StockOutItem::query()->create([
                         'stock_out_id' => $stockOut->id,
                         'company_id' => $user->company_id,
-                        'product_id' => $stockOutItem['product_id'],
-                        'product_sku_id' => $stockOutItem['product_sku_id'],
+                        'goods_id' => $stockOutItem['goods_id'],
                         'number' => $stockOutItem['number']
                     ]);
 
-                    $stock = Stock::query()->where(['company_id' => $user->company_id, 'stash_id' => $stockOut->stash_id, 'product_id' => $stockOutItem->product_id, 'product_sku_id' => $stockOutItem->product_sku_id])
+                    $stock = Stock::query()->where(['company_id' => $user->company_id, 'stash_id' => $stockOut->stash_id, 'goods_id' => $stockOutItem->goods_id])
                         ->where('number', '>=', $stockOutItem->number)->first();
                     if (!$stock) {
                         throw new InvalidRequestException('库存不足');
                     }
                     $stock->decrement('number', $stockOutItem['number']);
-
-                    ProductSku::query()->where('id', $stockOutItem['product_sku_id'])->decrement('stock', $stockOutItem['number']);
                 }
             }
         });

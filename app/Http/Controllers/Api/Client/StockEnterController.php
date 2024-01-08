@@ -27,7 +27,7 @@ class StockEnterController extends Controller
     {
         $this->authorize('own', $stockEnter);
 
-        return $this->success(new BaseResource($stockEnter->load(['stockEnterItems.product', 'stockEnterItems.productSku', 'type'])));
+        return $this->success(new BaseResource($stockEnter->load(['stockEnterItems.goods', 'type'])));
     }
 
     public function store(Request $request, StockEnter $stockEnter)
@@ -52,15 +52,12 @@ class StockEnterController extends Controller
                 $stockEnterItem = StockEnterItem::query()->create([
                     'stock_enter_id' => $stockEnter->id,
                     'company_id' => $user->company_id,
-                    'product_id' => $stockEnterItem['product_id'],
-                    'product_sku_id' => $stockEnterItem['product_sku_id'],
+                    'goods_id' => $stockEnterItem['goods_id'],
                     'number' => $stockEnterItem['number']
                 ]);
 
-                $stock = Stock::query()->where(['company_id' => $user->company_id, 'stash_id' => $stockEnter->stash_id, 'product_id' => $stockEnterItem->product_id, 'product_sku_id' => $stockEnterItem->product_sku_id])->firstOrCreate(['number' => 0]);
+                $stock = Stock::query()->where(['company_id' => $user->company_id, 'stash_id' => $stockEnter->stash_id, 'goods_id' => $stockEnterItem->goods_id])->firstOrCreate(['number' => 0]);
                 $stock->increment($stockEnterItem->number);
-
-                ProductSku::query()->where('id', $stockEnterItem['product_sku_id'])->increment('stock', $stockEnterItem['number']);
             }
         }
 

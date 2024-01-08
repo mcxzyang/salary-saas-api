@@ -10,15 +10,10 @@ class StockOutItem extends Model
 {
     use FormatDate;
 
-    protected $fillable = ['id', 'company_id', 'stock_out_id', 'product_id', 'product_sku_id', 'number'];
+    protected $fillable = ['id', 'company_id', 'stock_out_id', 'goods_id', 'number'];
 
-    public function product()
+    public function goods()
     {
-        return $this->belongsTo(Product::class);
-    }
-
-    public function productSku()
-    {
-        return $this->belongsTo(ProductSku::class);
+        return $this->belongsTo(Goods::class);
     }
 }

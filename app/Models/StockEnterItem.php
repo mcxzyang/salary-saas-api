@@ -11,16 +11,11 @@ class StockEnterItem extends Model
     use FormatDate;
 
     protected $fillable = [
-        'id', 'stock_enter_id', 'company_id', 'product_id', 'product_sku_id', 'number'
+        'id', 'stock_enter_id', 'company_id', 'goods_id', 'number'
     ];
 
-    public function product()
+    public function goods()
     {
-        return $this->belongsTo(Product::class);
-    }
-
-    public function productSku()
-    {
-        return $this->belongsTo(ProductSku::class);
+        return $this->belongsTo(Goods::class);
     }
 }

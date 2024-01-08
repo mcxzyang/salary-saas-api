@@ -60,7 +60,7 @@ class CustomFieldController extends Controller
     {
         $this->authorize('own', $customField);
 
-        return $this->success(new BaseResource($customField));
+        return $this->success(new BaseResource($customField->load(['customModules'])));
     }
 
     public function destroy(CustomField $customField)

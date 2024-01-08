@@ -13,16 +13,16 @@ class Stock extends Model
     use Filterable;
 
     protected $fillable = [
-        'id', 'company_id', 'stash_id', 'product_id', 'product_sku_id', 'number', 'status'
+        'id', 'company_id', 'stash_id', 'goods_id', 'number', 'status'
     ];
 
-    public function product()
+    public function stash()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Stash::class);
     }
 
-    public function productSku()
+    public function goods()
     {
-        return $this->belongsTo(ProductSku::class);
+        return $this->belongsTo(Goods::class);
     }
 }

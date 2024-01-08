@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Client\ClientOperateLogController;
 use App\Http\Controllers\Api\Client\CommonController;
 use App\Http\Controllers\Api\Client\CompanyDepartmentController;
 use App\Http\Controllers\Api\Client\CompanyRoleController;
+use App\Http\Controllers\Api\Client\CompanyUserController;
 use App\Http\Controllers\Api\Client\CustomerController;
 use App\Http\Controllers\Api\Client\CustomFieldController;
 use App\Http\Controllers\Api\Client\CustomFieldTypeController;
@@ -48,6 +49,9 @@ Route::group(['middleware' => 'auth:client'], function () {
 
     // 部门
     Route::resource('/companyDepartment', CompanyDepartmentController::class);
+
+    // 人员
+    Route::resource('/companyUser', CompanyUserController::class);
 
     // 菜单
     Route::get('/auth/menu', [AuthController::class, 'menu']);

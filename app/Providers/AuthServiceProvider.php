@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Approve;
 use App\Models\Category;
+use App\Models\CompanyUser;
 use App\Models\Customer;
 use App\Models\CustomField;
 use App\Models\Defective;
@@ -21,6 +22,7 @@ use App\Models\WorkingTechnology;
 use App\Models\Workorder;
 use App\Policies\Client\ApprovePolicy;
 use App\Policies\Client\CategoryPolicy;
+use App\Policies\Client\CompanyUserPolicy;
 use App\Policies\Client\CustomerPolicy;
 use App\Policies\Client\CustomFieldPolicy;
 use App\Policies\Client\DefectivePolicy;
@@ -65,6 +67,7 @@ class AuthServiceProvider extends ServiceProvider
         Approve::class => ApprovePolicy::class,
         Workorder::class => WorkorderPolicy::class,
         Materiel::class => MaterielPolicy::class,
+        CompanyUser::class => CompanyUserPolicy::class,
     ];
 
     /**

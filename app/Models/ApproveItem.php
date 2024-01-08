@@ -10,7 +10,7 @@ class ApproveItem extends Model
 {
     use FormatDate;
 
-    protected $fillable = ['approve_id', 'is_allow_edit', 'status'];
+    protected $fillable = ['approve_id', 'is_allow_edit', 'status', 'sort'];
 
     public function approveItemPersons()
     {
