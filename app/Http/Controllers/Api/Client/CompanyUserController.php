@@ -24,7 +24,7 @@ class CompanyUserController extends Controller
     {
         $this->authorize('own', $companyUser);
 
-        return $this->success(new BaseResource($companyUser));
+        return $this->success(new BaseResource($companyUser->load(['roles', 'departments'])));
     }
 
     public function store(Request $request, CompanyUser $companyUser)
@@ -43,6 +43,10 @@ class CompanyUserController extends Controller
         $companyUser->fill(array_merge($params, ['company_id' => $user->company_id]));
         $companyUser->save();
 
+        $companyUser->roles()->sync($params['roles'] ?? []);
+
+        $companyUser->departments()->sync($params['departments'] ?? []);
+
         return $this->message('操作成功');
     }
 
@@ -50,7 +54,7 @@ class CompanyUserController extends Controller
     {
         $this->authorize('own', $companyUser);
 
-        $params = $request->only(['name', 'username', 'phone', 'is_super_admin']);
+        $params = $request->only(['name', 'username', 'phone', 'is_super_admin', 'roles']);
 
         if (isset($params['username']) && $params['username']) {
             $checkResult = CompanyUser::query()->where('username', $params['username'])->where('id', '!=', $companyUser->id)->first();
@@ -61,6 +65,14 @@ class CompanyUserController extends Controller
 
         $companyUser->fill($params);
         $companyUser->save();
+
+        if (isset($params['roles'])) {
+            $companyUser->roles()->sync($params['roles']);
+        }
+
+        if (isset($params['departments'])) {
+            $companyUser->departments()->sync($params['departments']);
+        }
 
         return $this->message('操作成功');
     }
