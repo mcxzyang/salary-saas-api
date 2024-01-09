@@ -54,7 +54,7 @@ class CompanyUserController extends Controller
     {
         $this->authorize('own', $companyUser);
 
-        $params = $request->only(['name', 'username', 'phone', 'is_super_admin', 'roles']);
+        $params = $request->only(['name', 'username', 'phone', 'is_super_admin', 'roles', 'departments']);
 
         if (isset($params['username']) && $params['username']) {
             $checkResult = CompanyUser::query()->where('username', $params['username'])->where('id', '!=', $companyUser->id)->first();
