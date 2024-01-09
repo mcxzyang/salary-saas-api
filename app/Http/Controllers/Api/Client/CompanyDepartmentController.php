@@ -17,7 +17,9 @@ class CompanyDepartmentController extends Controller
         $user = auth('client')->user();
 
         $list = CompanyDepartment::filter($request->all())
+            ->with(['allChildren'])
             ->where('company_id', $user->company_id)
+            ->where('pid', 0)
             ->orderBy('id', 'desc')->paginateOrGet();
         return $this->success(BaseResource::collection($list));
     }
@@ -28,7 +30,7 @@ class CompanyDepartmentController extends Controller
         if ($user->company_id !== $companyDepartment->company_id) {
             return $this->failed('权限错误');
         }
-        return $this->success(new BaseResource($companyDepartment));
+        return $this->success(new BaseResource($companyDepartment->load(['allChildren'])));
     }
 
     public function store(Request $request, CompanyDepartment $companyDepartment)

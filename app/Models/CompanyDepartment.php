@@ -17,5 +17,15 @@ class CompanyDepartment extends Model
 //    public static $moduleName = '部门';
 //    public static $primaryName = 'name';
 
-    protected $fillable = ['company_id', 'name', 'supervisor_id', 'status'];
+    protected $fillable = ['company_id', 'name', 'supervisor_id', 'status', 'pid'];
+
+    public function children()
+    {
+        return $this->hasMany(CompanyDepartment::class, 'pid');
+    }
+
+    public function allChildren()
+    {
+        return $this->children()->with(['children']);
+    }
 }
