@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Traits\BootableTrait;
+use App\Traits\LogsActivityTrait;
 use App\Traits\FormatDate;
 use EloquentFilter\Filterable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,7 +12,7 @@ class CompanyUser extends Authenticatable implements JWTSubject
 {
     use FormatDate;
     use Filterable;
-    use BootableTrait;
+    use LogsActivityTrait;
 
     protected $fillable = ['company_id', 'name', 'username', 'password', 'phone', 'is_super_admin', 'status'];
 
