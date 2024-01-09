@@ -15,5 +15,4 @@ class StateFactoryPolicy
     {
         return $user->company_id === $stateFactory->company_id;
     }
-
 }

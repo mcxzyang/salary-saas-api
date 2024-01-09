@@ -15,5 +15,4 @@ class OrderPolicy
     {
         return $user->company_id === $order->company_id;
     }
-
 }
