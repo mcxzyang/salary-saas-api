@@ -11,9 +11,12 @@ use App\Models\Defective;
 use App\Models\DictItem;
 use App\Models\Goods;
 use App\Models\Materiel;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Stash;
 use App\Models\StashTakeStock;
+use App\Models\StateFactory;
+use App\Models\StateFactoryItemPersonInstance;
 use App\Models\Stock;
 use App\Models\StockEnter;
 use App\Models\StockOut;
@@ -29,15 +32,18 @@ use App\Policies\Client\DefectivePolicy;
 use App\Policies\Client\DictItemPolicy;
 use App\Policies\Client\GoodsPolicy;
 use App\Policies\Client\MaterielPolicy;
+use App\Policies\Client\OrderPolicy;
 use App\Policies\Client\ProductPolicy;
 use App\Policies\Client\StashPolicy;
 use App\Policies\Client\StashTakeStockPolicy;
+use App\Policies\Client\StateFactoryItemPersonInstancePolicy;
 use App\Policies\Client\StockEnterPolicy;
 use App\Policies\Client\StockOutPolicy;
 use App\Policies\Client\StockPolicy;
 use App\Policies\Client\WorkingProcessPolicy;
 use App\Policies\Client\WorkingTechnologyPolicy;
 use App\Policies\Client\WorkorderPolicy;
+use App\Policies\StateFactoryPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -68,6 +74,9 @@ class AuthServiceProvider extends ServiceProvider
         Workorder::class => WorkorderPolicy::class,
         Materiel::class => MaterielPolicy::class,
         CompanyUser::class => CompanyUserPolicy::class,
+        StateFactory::class => StateFactoryPolicy::class,
+        Order::class => OrderPolicy::class,
+        StateFactoryItemPersonInstance::class => StateFactoryItemPersonInstancePolicy::class,
     ];
 
     /**

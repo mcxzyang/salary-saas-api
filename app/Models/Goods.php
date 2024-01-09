@@ -15,7 +15,7 @@ class Goods extends Model
     use BootableTrait;
     use LogsActivityTrait;
 
-    protected $fillable = ['company_id', 'no', 'name', 'specification', 'unit', 'working_technology_id', 'type', 'max_stock', 'min_stock', 'safe_stock', 'stock_number', 'images', 'status', 'is_deleted'];
+    protected $fillable = ['company_id', 'no', 'name', 'specification', 'unit', 'working_technology_id', 'type', 'max_stock', 'min_stock', 'safe_stock', 'stock_number', 'images', 'status', 'is_deleted', 'price'];
 
     protected static function boot()
     {

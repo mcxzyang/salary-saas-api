@@ -16,9 +16,12 @@ use App\Http\Controllers\Api\Client\DictController;
 use App\Http\Controllers\Api\Client\DictItemController;
 use App\Http\Controllers\Api\Client\GoodsController;
 use App\Http\Controllers\Api\Client\MaterielController;
+use App\Http\Controllers\Api\Client\OrderController;
 use App\Http\Controllers\Api\Client\ProductController;
 use App\Http\Controllers\Api\Client\StashController;
 use App\Http\Controllers\Api\Client\StashTakeStockController;
+use App\Http\Controllers\Api\Client\StateFactoryController;
+use App\Http\Controllers\Api\Client\StateFactoryItemPersonInstanceController;
 use App\Http\Controllers\Api\Client\StockController;
 use App\Http\Controllers\Api\Client\StockEnterController;
 use App\Http\Controllers\Api\Client\StockOutController;
@@ -118,4 +121,15 @@ Route::group(['middleware' => 'auth:client'], function () {
 
     // 物料
     Route::resource('/materiel', MaterielController::class);
+
+    // 状态机
+    Route::resource('/stateFactory', StateFactoryController::class);
+
+    // 订单
+    Route::resource('/order', OrderController::class);
+    Route::put('/order/{order}/nextStep', [OrderController::class, 'nextStep']);
+
+    // 订单审核
+    Route::get('/stateFactoryItemPersonInstance', [StateFactoryItemPersonInstanceController::class, 'index']);
+    Route::put('/stateFactoryItemPersonInstance/{stateFactoryItemPersonInstance}', [StateFactoryItemPersonInstanceController::class, 'update']);
 });
