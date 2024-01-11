@@ -39,12 +39,6 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::post('/tools/uploadPic', [ToolsController::class, 'uploadPic']);
 
-Route::get('/test', function () {
-//    app('sentry')->captureException(new Exception('This is a test exception sent from tinker.'));
-//    \Sentry\Laravel\Integration::flushEvents();
-    throw new \Exception('My first Sentry error!');
-});
-
 //Route::get('/test', [TestController::class, 'index']);
 //Route::get('/setStock', [TestController::class, 'setStock']);
 //Route::get('/decr', [TestController::class, 'decr']);
