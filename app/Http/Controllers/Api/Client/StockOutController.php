@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Client;
 use App\Exceptions\InvalidRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseResource;
+use App\Models\Goods;
 use App\Models\ProductSku;
 use App\Models\Stock;
 use App\Models\StockOut;
@@ -18,6 +19,7 @@ class StockOutController extends Controller
         $user = auth('client')->user();
 
         $list = StockOut::filter($request->all())
+            ->with(['stash', 'type'])
             ->where('company_id', $user->company_id)
             ->orderBy('id', 'desc')
             ->paginateOrGet();
@@ -28,7 +30,7 @@ class StockOutController extends Controller
     {
         $this->authorize('own', $stockOut);
 
-        return $this->success(new BaseResource($stockOut->load(['stockOutItems.goods', 'type'])));
+        return $this->success(new BaseResource($stockOut->load(['stockOutItems.goods', 'type', 'stash'])));
     }
 
     public function store(Request $request, StockOut $stockOut)
@@ -51,10 +53,6 @@ class StockOutController extends Controller
 
             if (isset($params['stock_out_items']) && count($params['stock_out_items'])) {
                 foreach ($params['stock_out_items'] as $stockOutItem) {
-                    $productSku = ProductSku::query()->where('id', $stockOutItem['product_sku_id'])->first();
-                    if ($productSku->stock < $stockOutItem['number']) {
-                        throw new InvalidRequestException('库存不足');
-                    }
                     $stockOutItem = StockOutItem::query()->create([
                         'stock_out_id' => $stockOut->id,
                         'company_id' => $user->company_id,

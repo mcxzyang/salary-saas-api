@@ -29,4 +29,9 @@ class StockEnter extends Model
     {
         return $this->belongsTo(DictItem::class, 'type_id');
     }
+
+    public function stash()
+    {
+        return $this->belongsTo(Stash::class);
+    }
 }

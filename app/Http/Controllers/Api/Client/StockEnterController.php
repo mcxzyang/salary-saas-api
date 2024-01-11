@@ -17,6 +17,7 @@ class StockEnterController extends Controller
         $user = auth('client')->user();
 
         $list = StockEnter::filter($request->all())
+            ->with(['stash', 'type'])
             ->where('company_id', $user->company_id)
             ->orderBy('id', 'desc')
             ->paginateOrGet();
@@ -27,7 +28,7 @@ class StockEnterController extends Controller
     {
         $this->authorize('own', $stockEnter);
 
-        return $this->success(new BaseResource($stockEnter->load(['stockEnterItems.goods', 'type'])));
+        return $this->success(new BaseResource($stockEnter->load(['stockEnterItems.goods', 'type', 'stash'])));
     }
 
     public function store(Request $request, StockEnter $stockEnter)
