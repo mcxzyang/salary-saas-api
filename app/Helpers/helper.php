@@ -2,10 +2,15 @@
 
 use Jenssegers\Agent\Agent;
 
+/**
+ * @throws \Exception
+ */
 function getLocation($ip)
 {
-    $locationResult = geoip($ip)->toArray();
-    return sprintf('%s%s%s', $locationResult['country'], $locationResult['state_name'], $locationResult['city']);
+    $ip2region = new \Ip2Region();
+    return $ip2region->simple($ip);
+//    $locationResult = geoip($ip)->toArray();
+//    return sprintf('%s%s%s', $locationResult['country'], $locationResult['state_name'], $locationResult['city']);
 }
 
 function getBrowser()
