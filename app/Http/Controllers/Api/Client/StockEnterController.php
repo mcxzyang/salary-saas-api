@@ -56,7 +56,7 @@ class StockEnterController extends Controller
                     'number' => $stockEnterItem['number']
                 ]);
 
-                $stock = Stock::query()->where(['company_id' => $user->company_id, 'stash_id' => $stockEnter->stash_id, 'goods_id' => $stockEnterItem->goods_id])->firstOrCreate(['number' => 0]);
+                $stock = Stock::query()->firstOrCreate(['company_id' => $user->company_id, 'stash_id' => $stockEnter->stash_id, 'goods_id' => $stockEnterItem->goods_id]);
                 $stock->increment($stockEnterItem->number);
             }
         }
