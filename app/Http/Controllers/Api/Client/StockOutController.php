@@ -37,7 +37,6 @@ class StockOutController extends Controller
     {
         $this->validate($request, [
             'stash_id' => 'required',
-            'no' => 'required',
             'type_id' => 'required|numeric',
             'out_at' => 'required|date',
             'stock_out_items' => 'array'

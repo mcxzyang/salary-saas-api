@@ -34,7 +34,6 @@ class StockEnterController extends Controller
     public function store(Request $request, StockEnter $stockEnter)
     {
         $this->validate($request, [
-            'no' => 'required',
             'stash_id' => 'required',
             'type_id' => 'required|numeric',
             'enter_at' => 'required|date',

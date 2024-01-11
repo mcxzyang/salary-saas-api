@@ -20,6 +20,17 @@ class StockOut extends Model
 
     protected $fillable = ['id', 'company_id', 'no', 'type_id', 'out_at', 'image', 'status', 'description', 'stash_id'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::creating(function (StockOut $stockOut) {
+            if (is_null($stockOut->no)) {
+                $stockOut->no = \Str::random(8);
+            }
+        });
+    }
+
     public function stockOutItems()
     {
         return $this->hasMany(StockOutItem::class);

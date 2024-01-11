@@ -20,6 +20,17 @@ class StockEnter extends Model
 
     protected $fillable = ['id', 'company_id', 'no', 'type_id', 'enter_at', 'description', 'status', 'stash_id'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::creating(function (StockEnter $stockEnter) {
+            if (is_null($stockEnter->no)) {
+                $stockEnter->no = \Str::random(8);
+            }
+        });
+    }
+
     public function stockEnterItems()
     {
         return $this->hasMany(StockEnterItem::class);
