@@ -28,4 +28,9 @@ class CompanyDepartment extends Model
     {
         return $this->children()->with(['children']);
     }
+
+    public function parentDepartment()
+    {
+        return $this->belongsTo(CompanyDepartment::class, 'pid');
+    }
 }
