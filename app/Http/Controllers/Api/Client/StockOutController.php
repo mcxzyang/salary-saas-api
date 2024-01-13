@@ -46,11 +46,14 @@ class StockOutController extends Controller
 
         $params = $request->all();
 
-        \DB::transaction(function () use ($stockOut, $params, $user) {
+        \DB::transaction(function () use ($stockOut, $params, $user, $request) {
             $stockOut->fill(array_merge($params, ['company_id' => $user->company_id]));
             $stockOut->save();
 
             if (isset($params['stock_out_items']) && count($params['stock_out_items'])) {
+                $this->validate($request, [
+                    'stock_out_items.*.number' => 'required'
+                ]);
                 foreach ($params['stock_out_items'] as $stockOutItem) {
                     $stockOutItem = StockOutItem::query()->create([
                         'stock_out_id' => $stockOut->id,

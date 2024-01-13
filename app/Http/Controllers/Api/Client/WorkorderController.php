@@ -16,6 +16,7 @@ class WorkorderController extends Controller
         $user = auth('client')->user();
 
         $list = Workorder::filter($request->all())
+            ->with(['goods'])
             ->where('is_deleted', 0)
             ->where('company_id', $user->company_id)
             ->orderBy('id', 'desc')
@@ -27,7 +28,7 @@ class WorkorderController extends Controller
     {
         $this->authorize('own', $workorder);
 
-        return $this->success(new BaseResource($workorder->load(['workorderTasks'])));
+        return $this->success(new BaseResource($workorder->load(['workorderTasks', 'goods'])));
     }
 
     public function store(Request $request, Workorder $workorder)

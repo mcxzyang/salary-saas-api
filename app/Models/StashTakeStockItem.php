@@ -11,16 +11,11 @@ class StashTakeStockItem extends Model
     use FormatDate;
 
     protected $fillable = [
-        'id', 'company_id', 'stash_take_stock_id', 'product_id', 'product_sku_id', 'stock_in_stash', 'stock_check', 'remark', 'operate_by', 'status'
+        'id', 'company_id', 'stash_take_stock_id', 'goods_id', 'stock_in_stash', 'stock_check', 'remark', 'operate_by', 'status'
     ];
 
-    public function product()
+    public function goods()
     {
-        return $this->belongsTo(Product::class);
-    }
-
-    public function productSku()
-    {
-        return $this->belongsTo(ProductSku::class);
+        return $this->belongsTo(Goods::class);
     }
 }

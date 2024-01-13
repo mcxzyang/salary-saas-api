@@ -93,7 +93,7 @@ class StateFactoryController extends Controller
                                 'state_factory_item_id' => $stateFactoryItem->id,
                                 'company_user_id' => $personId
                             ]);
-                            $stateFactoryItemPersonIds = $stateFactoryItemPerson->id;
+                            $stateFactoryItemPersonIds[] = $stateFactoryItemPerson->id;
                         }
                     }
                     StateFactoryItemPerson::query()->where('state_factory_item_id', $stateFactoryItem->id)->whereNotIn('id', $stateFactoryItemPersonIds)->delete();

@@ -15,7 +15,7 @@ class StashTakeStockController extends Controller
         $user = auth('client')->user();
 
         $list = StashTakeStock::filter($request->all())
-            ->with(['createdUser', 'stash', 'stashTakeStockItems'])
+            ->with(['createdUser', 'stash', 'stashTakeStockItems.goods'])
             ->where('company_id', $user->company_id)
             ->orderBy('id', 'desc')
             ->paginateOrGet();
@@ -26,7 +26,7 @@ class StashTakeStockController extends Controller
     {
         $this->authorize('own', $stashTakeStock);
 
-        return $this->success(new BaseResource($stashTakeStock->load(['createdUser', 'stash', 'stashTakeStockItems.product', 'stashTakeStockItems.productSku'])));
+        return $this->success(new BaseResource($stashTakeStock->load(['createdUser', 'stash', 'stashTakeStockItems.goods'])));
     }
 
     public function store(Request $request, StashTakeStock $stashTakeStock)

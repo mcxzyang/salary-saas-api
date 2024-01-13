@@ -37,4 +37,9 @@ class Workorder extends Model
     {
         return $this->hasMany(WorkorderTask::class);
     }
+
+    public function goods()
+    {
+        return $this->belongsTo(Goods::class);
+    }
 }
