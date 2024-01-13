@@ -37,7 +37,8 @@ class StockEnterController extends Controller
             'stash_id' => 'required',
             'type_id' => 'required|numeric',
             'enter_at' => 'required|date',
-            'stock_enter_items' => 'array'
+            'stock_enter_items' => 'array',
+            'no' => 'unique:stock_enters,no'
         ]);
 
         $user = auth('client')->user();

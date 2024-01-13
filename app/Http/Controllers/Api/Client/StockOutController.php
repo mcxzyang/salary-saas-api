@@ -39,7 +39,8 @@ class StockOutController extends Controller
             'stash_id' => 'required',
             'type_id' => 'required|numeric',
             'out_at' => 'required|date',
-            'stock_out_items' => 'array'
+            'stock_out_items' => 'array',
+            'no' => 'unique:stock_outs,no'
         ]);
 
         $user = auth('client')->user();
