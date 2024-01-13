@@ -23,7 +23,9 @@ class Goods extends Model
 
         self::creating(function (Goods $goods) {
             if (is_null($goods->no)) {
-                $goods->no = \Str::random(8);
+                $code = str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+                $no = 'CP'.date('Ymd').$code;
+                $goods->no = $no;
             }
         });
     }

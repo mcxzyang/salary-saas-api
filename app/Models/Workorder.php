@@ -28,7 +28,9 @@ class Workorder extends Model
 
         self::creating(function (Workorder $workorder) {
             if (is_null($workorder->no)) {
-                $workorder->no = \Str::random(8);
+                $code = str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+                $no = 'GD'.date('Ymd').$code;
+                $workorder->no = $no;
             }
         });
     }

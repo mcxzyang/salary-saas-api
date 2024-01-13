@@ -26,7 +26,9 @@ class StockEnter extends Model
 
         self::creating(function (StockEnter $stockEnter) {
             if (is_null($stockEnter->no)) {
-                $stockEnter->no = \Str::random(8);
+                $code = str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+                $no = 'RKD'.date('Ymd').$code;
+                $stockEnter->no = $no;
             }
         });
     }

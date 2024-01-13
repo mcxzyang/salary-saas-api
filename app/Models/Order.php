@@ -28,7 +28,9 @@ class Order extends Model
 
         self::creating(function (Order $order) {
             if (is_null($order->no)) {
-                $order->no = \Str::random(8);
+                $code = str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+                $no = 'DD'.date('Ymd').$code;
+                $order->no = $no;
             }
         });
     }

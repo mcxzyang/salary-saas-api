@@ -26,7 +26,9 @@ class StockOut extends Model
 
         self::creating(function (StockOut $stockOut) {
             if (is_null($stockOut->no)) {
-                $stockOut->no = \Str::random(8);
+                $code = str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+                $no = 'CKD'.date('Ymd').$code;
+                $stockOut->no = $no;
             }
         });
     }
