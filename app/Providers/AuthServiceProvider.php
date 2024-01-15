@@ -12,6 +12,7 @@ use App\Models\DictItem;
 use App\Models\Goods;
 use App\Models\Materiel;
 use App\Models\Order;
+use App\Models\PerformanceRule;
 use App\Models\Product;
 use App\Models\Stash;
 use App\Models\StashTakeStock;
@@ -33,6 +34,7 @@ use App\Policies\Client\DictItemPolicy;
 use App\Policies\Client\GoodsPolicy;
 use App\Policies\Client\MaterielPolicy;
 use App\Policies\Client\OrderPolicy;
+use App\Policies\Client\PerformanceRulePolicy;
 use App\Policies\Client\ProductPolicy;
 use App\Policies\Client\StashPolicy;
 use App\Policies\Client\StashTakeStockPolicy;
@@ -77,6 +79,7 @@ class AuthServiceProvider extends ServiceProvider
         StateFactory::class => StateFactoryPolicy::class,
         Order::class => OrderPolicy::class,
         StateFactoryItemPersonInstance::class => StateFactoryItemPersonInstancePolicy::class,
+        PerformanceRule::class => PerformanceRulePolicy::class,
     ];
 
     /**

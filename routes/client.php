@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\Client\DictItemController;
 use App\Http\Controllers\Api\Client\GoodsController;
 use App\Http\Controllers\Api\Client\MaterielController;
 use App\Http\Controllers\Api\Client\OrderController;
+use App\Http\Controllers\Api\Client\PerformanceRuleController;
 use App\Http\Controllers\Api\Client\ProductController;
 use App\Http\Controllers\Api\Client\StashController;
 use App\Http\Controllers\Api\Client\StashTakeStockController;
@@ -132,4 +133,7 @@ Route::group(['middleware' => 'auth:client'], function () {
     // 订单审核
     Route::get('/stateFactoryItemPersonInstance', [StateFactoryItemPersonInstanceController::class, 'index']);
     Route::put('/stateFactoryItemPersonInstance/{stateFactoryItemPersonInstance}', [StateFactoryItemPersonInstanceController::class, 'update']);
+
+    // 绩效规则
+    Route::resource('/performanceRule', PerformanceRuleController::class);
 });
