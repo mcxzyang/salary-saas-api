@@ -40,7 +40,8 @@ class Customer extends Model
     ];
 
     protected $casts = [
-        'get_customer_time' => 'datetime'
+        'get_customer_time' => 'datetime',
+        'link_man' => 'json'
     ];
 
     public function inChargeCompanyUser()
