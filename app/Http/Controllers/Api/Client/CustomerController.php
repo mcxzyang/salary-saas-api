@@ -35,7 +35,7 @@ class CustomerController extends Controller
         $this->validate($request, [
             'type' => 'required|numeric',
             'name' => 'required',
-            'phone' => 'required',
+//            'phone' => 'required',
             'custom_fields' => 'array'
         ]);
 
