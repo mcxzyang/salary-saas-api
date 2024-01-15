@@ -25,7 +25,7 @@ class ProductController extends Controller
     {
         $this->authorize('own', $product);
 
-        return $this->success(new BaseResource($product->load(['productSkus', 'category'])));
+        return $this->success(new BaseResource($product->load(['productSkus.goods', 'category'])));
     }
 
     public function store(Request $request, Product $product)
@@ -34,6 +34,7 @@ class ProductController extends Controller
             'title' => 'required',
             'category_id' => 'required',
             'content' => 'required',
+            'product_skus.*.goods_id' => 'required',
             'product_skus.*.sales_price' => 'numeric',
             'product_skus.*.original_price' => 'numeric',
             'product_skus.*.sku_number' => 'required|unique:product_skus,sku_number',
