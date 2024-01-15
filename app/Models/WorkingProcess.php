@@ -18,7 +18,11 @@ class WorkingProcess extends Model
 //    public static $primaryName = 'name';
 
     protected $fillable = [
-        'company_id', 'no', 'created_by', 'name', 'status'
+        'company_id', 'no', 'created_by', 'name', 'status', 'report_working_permission', 'report_working_rate'
+    ];
+
+    protected $casts = [
+        'report_working_permission' => 'json'
     ];
 
     public function createdUser()

@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\Client\DefectiveController;
 use App\Http\Controllers\Api\Client\DictController;
 use App\Http\Controllers\Api\Client\DictItemController;
 use App\Http\Controllers\Api\Client\GoodsController;
+use App\Http\Controllers\Api\Client\IndustryController;
 use App\Http\Controllers\Api\Client\MaterielController;
 use App\Http\Controllers\Api\Client\OrderController;
 use App\Http\Controllers\Api\Client\PerformanceRuleController;
@@ -136,4 +137,7 @@ Route::group(['middleware' => 'auth:client'], function () {
 
     // 绩效规则
     Route::resource('/performanceRule', PerformanceRuleController::class);
+
+    // 行业
+    Route::get('/industry', [IndustryController::class, 'index']);
 });

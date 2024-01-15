@@ -28,7 +28,7 @@ class GoodsController extends Controller
     {
         $this->authorize('own', $goods);
 
-        return $this->success(new BaseResource($goods->load(['workingTechnology'])));
+        return $this->success(new BaseResource($goods->load(['workingTechnology.workingTechnologyItems'])));
     }
 
     public function store(Request $request, Goods $goods)

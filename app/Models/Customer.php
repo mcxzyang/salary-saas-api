@@ -36,6 +36,11 @@ class Customer extends Model
         'description',
         'link_man',
         'status',
+        'get_customer_time'
+    ];
+
+    protected $casts = [
+        'get_customer_time' => 'datetime'
     ];
 
     public function inChargeCompanyUser()
@@ -70,7 +75,7 @@ class Customer extends Model
 
     public function industry()
     {
-        return $this->belongsTo(DictItem::class, 'industry_id');
+        return $this->belongsTo(Industry::class, 'industry_id');
     }
 
     public function customFieldModuleContents()
