@@ -39,15 +39,14 @@ use App\Policies\Client\ProductPolicy;
 use App\Policies\Client\StashPolicy;
 use App\Policies\Client\StashTakeStockPolicy;
 use App\Policies\Client\StateFactoryItemPersonInstancePolicy;
+use App\Policies\Client\StateFactoryPolicy;
 use App\Policies\Client\StockEnterPolicy;
 use App\Policies\Client\StockOutPolicy;
 use App\Policies\Client\StockPolicy;
 use App\Policies\Client\WorkingProcessPolicy;
 use App\Policies\Client\WorkingTechnologyPolicy;
 use App\Policies\Client\WorkorderPolicy;
-use App\Policies\StateFactoryPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {

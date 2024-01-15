@@ -9,6 +9,7 @@ return new class () extends Migration {
     {
         Schema::create('performance_rules', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('company_id');
             $table->string('name')->comment('绩效名称');
             $table->string('no')->comment('编号');
             $table->integer('type')->comment('绩效类型');

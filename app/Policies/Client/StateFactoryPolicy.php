@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Policies;
+namespace App\Policies\Client;
 
 use App\Models\CompanyUser;
 use App\Models\StateFactory;
