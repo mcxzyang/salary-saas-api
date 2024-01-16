@@ -18,3 +18,8 @@ function getBrowser()
     $agent = new Agent();
     return $agent->browser();
 }
+
+function camel($string)
+{
+    return \Illuminate\Support\Str::camel($string);
+}
