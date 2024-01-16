@@ -23,7 +23,7 @@ class {{ $modelName }}Controller extends Controller
 
     public function show({{ $modelName }} ${{ camel($modelName) }})
     {
-        // $this->authorize('own', ${{ camel($modelName) }});
+        $this->authorize('own', ${{ camel($modelName) }});
 
         return $this->success(new BaseResource(${{ camel($modelName) }}));
     }
@@ -41,6 +41,8 @@ class {{ $modelName }}Controller extends Controller
 
     public function update(Request $request, {{ $modelName }} ${{ camel($modelName) }})
     {
+        $this->authorize('own', ${{ camel($modelName) }});
+
         $params = $request->all();
 
         ${{ camel($modelName) }}->fill($params);
@@ -51,6 +53,8 @@ class {{ $modelName }}Controller extends Controller
 
     public function destroy({{ $modelName }} ${{ camel($modelName) }})
     {
+        $this->authorize('own', ${{ camel($modelName) }});
+
         ${{ camel($modelName) }}->delete();
 
         return $this->message('操作成功');

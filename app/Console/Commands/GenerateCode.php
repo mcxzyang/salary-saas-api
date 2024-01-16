@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 
 class GenerateCode extends Command
@@ -48,6 +47,7 @@ class GenerateCode extends Command
         $this->createController();
         $this->createModelFilter();
         $this->createRequest();
+        $this->createPolicy();
     }
 
     protected function createController()
@@ -106,6 +106,21 @@ class GenerateCode extends Command
         $this->info('Request created: '.$fileName);
     }
 
+    protected function createPolicy()
+    {
+        $path = app_path('Policies/').$this->module;
+
+        $fileName = $this->model . 'Policy.php';
+
+        $templateData = view('stubs.policy', [
+            'modelName' => $this->model,
+            'moduleName' => $this->module
+        ]);
+
+        $this->createFile($path.'/'.$fileName, $templateData);
+        $this->info('Policy created: '.$fileName);
+    }
+
     protected function createMigration()
     {
         $path = base_path('database/migrations/');
@@ -133,7 +148,6 @@ class GenerateCode extends Command
 
         if (!file_exists($file)) {
             return file_put_contents($file, $contents);
-
         }
     }
 }
