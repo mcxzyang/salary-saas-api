@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Traits\BootableTrait;
 use App\Traits\FormatDate;
 use App\Traits\LogsActivityTrait;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductSku extends Model

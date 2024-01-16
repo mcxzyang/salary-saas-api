@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\BootableTrait;
 use App\Traits\FormatDate;
 use App\Traits\LogsActivityTrait;
 use EloquentFilter\Filterable;
