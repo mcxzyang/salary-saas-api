@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Approve;
 use App\Models\Category;
+use App\Models\CompanySetting;
 use App\Models\CompanyUser;
 use App\Models\Customer;
 use App\Models\CustomField;
@@ -26,6 +27,7 @@ use App\Models\WorkingTechnology;
 use App\Models\Workorder;
 use App\Policies\Client\ApprovePolicy;
 use App\Policies\Client\CategoryPolicy;
+use App\Policies\Client\CompanySettingPolicy;
 use App\Policies\Client\CompanyUserPolicy;
 use App\Policies\Client\CustomerPolicy;
 use App\Policies\Client\CustomFieldPolicy;
@@ -79,6 +81,7 @@ class AuthServiceProvider extends ServiceProvider
         Order::class => OrderPolicy::class,
         StateFactoryItemPersonInstance::class => StateFactoryItemPersonInstancePolicy::class,
         PerformanceRule::class => PerformanceRulePolicy::class,
+        CompanySetting::class => CompanySettingPolicy::class,
     ];
 
     /**

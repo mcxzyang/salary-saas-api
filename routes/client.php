@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Client\ClientOperateLogController;
 use App\Http\Controllers\Api\Client\CommonController;
 use App\Http\Controllers\Api\Client\CompanyDepartmentController;
 use App\Http\Controllers\Api\Client\CompanyRoleController;
+use App\Http\Controllers\Api\Client\CompanySettingController;
 use App\Http\Controllers\Api\Client\CompanyUserController;
 use App\Http\Controllers\Api\Client\CustomerController;
 use App\Http\Controllers\Api\Client\CustomFieldController;
@@ -140,4 +141,7 @@ Route::group(['middleware' => 'auth:client'], function () {
 
     // 行业
     Route::get('/industry', [IndustryController::class, 'index']);
+
+    // 设置
+    Route::resource('/companySetting', CompanySettingController::class);
 });
