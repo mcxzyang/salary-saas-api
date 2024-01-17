@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 
 class CustomerPassLogController extends Controller
 {
-
     public function index(Request $request)
     {
         $user = auth('client')->user();

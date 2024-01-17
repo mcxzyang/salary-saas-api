@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 
 class {{ $modelName }}Controller extends Controller
 {
-
     public function index(Request $request)
     {
         $list = {{ $modelName }}::filter($request->all())

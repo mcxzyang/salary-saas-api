@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 
 class FollowUpController extends Controller
 {
-
     public function index(Request $request)
     {
         $user = auth('client')->user();
