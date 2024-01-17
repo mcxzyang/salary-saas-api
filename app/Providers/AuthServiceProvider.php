@@ -7,9 +7,11 @@ use App\Models\Category;
 use App\Models\CompanySetting;
 use App\Models\CompanyUser;
 use App\Models\Customer;
+use App\Models\CustomerPassLog;
 use App\Models\CustomField;
 use App\Models\Defective;
 use App\Models\DictItem;
+use App\Models\FollowUp;
 use App\Models\Goods;
 use App\Models\Materiel;
 use App\Models\Order;
@@ -29,10 +31,12 @@ use App\Policies\Client\ApprovePolicy;
 use App\Policies\Client\CategoryPolicy;
 use App\Policies\Client\CompanySettingPolicy;
 use App\Policies\Client\CompanyUserPolicy;
+use App\Policies\Client\CustomerPassLogPolicy;
 use App\Policies\Client\CustomerPolicy;
 use App\Policies\Client\CustomFieldPolicy;
 use App\Policies\Client\DefectivePolicy;
 use App\Policies\Client\DictItemPolicy;
+use App\Policies\Client\FollowUpPolicy;
 use App\Policies\Client\GoodsPolicy;
 use App\Policies\Client\MaterielPolicy;
 use App\Policies\Client\OrderPolicy;
@@ -82,6 +86,8 @@ class AuthServiceProvider extends ServiceProvider
         StateFactoryItemPersonInstance::class => StateFactoryItemPersonInstancePolicy::class,
         PerformanceRule::class => PerformanceRulePolicy::class,
         CompanySetting::class => CompanySettingPolicy::class,
+        FollowUp::class => FollowUpPolicy::class,
+        CustomerPassLog::class => CustomerPassLogPolicy::class
     ];
 
     /**

@@ -10,11 +10,13 @@ use App\Http\Controllers\Api\Client\CompanyRoleController;
 use App\Http\Controllers\Api\Client\CompanySettingController;
 use App\Http\Controllers\Api\Client\CompanyUserController;
 use App\Http\Controllers\Api\Client\CustomerController;
+use App\Http\Controllers\Api\Client\CustomerPassLogController;
 use App\Http\Controllers\Api\Client\CustomFieldController;
 use App\Http\Controllers\Api\Client\CustomFieldTypeController;
 use App\Http\Controllers\Api\Client\DefectiveController;
 use App\Http\Controllers\Api\Client\DictController;
 use App\Http\Controllers\Api\Client\DictItemController;
+use App\Http\Controllers\Api\Client\FollowUpController;
 use App\Http\Controllers\Api\Client\GoodsController;
 use App\Http\Controllers\Api\Client\IndustryController;
 use App\Http\Controllers\Api\Client\MaterielController;
@@ -83,6 +85,12 @@ Route::group(['middleware' => 'auth:client'], function () {
 
     // 客资管理
     Route::resource('/customer', CustomerController::class);
+
+    // 客资跟进
+    Route::resource('/followUp', FollowUpController::class);
+
+    // 客资转交
+    Route::resource('/customerPassLog', CustomerPassLogController::class);
 
     // 入库单
     Route::resource('/stockEnter', StockEnterController::class);

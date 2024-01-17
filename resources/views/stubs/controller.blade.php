@@ -16,14 +16,14 @@ class {{ $modelName }}Controller extends Controller
     public function index(Request $request)
     {
         $list = {{ $modelName }}::filter($request->all())
-        ->orderBy('id', 'desc')
-        ->paginateOrGet();
+            ->orderBy('id', 'desc')
+            ->paginateOrGet();
         return $this->success(BaseResource::collection($list));
     }
 
     public function show({{ $modelName }} ${{ camel($modelName) }})
     {
-        $this->authorize('own', ${{ camel($modelName) }});
+        // $this->authorize('own', ${{ camel($modelName) }});
 
         return $this->success(new BaseResource(${{ camel($modelName) }}));
     }
@@ -41,7 +41,7 @@ class {{ $modelName }}Controller extends Controller
 
     public function update(Request $request, {{ $modelName }} ${{ camel($modelName) }})
     {
-        $this->authorize('own', ${{ camel($modelName) }});
+        // $this->authorize('own', ${{ camel($modelName) }});
 
         $params = $request->all();
 
@@ -53,7 +53,7 @@ class {{ $modelName }}Controller extends Controller
 
     public function destroy({{ $modelName }} ${{ camel($modelName) }})
     {
-        $this->authorize('own', ${{ camel($modelName) }});
+        // $this->authorize('own', ${{ camel($modelName) }});
 
         ${{ camel($modelName) }}->delete();
 

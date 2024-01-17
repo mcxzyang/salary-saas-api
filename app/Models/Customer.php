@@ -86,6 +86,11 @@ class Customer extends Model
         return $this->belongsTo(Industry::class, 'industry_id');
     }
 
+    public function followUps()
+    {
+        return $this->hasMany(FollowUp::class);
+    }
+
     public function customFieldModuleContents()
     {
         $customModule = CustomModule::query()->where('code', CustomModule::CODE_CUSTOMER)->first();

@@ -28,7 +28,7 @@ class CustomerController extends Controller
     {
         $this->authorize('own', $customer);
 
-        return $this->success(new BaseResource($customer->load(['customFieldModuleContents','inChargeCompanyUser', 'customerStatus', 'customerType', 'level', 'source', 'ripeness', 'industry'])));
+        return $this->success(new BaseResource($customer->load(['customFieldModuleContents','inChargeCompanyUser', 'customerStatus', 'customerType', 'level', 'source', 'ripeness', 'industry', 'followUps'])));
     }
 
     public function store(Request $request, Customer $customer)

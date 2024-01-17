@@ -13,6 +13,7 @@ trait RecordUserTrait
                 $user = auth($guard)->user();
                 if ($user) {
                     $model->created_by = $user->id;
+                    $model->updated_by = $user->id;
                 }
             }
         });
