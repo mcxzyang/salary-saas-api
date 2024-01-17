@@ -11,4 +11,9 @@ class WorkingTechnologyItem extends Model
     use FormatDate;
 
     protected $fillable = ['working_technology_id', 'working_process_id', 'sort'];
+
+    public function workingProcess()
+    {
+        return $this->belongsTo(WorkingProcess::class, 'working_process_id');
+    }
 }
