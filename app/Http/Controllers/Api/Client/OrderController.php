@@ -31,7 +31,7 @@ class OrderController extends Controller
     {
         $this->authorize('own', $order);
 
-        return $this->success(new BaseResource($order->load(['customer', 'stateFactoryInstance.stateFactoryItemInstances', 'currentStateFactoryItemInstance', 'orderItems'])));
+        return $this->success(new BaseResource($order->load(['customer', 'stateFactoryInstance.stateFactoryItemInstances', 'currentStateFactoryItemInstance', 'orderItems.goods'])));
     }
 
     public function store(Request $request, Order $order)
