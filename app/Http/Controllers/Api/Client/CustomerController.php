@@ -17,6 +17,7 @@ class CustomerController extends Controller
         $user = auth('client')->user();
 
         $list = Customer::filter($request->all())
+            ->with(['customFieldModuleContents','inChargeCompanyUser', 'customerStatus', 'customerType', 'type', 'level', 'source', 'ripeness', 'industry'])
             ->where('company_id', $user->company_id)
             ->orderBy('id', 'desc')
             ->paginateOrGet();
@@ -27,7 +28,7 @@ class CustomerController extends Controller
     {
         $this->authorize('own', $customer);
 
-        return $this->success(new BaseResource($customer->load(['customFieldModuleContents','inChargeCompanyUser', 'customerStatus', 'type', 'level', 'source', 'ripeness', 'industry'])));
+        return $this->success(new BaseResource($customer->load(['customFieldModuleContents','inChargeCompanyUser', 'customerStatus', 'customerType', 'type', 'level', 'source', 'ripeness', 'industry'])));
     }
 
     public function store(Request $request, Customer $customer)
