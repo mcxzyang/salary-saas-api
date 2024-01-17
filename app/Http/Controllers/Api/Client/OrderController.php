@@ -19,7 +19,7 @@ class OrderController extends Controller
         $user = auth('client')->user();
 
         $list = Order::filter($request->all())
-            ->with(['currentStateFactoryItemInstance'])
+            ->with(['customer', 'stateFactoryInstance.stateFactoryItemInstances', 'currentStateFactoryItemInstance'])
             ->where('is_deleted', 0)
             ->where('company_id', $user->company_id)
             ->orderBy('id', 'desc')
