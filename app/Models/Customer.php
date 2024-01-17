@@ -61,10 +61,10 @@ class Customer extends Model
         return $this->belongsTo(DictItem::class, 'customer_type_id');
     }
 
-    public function type()
+    /* public function type()
     {
         return $this->belongsTo(DictItem::class, 'type_id');
-    }
+    } */
 
     public function level()
     {
