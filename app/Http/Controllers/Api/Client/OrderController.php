@@ -107,7 +107,6 @@ class OrderController extends Controller
                         $order->save();
                     }
                 }
-
             });
         } catch (\Exception $exception) {
             return $this->failed($exception->getMessage());

@@ -114,7 +114,6 @@ class StateFactoryService
             // 将整个实例置为 已完成
             $stateFactoryInstance->status = 2;
             $stateFactoryInstance->save();
-
         } else {
             // 下一个实例置为 开始
             $next->status = 1;

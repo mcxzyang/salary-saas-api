@@ -9,7 +9,6 @@ class MoveOnNextListener
 {
     public function __construct()
     {
-
     }
 
     /**
@@ -25,6 +24,5 @@ class MoveOnNextListener
         $modelId = $event->modelId;
 
         Log::info('收到事件，modelType:'.$modelType.', modelId:'.$modelId);
-
     }
 }
