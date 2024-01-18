@@ -63,7 +63,7 @@ class OrderController extends Controller
                         if (!$goods) {
                             throw new InvalidRequestException('产品不存在');
                         }
-                        $price = $params['price'] ?? $goods->price;
+                        $price = $orderItemParam['price'] ?? $goods->price;
                         $total = $price * $orderItemParam['number'];
 
                         OrderItem::query()->create([
