@@ -15,6 +15,7 @@ class FollowUpController extends Controller
         $user = auth('client')->user();
 
         $list = FollowUp::filter($request->all())
+            ->with(['type', 'customer', 'createdUser'])
             ->where('company_id', $user->company_id)
             ->orderBy('id', 'desc')
             ->paginateOrGet();
@@ -25,7 +26,7 @@ class FollowUpController extends Controller
     {
         $this->authorize('own', $followUp);
 
-        return $this->success(new BaseResource($followUp->load(['type'])));
+        return $this->success(new BaseResource($followUp->load(['type', 'customer', 'createdUser'])));
     }
 
 
