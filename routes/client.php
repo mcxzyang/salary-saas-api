@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Client\ApproveController;
+use App\Http\Controllers\Api\Client\ApproveItemPersonInstanceController;
 use App\Http\Controllers\Api\Client\AuthController;
 use App\Http\Controllers\Api\Client\CategoryController;
 use App\Http\Controllers\Api\Client\ClientOperateLogController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Api\Client\DefectiveController;
 use App\Http\Controllers\Api\Client\DictController;
 use App\Http\Controllers\Api\Client\DictItemController;
 use App\Http\Controllers\Api\Client\FollowUpController;
+use App\Http\Controllers\Api\Client\GoodsCategoryController;
 use App\Http\Controllers\Api\Client\GoodsController;
 use App\Http\Controllers\Api\Client\IndustryController;
 use App\Http\Controllers\Api\Client\MaterielController;
@@ -123,6 +125,10 @@ Route::group(['middleware' => 'auth:client'], function () {
     Route::put('/goods/{goods}', [GoodsController::class, 'update']);
     Route::delete('/goods/{goods}', [GoodsController::class, 'destroy']);
 
+    // 产品分类
+    Route::resource('/goodsCategory', GoodsCategoryController::class);
+    Route::get('/goodsCategory/tree/list', [GoodsCategoryController::class, 'tree']);
+
     // 自定义审批
     Route::get('/approve/type/list', [ApproveController::class, 'typeList']);
     Route::resource('/approve', ApproveController::class);
@@ -140,9 +146,13 @@ Route::group(['middleware' => 'auth:client'], function () {
     Route::resource('/order', OrderController::class);
     Route::put('/order/{order}/nextStep', [OrderController::class, 'nextStep']);
 
-    // 订单审核
+    // 订单状态审核
     Route::get('/stateFactoryItemPersonInstance', [StateFactoryItemPersonInstanceController::class, 'index']);
     Route::put('/stateFactoryItemPersonInstance/{stateFactoryItemPersonInstance}', [StateFactoryItemPersonInstanceController::class, 'update']);
+
+    // 订单审批
+    Route::get('/approveItemPersonInstance', [ApproveItemPersonInstanceController::class, 'index']);
+    Route::put('/approveItemPersonInstance/{approveItemPersonInstance}', [ApproveItemPersonInstanceController::class, 'update']);
 
     // 绩效规则
     Route::resource('/performanceRule', PerformanceRuleController::class);

@@ -59,7 +59,7 @@ class StateFactoryService
             throw new InvalidRequestException('自定义流程实例不存在');
         }
         if ($stateFactoryInstance->status !== 1) {
-            throw new InvalidRequestException('自定义流程实例状态错误');
+            throw new InvalidRequestException('自定义流程实例状态错误或已完成');
         }
 
         $waitingCount = StateFactoryItemInstance::query()->where(['state_factory_instance_id' => $stateFactoryInstance->id, 'status' => 0])->count();
@@ -67,17 +67,17 @@ class StateFactoryService
 
         // 找到最近一条还没开始的 instance
         $currentStateFactoryItemInstance = StateFactoryItemInstance::query()->where(['state_factory_instance_id' => $stateFactoryInstance->id, 'status' => 0])->orderBy('sort')->first();
-        if (!$currentStateFactoryItemInstance) {
-            throw new InvalidRequestException('该实例已运行完成');
+        if ($currentStateFactoryItemInstance) {
+            // 首次分配
+            if ($waitingCount > 0 && $inProgressCount <= 0) {
+                $currentStateFactoryItemInstance->status = 1;
+                $currentStateFactoryItemInstance->save();
+
+                return $currentStateFactoryItemInstance;
+            }
         }
 
-        // 首次分配
-        if ($waitingCount > 0 && $inProgressCount <= 0) {
-            $currentStateFactoryItemInstance->status = 1;
-            $currentStateFactoryItemInstance->save();
 
-            return $currentStateFactoryItemInstance;
-        }
         // 找到最近的一条正在进行的 instance
         $currentStateFactoryItemInstance = StateFactoryItemInstance::query()->where(['state_factory_instance_id' => $stateFactoryInstance->id, 'status' => 1])->orderBy('sort')->first();
         if (!$currentStateFactoryItemInstance) {
@@ -114,6 +114,7 @@ class StateFactoryService
             // 将整个实例置为 已完成
             $stateFactoryInstance->status = 2;
             $stateFactoryInstance->save();
+
         } else {
             // 下一个实例置为 开始
             $next->status = 1;

@@ -17,7 +17,7 @@ class WorkingProcess extends Model
 //    public static $primaryName = 'name';
 
     protected $fillable = [
-        'company_id', 'no', 'created_by', 'name', 'status', 'report_working_permission', 'report_working_rate'
+        'company_id', 'no', 'created_by', 'name', 'status', 'report_working_permission', 'report_working_rate', 'approve_company_user_id'
     ];
 
     protected $casts = [
@@ -43,5 +43,10 @@ class WorkingProcess extends Model
     public function defectives()
     {
         return $this->belongsToMany(Defective::class, 'working_process_defectives', 'working_process_id', 'defective_id');
+    }
+
+    public function approveUser()
+    {
+        return $this->belongsTo(CompanyUser::class, 'approve_company_user_id');
     }
 }

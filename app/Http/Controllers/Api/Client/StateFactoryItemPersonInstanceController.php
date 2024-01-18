@@ -7,6 +7,7 @@ use App\Http\Resources\BaseResource;
 use App\Models\StateFactoryItemPersonInstance;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StateFactoryItemPersonInstanceController extends Controller
 {
@@ -23,8 +24,8 @@ class StateFactoryItemPersonInstanceController extends Controller
             ->where('state_factory_instances.status', 1)
             ->select(
                 [
-                    'state_factory_item_person_instances.id', 'state_factory_item_person_instances.result', 'state_factory_item_person_instances.reject_reason', 'state_factory_item_person_instances.approve_at', 'state_factory_item_person_instances.remark',
-                    'state_factory_instances.model_id', 'state_factory_item_instances.name'
+                    DB::raw('state_factory_item_person_instances.id as state_factory_item_person_instance_id'), 'state_factory_item_person_instances.result', 'state_factory_item_person_instances.reject_reason', 'state_factory_item_person_instances.approve_at', 'state_factory_item_person_instances.remark',
+                    DB::raw('approve_instances.model_id as order_id'), 'state_factory_item_instances.name'
                 ]
             )->paginateOrGet();
         return $this->success(BaseResource::collection($list));

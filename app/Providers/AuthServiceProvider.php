@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Approve;
+use App\Models\ApproveItemPersonInstance;
 use App\Models\Category;
 use App\Models\CompanySetting;
 use App\Models\CompanyUser;
@@ -13,6 +14,7 @@ use App\Models\Defective;
 use App\Models\DictItem;
 use App\Models\FollowUp;
 use App\Models\Goods;
+use App\Models\GoodsCategory;
 use App\Models\Materiel;
 use App\Models\Order;
 use App\Models\PerformanceRule;
@@ -27,6 +29,7 @@ use App\Models\StockOut;
 use App\Models\WorkingProcess;
 use App\Models\WorkingTechnology;
 use App\Models\Workorder;
+use App\Policies\Client\ApproveItemPersonInstancePolicy;
 use App\Policies\Client\ApprovePolicy;
 use App\Policies\Client\CategoryPolicy;
 use App\Policies\Client\CompanySettingPolicy;
@@ -37,6 +40,7 @@ use App\Policies\Client\CustomFieldPolicy;
 use App\Policies\Client\DefectivePolicy;
 use App\Policies\Client\DictItemPolicy;
 use App\Policies\Client\FollowUpPolicy;
+use App\Policies\Client\GoodsCategoryPolicy;
 use App\Policies\Client\GoodsPolicy;
 use App\Policies\Client\MaterielPolicy;
 use App\Policies\Client\OrderPolicy;
@@ -87,7 +91,9 @@ class AuthServiceProvider extends ServiceProvider
         PerformanceRule::class => PerformanceRulePolicy::class,
         CompanySetting::class => CompanySettingPolicy::class,
         FollowUp::class => FollowUpPolicy::class,
-        CustomerPassLog::class => CustomerPassLogPolicy::class
+        CustomerPassLog::class => CustomerPassLogPolicy::class,
+        GoodsCategory::class => GoodsCategoryPolicy::class,
+        ApproveItemPersonInstance::class => ApproveItemPersonInstancePolicy::class
     ];
 
     /**

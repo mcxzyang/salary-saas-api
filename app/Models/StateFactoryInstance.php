@@ -10,7 +10,7 @@ class StateFactoryInstance extends Model
 {
     use FormatDate;
 
-    protected $fillable = ['company_id', 'state_factory_id', 'model_type', 'model_id'];
+    protected $fillable = ['company_id', 'state_factory_id', 'model_type', 'model_id', 'status'];
 
     public function stateFactoryItemInstances()
     {

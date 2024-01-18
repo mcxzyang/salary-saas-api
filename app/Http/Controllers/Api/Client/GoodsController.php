@@ -28,7 +28,7 @@ class GoodsController extends Controller
     {
         $this->authorize('own', $goods);
 
-        return $this->success(new BaseResource($goods->load(['workingTechnology.workingTechnologyItems.workingProcess'])));
+        return $this->success(new BaseResource($goods->load(['workingTechnology.workingTechnologyItems.workingProcess', 'goodsCategory'])));
     }
 
     public function store(Request $request, Goods $goods)
@@ -36,7 +36,8 @@ class GoodsController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'unit' => 'required',
-            'type' => 'required|in:1,2'
+            'type' => 'required|in:1,2',
+            'goods_category_id' => 'required'
         ]);
 
         $params = $request->all();

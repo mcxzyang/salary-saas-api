@@ -24,15 +24,17 @@ class WorkingProcessController extends Controller
     {
         $this->authorize('own', $workingProcess);
 
-        return $this->success(new BaseResource($workingProcess->load(['createdUser', 'defectives'])));
+        return $this->success(new BaseResource($workingProcess->load(['createdUser', 'defectives', 'approveUser'])));
     }
 
     public function store(Request $request, WorkingProcess $workingProcess)
     {
         $params = $this->validate($request, [
-            'name' => 'required'
+            'name' => 'required',
+            'approve_company_user_id' => 'required'
         ], [
-            'name.required' => '请填写工序名称'
+            'name.required' => '请填写工序名称',
+            'approve_company_user_id.required' => '请选择报工审批人'
         ]);
 
         $user = auth('client')->user();

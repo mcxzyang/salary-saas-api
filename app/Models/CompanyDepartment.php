@@ -25,7 +25,7 @@ class CompanyDepartment extends Model
 
     public function allChildren()
     {
-        return $this->children()->with(['children', 'parentDepartment']);
+        return $this->children()->with(['allChildren', 'parentDepartment']);
     }
 
     public function parentDepartment()
