@@ -30,4 +30,14 @@ class FollowUp extends Model
     {
         return $this->belongsTo(DictItem::class, 'type_id');
     }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function createdUser()
+    {
+        return $this->belongsTo(CompanyUser::class, 'created_by');
+    }
 }
