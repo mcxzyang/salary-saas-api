@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\StateFactoryItemPersonInstance;
 use App\Services\ApproveService;
+use App\Services\OrderService;
 use App\Services\StateFactoryService;
 use Illuminate\Http\Request;
 
@@ -94,20 +95,11 @@ class OrderController extends Controller
                     // 生成 instance
                     app(ApproveService::class)->generateInstances($params['approve_id'], $order);
 
-                    $currentApproveItemInstance = app(ApproveService::class)->nextStep($order);
-                    if ($currentApproveItemInstance) {
-                        $order->approve_instance_id = $currentApproveItemInstance->approve_instance_id;
-                        $order->current_approve_item_instance_id = $currentApproveItemInstance->id;
-                        $order->save();
-                    }
-                } else { // 不需要审批时，自动进入自定义状态流转
-                    // 开始第一步
-                    $currentStateFactoryItemInstance = app(StateFactoryService::class)->nextStep($order);
-                    if ($currentStateFactoryItemInstance && (!$order->state_factory_instance_id || !$order->current_state_factory_item_instance_id)) {
-                        $order->state_factory_instance_id = $currentStateFactoryItemInstance->state_factory_instance_id;
-                        $order->current_state_factory_item_instance_id = $currentStateFactoryItemInstance->id;
-                        $order->save();
-                    }
+                    // 执行审批流程
+                    app(OrderService::class)->approveBegin($order);
+                } else {
+                    // 执行自定义状态流程
+                    app(OrderService::class)->stateFactoryBegin($order);
                 }
             });
         } catch (\Exception $exception) {
