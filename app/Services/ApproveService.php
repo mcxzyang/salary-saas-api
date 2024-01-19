@@ -8,12 +8,16 @@ use App\Models\Approve;
 use App\Models\ApproveInstance;
 use App\Models\ApproveItemInstance;
 use App\Models\ApproveItemPersonInstance;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
 class ApproveService
 {
-    public function generateInstances($approveId, $modelType, $modelId)
+    public function generateInstances($approveId, Model $model)
     {
+        $modelType = get_class($model);
+        $modelId = $model->id;
+
         $approve = Approve::query()->where('id', $approveId)->first();
         if (!$approve) {
             throw new InvalidRequestException('自定义审批不存在');
@@ -21,8 +25,9 @@ class ApproveService
         $approveInstance = ApproveInstance::query()->create([
             'company_id' => $approve->company_id,
             'approve_id' => $approve->id,
-            'model_type' => $modelType,
-            'model_id' => $modelId,
+            'modelable_type' => $modelType,
+            'modelable_id' => $modelId,
+            'type' => $approve->type
         ]);
         $approveItems = $approve->approveItems;
         if ($approveItems && count($approveItems)) {
@@ -52,9 +57,12 @@ class ApproveService
         }
     }
 
-    public function nextStep($modelType, $modelId)
+    public function nextStep(Model $model)
     {
-        $approveInstance = ApproveInstance::query()->where(['model_type' => $modelType, 'model_id' => $modelId])->first();
+        $modelType = get_class($model);
+        $modelId = $model->id;
+
+        $approveInstance = ApproveInstance::query()->where(['modelable_type' => $modelType, 'modelable_id' => $modelId])->first();
         if (!$approveInstance) {
             throw new InvalidRequestException('自定义审批不存在');
         }
@@ -119,7 +127,7 @@ class ApproveService
             $approveInstance->status = 2;
             $approveInstance->save();
 
-            event(new ApproveInstanceFinishedEvent($modelType, $modelId));
+            event(new ApproveInstanceFinishedEvent($model, $approveInstance));
         } else {
             // 下一个实例置为 开始
             $next->status = 1;

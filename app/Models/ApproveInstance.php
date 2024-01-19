@@ -10,10 +10,15 @@ class ApproveInstance extends Model
 {
     use FormatDate;
 
-    protected $fillable = ['company_id', 'approve_id', 'model_type', 'model_id', 'status'];
+    protected $fillable = ['company_id', 'approve_id', 'modelable_type', 'modelable_id', 'status'];
 
     public function approveItemInstances()
     {
         return $this->hasMany(ApproveItemInstance::class)->orderBy('sort');
+    }
+
+    public function modelable()
+    {
+        return $this->morphTo();
     }
 }

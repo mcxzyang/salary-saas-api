@@ -87,20 +87,22 @@ class OrderController extends Controller
 
                 // 自定义状态流转
                 // 生成 instance
-                app(StateFactoryService::class)->generateInstances($params['state_factory_id'], 'orders', $order->id);
+                app(StateFactoryService::class)->generateInstances($params['state_factory_id'], $order);
 
                 // 自定义审批
                 if (isset($params['approve_id']) && $params['approve_id']) {
                     // 生成 instance
-                    app(ApproveService::class)->generateInstances($params['approve_id'], 'orders', $order->id);
+                    app(ApproveService::class)->generateInstances($params['approve_id'], $order);
 
-                    $currentApproveItemInstance = app(ApproveService::class)->nextStep('orders', $order->id);
+                    $currentApproveItemInstance = app(ApproveService::class)->nextStep($order);
                     if ($currentApproveItemInstance) {
                         $order->approve_instance_id = $currentApproveItemInstance->approve_instance_id;
+                        $order->current_approve_item_instance_id = $currentApproveItemInstance->id;
+                        $order->save();
                     }
                 } else { // 不需要审批时，自动进入自定义状态流转
                     // 开始第一步
-                    $currentStateFactoryItemInstance = app(StateFactoryService::class)->nextStep('orders', $order->id);
+                    $currentStateFactoryItemInstance = app(StateFactoryService::class)->nextStep($order);
                     if ($currentStateFactoryItemInstance && (!$order->state_factory_instance_id || !$order->current_state_factory_item_instance_id)) {
                         $order->state_factory_instance_id = $currentStateFactoryItemInstance->state_factory_instance_id;
                         $order->current_state_factory_item_instance_id = $currentStateFactoryItemInstance->id;
@@ -125,7 +127,7 @@ class OrderController extends Controller
         }
         try {
             \DB::transaction(function () use ($order) {
-                $currentStateFactoryItemInstance = app(StateFactoryService::class)->nextStep('orders', $order->id);
+                $currentStateFactoryItemInstance = app(StateFactoryService::class)->nextStep($order);
                 if ($currentStateFactoryItemInstance) {
                     $order->current_state_factory_item_instance_id = $currentStateFactoryItemInstance->id;
                     $order->save();

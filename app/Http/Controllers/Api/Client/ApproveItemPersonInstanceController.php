@@ -17,18 +17,15 @@ class ApproveItemPersonInstanceController extends Controller
         $user = auth('client')->user();
 
         $list = ApproveItemPersonInstance::query()
-            ->leftJoin('approve_item_instances', 'approve_item_instances.id', '=', 'approve_item_person_instances.approve_item_instance_id')
-            ->leftJoin('approve_instances', 'approve_instances.id', '=', 'approve_item_instances.approve_instance_id')
-            ->where('approve_instances.model_type', 'orders')
-            ->where('approve_item_person_instances.company_user_id', $user->id)
-            ->where('approve_item_instances.status', 1)
-            ->where('approve_instances.status', 1)
-            ->select(
-                [
-                    DB::raw('approve_item_person_instances.id as approve_item_person_instance_id'), 'approve_item_person_instances.result', 'approve_item_person_instances.reject_reason', 'approve_item_person_instances.approve_at', 'approve_item_person_instances.remark',
-                    DB::raw('approve_instances.model_id as order_id')
-                ]
-            )->paginateOrGet();
+            ->with(['approveItemInstance.approveInstance'])
+            ->whereHas('approveItemInstance', function ($query) {
+                $query->whereHas('approveInstance', function ($q) {
+                    $q->where('status', 1);
+                })->where('status', 1);
+            })
+            ->where('company_user_id', $user->id)
+            ->whereNull('result')
+            ->paginateOrGet();
         return $this->success(BaseResource::collection($list));
     }
 
@@ -49,9 +46,14 @@ class ApproveItemPersonInstanceController extends Controller
 
         $approveInstance = $approveItemPersonInstance->approveItemInstance->approveInstance;
 
-        if ($approveItemPersonInstance->result === 1) {
+        if ($approveItemPersonInstance->result === 1 && $approveInstance) {
             try {
-                app(ApproveService::class)->nextStep($approveInstance->model_type, $approveInstance->model_id);
+                $model = $approveInstance->modelable;
+                $currentApproveItemInstance = app(ApproveService::class)->nextStep($model);
+                if ($currentApproveItemInstance) {
+                    $model->current_approve_item_instance_id = $currentApproveItemInstance->id;
+                    $model->save();
+                }
             } catch (\Exception $e) {
             }
         }

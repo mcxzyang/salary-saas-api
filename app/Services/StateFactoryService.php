@@ -7,11 +7,15 @@ use App\Models\StateFactory;
 use App\Models\StateFactoryInstance;
 use App\Models\StateFactoryItemInstance;
 use App\Models\StateFactoryItemPersonInstance;
+use Illuminate\Database\Eloquent\Model;
 
 class StateFactoryService
 {
-    public function generateInstances($stateFactoryId, $modelType, $modelId)
+    public function generateInstances($stateFactoryId, Model $model)
     {
+        $modelType = get_class($model);
+        $modelId = $model->id;
+
         $stateFactory = StateFactory::query()->where('id', $stateFactoryId)->first();
         if (!$stateFactory) {
             throw new InvalidRequestException('自定义流程不存在');
@@ -52,8 +56,11 @@ class StateFactoryService
         }
     }
 
-    public function nextStep($modelType, $modelId)
+    public function nextStep(Model $model)
     {
+        $modelType = get_class($model);
+        $modelId = $model->id;
+
         $stateFactoryInstance = StateFactoryInstance::query()->where(['model_type' => $modelType, 'model_id' => $modelId])->first();
         if (!$stateFactoryInstance) {
             throw new InvalidRequestException('自定义流程实例不存在');

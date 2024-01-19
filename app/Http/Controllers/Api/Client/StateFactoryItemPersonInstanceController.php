@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Api\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseResource;
 use App\Models\StateFactoryItemPersonInstance;
+use App\Services\StateFactoryService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class StateFactoryItemPersonInstanceController extends Controller
 {
@@ -16,18 +16,15 @@ class StateFactoryItemPersonInstanceController extends Controller
         $user = auth('client')->user();
 
         $list = StateFactoryItemPersonInstance::query()
-            ->leftJoin('state_factory_item_instances', 'state_factory_item_instances.id', '=', 'state_factory_item_person_instances.state_factory_item_instance_id')
-            ->leftJoin('state_factory_instances', 'state_factory_instances.id', '=', 'state_factory_item_instances.state_factory_instance_id')
-            ->where('state_factory_instances.model_type', 'orders')
-            ->where('state_factory_item_person_instances.company_user_id', $user->id)
-            ->where('state_factory_item_instances.status', 1)
-            ->where('state_factory_instances.status', 1)
-            ->select(
-                [
-                    DB::raw('state_factory_item_person_instances.id as state_factory_item_person_instance_id'), 'state_factory_item_person_instances.result', 'state_factory_item_person_instances.reject_reason', 'state_factory_item_person_instances.approve_at', 'state_factory_item_person_instances.remark',
-                    DB::raw('approve_instances.model_id as order_id'), 'state_factory_item_instances.name'
-                ]
-            )->paginateOrGet();
+            ->with(['stateFactoryItemInstance.stateFactoryInstance'])
+            ->whereHas('stateFactoryItemInstance', function ($query) {
+                $query->whereHas('stateFactoryInstance', function ($q) {
+                    $q->where('status', 1);
+                })->where('status', 1);
+            })
+            ->where('company_user_id', $user->id)
+            ->whereNull('result')
+            ->paginateOrGet();
         return $this->success(BaseResource::collection($list));
     }
 
@@ -45,6 +42,21 @@ class StateFactoryItemPersonInstanceController extends Controller
         }
         $stateFactoryItemPersonInstance->fill($params);
         $stateFactoryItemPersonInstance->save();
+
+        $stateFactoryInstance = $stateFactoryItemPersonInstance->stateFactoryItemInstance->stateFactoryInstance;
+
+        // 审核通过，自动进入下一步
+        if ($stateFactoryItemPersonInstance->result === 1 && $stateFactoryInstance) {
+            try {
+                $model = $stateFactoryInstance->modelable;
+                $currentStateFactoryItemInstance = app(StateFactoryService::class)->nextStep($model);
+                if ($currentStateFactoryItemInstance) {
+                    $model->current_state_factory_item_instance_id = $currentStateFactoryItemInstance->id;
+                    $model->save();
+                }
+            } catch (\Exception $e) {
+            }
+        }
 
         return $this->message('操作成功');
     }

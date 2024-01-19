@@ -2,7 +2,9 @@
 
 namespace App\Events;
 
+use App\Models\ApproveInstance;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
@@ -12,17 +14,17 @@ class ApproveInstanceFinishedEvent
     use InteractsWithSockets;
     use SerializesModels;
 
-    public $modelType;
-    public $modelId;
+    public $model;
+    public $approveInstance;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(String $modelType, Int $modelId)
+    public function __construct(Model $model, ApproveInstance $approveInstance)
     {
-        $this->modelType = $modelType;
-        $this->modelId = $modelId;
+        $this->model = $model;
+        $this->approveInstance = $approveInstance;
     }
 }

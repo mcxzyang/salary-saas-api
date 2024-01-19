@@ -11,4 +11,9 @@ class StateFactoryItemInstance extends Model
     use FormatDate;
 
     protected $fillable = ['state_factory_id', 'state_factory_item_id', 'state_factory_instance_id', 'name', 'sort', 'condition_type', 'status'];
+
+    public function stateFactoryInstance()
+    {
+        return $this->belongsTo(StateFactoryInstance::class);
+    }
 }

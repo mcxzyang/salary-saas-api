@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\Client\CategoryController;
 use App\Http\Controllers\Api\Client\ClientOperateLogController;
 use App\Http\Controllers\Api\Client\CommonController;
 use App\Http\Controllers\Api\Client\CompanyDepartmentController;
+use App\Http\Controllers\Api\Client\CompanyOptionController;
+use App\Http\Controllers\Api\Client\CompanyOptionSetController;
 use App\Http\Controllers\Api\Client\CompanyRoleController;
 use App\Http\Controllers\Api\Client\CompanySettingController;
 use App\Http\Controllers\Api\Client\CompanyUserController;
@@ -162,4 +164,11 @@ Route::group(['middleware' => 'auth:client'], function () {
 
     // 设置
     Route::resource('/companySetting', CompanySettingController::class);
+
+    // 用户可设置项 - 总项
+    Route::get('/companyOption', [CompanyOptionController::class, 'index']);
+
+    // 用户已设置项
+    Route::get('/companyOptionSet', [CompanyOptionSetController::class, 'index']);
+    Route::post('/companyOptionSet', [CompanyOptionSetController::class, 'store']);
 });

@@ -10,7 +10,9 @@ use App\Http\Controllers\Api\Admin\ClientRequestLogController;
 use App\Http\Controllers\Api\Admin\CommonController;
 use App\Http\Controllers\Api\Admin\CompanyController;
 use App\Http\Controllers\Api\Admin\CompanyMenuController;
+use App\Http\Controllers\Api\Admin\CompanyOptionController;
 use App\Http\Controllers\Api\Admin\CompanyUserController;
+use App\Http\Controllers\Api\Admin\CustomModuleController;
 use App\Http\Controllers\Api\Admin\DashboardController;
 use App\Http\Controllers\Api\Admin\DictController;
 use App\Http\Controllers\Api\Admin\DictItemController;
@@ -58,4 +60,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::resource('/dict', DictController::class);
     Route::resource('/dictItem', DictItemController::class);
 
+    Route::resource('/customModule', CustomModuleController::class);
+
+    Route::resource('/companyOption', CompanyOptionController::class);
 });
