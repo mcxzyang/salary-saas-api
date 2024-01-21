@@ -36,6 +36,5 @@ class CustomFieldService
                 ->whereNotIn('id', $customFieldModuleContentIds)
                 ->delete();
         }
-
     }
 }
