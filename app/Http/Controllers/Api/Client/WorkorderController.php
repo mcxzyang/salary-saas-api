@@ -52,7 +52,6 @@ class WorkorderController extends Controller
             foreach ($params['working_process_ids'] as $working_process_id) {
                 $workingProcess = WorkingProcess::query()->where(['id' => $working_process_id, 'company_id' => $user->company_id])->first();
                 if ($workingProcess) {
-
                     $workorderTask = WorkorderTask::query()->create([
                         'workorder_id' => $workorder->id,
                         'name' => $workingProcess->name,
