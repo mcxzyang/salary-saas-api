@@ -35,7 +35,7 @@ class Goods extends Model
 
     public function workingTechnology()
     {
-        return $this->belongsTo(WorkingTechnology::class);
+        return $this->belongsTo(WorkingTechnology::class)->withDefault();
     }
 
     public function stash(): BelongsTo

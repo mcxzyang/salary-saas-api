@@ -7,6 +7,7 @@ use App\Http\Resources\BaseResource;
 use App\Models\WorkingProcess;
 use App\Models\Workorder;
 use App\Models\WorkorderTask;
+use App\Models\WorkorderTaskUser;
 use Illuminate\Http\Request;
 
 class WorkorderController extends Controller
@@ -51,11 +52,26 @@ class WorkorderController extends Controller
             foreach ($params['working_process_ids'] as $working_process_id) {
                 $workingProcess = WorkingProcess::query()->where(['id' => $working_process_id, 'company_id' => $user->company_id])->first();
                 if ($workingProcess) {
-                    WorkorderTask::query()->create([
+
+                    $workorderTask = WorkorderTask::query()->create([
                         'workorder_id' => $workorder->id,
                         'name' => $workingProcess->name,
-                        'no' => $workingProcess->no
+                        'no' => $workingProcess->no,
+                        'working_process_id' => $workingProcess->id,
+                        'report_working_rate' => $workingProcess->report_working_rate,
+                        'report_working_permission' => $workingProcess->report_working_permission,
+                        'plan_number' => $workorder->planned_number,
                     ]);
+
+                    $permissions = $workingProcess->report_working_permission;
+                    if ($permissions && count($permissions)) {
+                        foreach ($permissions as $companyUserId) {
+                            WorkorderTaskUser::query()->create([
+                                'workorder_task_id' => $workorderTask->id,
+                                'company_user_id' => $companyUserId
+                            ]);
+                        }
+                    }
                 }
             }
         }

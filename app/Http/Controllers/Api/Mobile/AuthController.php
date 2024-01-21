@@ -11,43 +11,36 @@
 namespace App\Http\Controllers\Api\Mobile;
 
 use App\Http\Controllers\Controller;
-use App\Models\Company;
-use App\Models\User;
+use App\Http\Resources\BaseResource;
+use App\Models\CompanyUser;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function testLogin()
-    {
-        $user = User::query()->find(1);
-        $token = auth('mobile')->login($user);
-        return $this->success($this->respondWithToken($token));
-    }
+//    public function testLogin()
+//    {
+//        $user = User::query()->find(1);
+//        $token = auth('mobile')->login($user);
+//        return $this->success($this->respondWithToken($token));
+//    }
 
     public function login(Request $request)
     {
         $params = $this->validate($request, [
-            'clientId' => 'required',
-            'userId' => 'required',
-            'sign' => 'required'
+            'username' => 'required',
+            'password' => 'required',
         ]);
-        $xApiKey = $request->header(config('app.apiKeyName'));
-        $company = Company::query()->where(['key' => $xApiKey])->first();
 
-        if ($params['sign'] !== $this->generateSign($company, $params['userId'])) {
-            return $this->failed('签名校验失败');
+        $user = CompanyUser::query()->where(['username' => $params['username']])->orWhere(['phone' => $params['username']])->first();
+        if (!$user) {
+            return $this->failed('账号不存在');
         }
-        $user = User::query()->firstOrCreate([
-            'company_id' => $company->id,
-            'third_party_user_id' => $params['userId']
-        ]);
-        $token = auth('mobile')->login($user);
-        return $this->success($this->respondWithToken($token));
-    }
+        if (!\Hash::check($params['password'], $user->password)) {
+            return $this->failed('密码不正确');
+        }
+        $token = auth('client')->login($user);
 
-    private function generateSign($company, $userId)
-    {
-        return md5("{$company->client_id}{$company->client_secret}{$userId}");
+        return $this->success($this->respondWithToken($token));
     }
 
     protected function respondWithToken($token)
@@ -55,7 +48,14 @@ class AuthController extends Controller
         return [
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'expires_in' => config('jwt.ttl') * 60
+            'expires_in' => auth('client')->factory()->getTTL() * 60
         ];
+    }
+
+    public function me()
+    {
+        $user = auth('client')->user();
+
+        return $this->success(new BaseResource($user->load(['company'])));
     }
 }

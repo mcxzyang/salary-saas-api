@@ -53,7 +53,7 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (AuthenticationException $e) {
-            return $this->failed('您的账号已退出登录', 401);
+            return $this->failed('您的账号未登录或已退出登录', 401);
         });
 
         $this->renderable(function (NotFoundHttpException $e) {

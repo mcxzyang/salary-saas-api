@@ -18,6 +18,6 @@ class OrderItem extends Model
 
     public function goods()
     {
-        return $this->belongsTo(Goods::class);
+        return $this->belongsTo(Goods::class)->withDefault();
     }
 }

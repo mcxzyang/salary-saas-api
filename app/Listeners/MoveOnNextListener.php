@@ -7,6 +7,8 @@ use App\Models\CompanyOption;
 use App\Models\CompanyOptionSet;
 use App\Models\Order;
 use App\Models\Workorder;
+use App\Models\WorkorderTask;
+use App\Models\WorkorderTaskUser;
 use App\Services\OrderService;
 
 class MoveOnNextListener
@@ -45,11 +47,40 @@ class MoveOnNextListener
                     $orderItems = $order->orderItems;
                     if ($orderItems && count($orderItems)) {
                         foreach ($orderItems as $orderItem) {
-                            Workorder::query()->create([
+                            $workingTechnologyItems = $orderItem->goods->workingTechnology->workingTechnologyItems;
+
+                            $workorder = Workorder::query()->create([
                                 'company_id' => $order->company_id,
                                 'goods_id' => $orderItem->goods_id,
                                 'planned_number' => $orderItem->number,
                             ]);
+
+                            if ($workingTechnologyItems && count($workingTechnologyItems)) {
+                                foreach ($workingTechnologyItems as $workingTechnologyItem) {
+                                    $workingProcess = $workingTechnologyItem->workingProcess;
+                                    if ($workingProcess) {
+                                        $workorderTask = WorkorderTask::query()->create([
+                                            'workorder_id' => $workorder->id,
+                                            'name' => $workingProcess->name,
+                                            'no' => $workingProcess->no,
+                                            'working_process_id' => $workingProcess->id,
+                                            'report_working_rate' => $workingProcess->report_working_rate,
+                                            'report_working_permission' => $workingProcess->report_working_permission,
+                                            'plan_number' => $workorder->planned_number,
+                                        ]);
+
+                                        $permissions = $workingProcess->report_working_permission;
+                                        if ($permissions && count($permissions)) {
+                                            foreach ($permissions as $companyUserId) {
+                                                WorkorderTaskUser::query()->create([
+                                                    'workorder_task_id' => $workorderTask->id,
+                                                    'company_user_id' => $companyUserId
+                                                ]);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
