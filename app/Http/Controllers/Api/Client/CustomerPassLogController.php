@@ -17,7 +17,7 @@ class CustomerPassLogController extends Controller
 
         $list = CustomerPassLog::filter($request->all())
             ->where('company_id', $user->company_id)
-            ->with(['fromUser', 'toUser', 'customer', 'updateUser'])
+            ->with(['fromUser', 'toUser', 'customer', 'updatedUser'])
             ->orderBy('id', 'desc')
             ->paginateOrGet();
         return $this->success(BaseResource::collection($list));
