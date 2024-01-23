@@ -16,6 +16,7 @@ class GoodsCategoryController extends Controller
 
         $list = GoodsCategory::filter($request->all())
             ->where('company_id', $user->company_id)
+            ->with(['parentCategory'])
             ->orderBy('id', 'desc')
             ->paginateOrGet();
         return $this->success(BaseResource::collection($list));
@@ -28,7 +29,7 @@ class GoodsCategoryController extends Controller
         $list = GoodsCategory::query()
             ->where('company_id', $user->company_id)
             ->where('pid', 0)
-            ->with(['allChildren'])
+            ->with(['allChildren', 'parentCategory'])
             ->get();
         return $this->success(BaseResource::collection($list));
     }
