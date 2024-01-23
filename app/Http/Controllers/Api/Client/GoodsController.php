@@ -20,6 +20,7 @@ class GoodsController extends Controller
         $list = Goods::filter($request->all())
             ->where('is_deleted', 0)
             ->where('company_id', $user->company_id)
+            ->with(['workingTechnology.workingTechnologyItems.workingProcess', 'goodsCategory'])
             ->orderBy('id', 'desc')
             ->paginateOrGet();
         return $this->success(BaseResource::collection($list));
