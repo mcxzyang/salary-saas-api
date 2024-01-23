@@ -20,7 +20,7 @@ class GoodsController extends Controller
         $list = Goods::filter($request->all())
             ->where('is_deleted', 0)
             ->where('company_id', $user->company_id)
-            ->with(['workingTechnology.workingTechnologyItems.workingProcess', 'goodsCategory'])
+            ->with(['workingTechnology.workingTechnologyItems.workingProcess', 'goodsCategory', 'stash'])
             ->orderBy('id', 'desc')
             ->paginateOrGet();
         return $this->success(BaseResource::collection($list));
@@ -30,7 +30,7 @@ class GoodsController extends Controller
     {
         $this->authorize('own', $goods);
 
-        return $this->success(new BaseResource($goods->load(['workingTechnology.workingTechnologyItems.workingProcess', 'goodsCategory'])));
+        return $this->success(new BaseResource($goods->load(['workingTechnology.workingTechnologyItems.workingProcess', 'goodsCategory', 'stash'])));
     }
 
     public function store(Request $request, Goods $goods)
