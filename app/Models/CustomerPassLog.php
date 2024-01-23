@@ -33,4 +33,15 @@ class CustomerPassLog extends Model
     {
         return $this->belongsTo(CompanyUser::class);
     }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function updateUser()
+    {
+        return $this->belongsTo(CompanyUser::class);
+    }
+
 }
