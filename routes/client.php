@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Client\ApproveItemPersonInstanceController;
 use App\Http\Controllers\Api\Client\AuthController;
 use App\Http\Controllers\Api\Client\CategoryController;
 use App\Http\Controllers\Api\Client\ClientOperateLogController;
+use App\Http\Controllers\Api\Client\CollectionAccountController;
 use App\Http\Controllers\Api\Client\CommonController;
 use App\Http\Controllers\Api\Client\CompanyDepartmentController;
 use App\Http\Controllers\Api\Client\CompanyOptionController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\Api\Client\GoodsController;
 use App\Http\Controllers\Api\Client\IndustryController;
 use App\Http\Controllers\Api\Client\MaterielController;
 use App\Http\Controllers\Api\Client\OrderController;
+use App\Http\Controllers\Api\Client\PaymentController;
 use App\Http\Controllers\Api\Client\PerformanceRuleController;
 use App\Http\Controllers\Api\Client\ProductController;
 use App\Http\Controllers\Api\Client\StashController;
@@ -171,4 +173,10 @@ Route::group(['middleware' => 'auth:client'], function () {
     // 用户已设置项
     Route::get('/companyOptionSet', [CompanyOptionSetController::class, 'index']);
     Route::post('/companyOptionSet', [CompanyOptionSetController::class, 'store']);
+
+    // 收款账户
+    Route::resource('/collectionAccount', CollectionAccountController::class);
+
+    // 付款
+    Route::resource('/payment', PaymentController::class);
 });

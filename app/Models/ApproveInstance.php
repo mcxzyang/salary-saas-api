@@ -10,7 +10,7 @@ class ApproveInstance extends Model
 {
     use FormatDate;
 
-    protected $fillable = ['company_id', 'approve_id', 'modelable_type', 'modelable_id', 'status'];
+    protected $fillable = ['company_id', 'approve_id', 'modelable_type', 'modelable_id', 'status', 'if_auto_next'];
 
     public function approveItemInstances()
     {

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Approve;
 use App\Models\ApproveItemPersonInstance;
 use App\Models\Category;
+use App\Models\CollectionAccount;
 use App\Models\CompanySetting;
 use App\Models\CompanyUser;
 use App\Models\Customer;
@@ -32,6 +33,7 @@ use App\Models\Workorder;
 use App\Policies\Client\ApproveItemPersonInstancePolicy;
 use App\Policies\Client\ApprovePolicy;
 use App\Policies\Client\CategoryPolicy;
+use App\Policies\Client\CollectionAccountPolicy;
 use App\Policies\Client\CompanySettingPolicy;
 use App\Policies\Client\CompanyUserPolicy;
 use App\Policies\Client\CustomerPassLogPolicy;
@@ -93,7 +95,8 @@ class AuthServiceProvider extends ServiceProvider
         FollowUp::class => FollowUpPolicy::class,
         CustomerPassLog::class => CustomerPassLogPolicy::class,
         GoodsCategory::class => GoodsCategoryPolicy::class,
-        ApproveItemPersonInstance::class => ApproveItemPersonInstancePolicy::class
+        ApproveItemPersonInstance::class => ApproveItemPersonInstancePolicy::class,
+        CollectionAccount::class => CollectionAccountPolicy::class
     ];
 
     /**

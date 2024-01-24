@@ -21,7 +21,7 @@ class Approve extends Model
         self::TYPE_ORDER_APPROVE => '订单审批'
     ];
 
-    protected $fillable = ['company_id', 'type', 'name', 'scope', 'is_deleted', 'status'];
+    protected $fillable = ['company_id', 'type', 'name', 'scope', 'is_deleted', 'status', 'if_auto_next'];
 
     public function approveScopes()
     {

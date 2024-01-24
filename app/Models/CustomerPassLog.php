@@ -48,5 +48,4 @@ class CustomerPassLog extends Model
     {
         return $this->belongsTo(CompanyUser::class, 'updated_by');
     }
-
 }

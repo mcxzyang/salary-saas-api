@@ -42,8 +42,9 @@ class MoveOnNextListener
                 app(OrderService::class)->stateFactoryBegin($order);
 
                 // 自动转工单
-                $companyOptionSet = CompanyOptionSet::query()->where(['company_id' => $order->company_id, 'company_option_code' => CompanyOption::CODE_ORDER_TO_WORKORDER])->first();
-                if ($companyOptionSet && $companyOptionSet->value === '1') {
+//                $companyOptionSet = CompanyOptionSet::query()->where(['company_id' => $order->company_id, 'company_option_code' => CompanyOption::CODE_ORDER_TO_WORKORDER])->first();
+
+                if ($approveInstance && $approveInstance->if_auto_next) {
                     $orderItems = $order->orderItems;
                     if ($orderItems && count($orderItems)) {
                         foreach ($orderItems as $orderItem) {

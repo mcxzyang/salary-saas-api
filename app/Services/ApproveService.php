@@ -27,7 +27,8 @@ class ApproveService
             'approve_id' => $approve->id,
             'modelable_type' => $modelType,
             'modelable_id' => $modelId,
-            'type' => $approve->type
+            'type' => $approve->type,
+            'if_auto_next' => $approve->if_auto_next
         ]);
         $approveItems = $approve->approveItems;
         if ($approveItems && count($approveItems)) {
