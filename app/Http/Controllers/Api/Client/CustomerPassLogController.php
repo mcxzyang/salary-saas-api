@@ -45,8 +45,9 @@ class CustomerPassLogController extends Controller
             $customer->in_charge_company_user_id = $params['to_user_id'];
             $customer->save();
         } */
-        $in_charge_company_user_id = $customer->in_charge_company_user_id;
         $customer = Customer::query()->where(['company_id' => $user->company_id, 'id' => $params['customer_id']])->first();
+        $in_charge_company_user_id = $customer->in_charge_company_user_id;
+
         if (!$customer) {
             return $this->failed('客户不存在');
         }
