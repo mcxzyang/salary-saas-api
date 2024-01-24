@@ -21,7 +21,12 @@ class CustomerFilter extends ModelFilter
 
     public function inChargeCompanyUser($inChargeCompanyUser)
     {
-        return $this->where('in_charge_company_user_id', $inChargeCompanyUser);
+        if (isset($inChargeCompanyUser)) {
+            return $this->where('in_charge_company_user_id', $inChargeCompanyUser);
+        } else {
+            return $this->whereNull('in_charge_company_user_id');
+        }
+
     }
 
     public function type($type)
