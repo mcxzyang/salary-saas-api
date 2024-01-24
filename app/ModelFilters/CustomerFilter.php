@@ -68,4 +68,11 @@ class CustomerFilter extends ModelFilter
     {
         return $this->where('industry_id', $industry);
     }
+
+    public function commonCustomer($commonCustomer)
+    {
+        if ($commonCustomer) {
+            return $this->whereNull('in_charge_company_user_id');
+        }
+    }
 }
