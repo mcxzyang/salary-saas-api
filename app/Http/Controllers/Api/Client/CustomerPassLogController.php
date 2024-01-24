@@ -37,16 +37,24 @@ class CustomerPassLogController extends Controller
 
         $user = auth('client')->user();
 
-        if (isset($params['to_user_id'])) {
+        /* if (isset($params['to_user_id'])) {
             $customer = Customer::query()->where(['company_id' => $user->company_id, 'id' => $params['customer_id']])->first();
             if (!$customer) {
                 return $this->failed('客户不存在');
             }
             $customer->in_charge_company_user_id = $params['to_user_id'];
             $customer->save();
+        } */
+        $in_charge_company_user_id = $customer->in_charge_company_user_id;
+        $customer = Customer::query()->where(['company_id' => $user->company_id, 'id' => $params['customer_id']])->first();
+        if (!$customer) {
+            return $this->failed('客户不存在');
         }
+        $customer->in_charge_company_user_id = $params['to_user_id'];
+        $customer->save();
 
-        $customerPassLog->fill(array_merge($params, ['company_id' => $user->company_id, 'from_user_id' => $user->id]));
+
+        $customerPassLog->fill(array_merge($params, ['company_id' => $user->company_id, 'from_user_id' => $in_charge_company_user_id]));
         $customerPassLog->save();
 
         return $this->message('操作成功');
