@@ -13,6 +13,6 @@ class GoodsCategoryPolicy
 
     public function own(CompanyUser $user, GoodsCategory $goodsCategory): bool
     {
-        return $user->company_id === $goodsCategory->id;
+        return $user->company_id === $goodsCategory->company_id;
     }
 }
