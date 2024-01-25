@@ -19,6 +19,19 @@ class StashTakeStock extends Model
         'id', 'company_id', 'no', 'stash_id', 'take_stock_at', 'created_by', 'remark', 'status'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::creating(function (StashTakeStock $stashTakeStock) {
+            if (is_null($stashTakeStock->no)) {
+                $code = str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
+                $no = 'CKPD'.date('Ymd').$code;
+                $stashTakeStock->no = $no;
+            }
+        });
+    }
+
     public function createdUser()
     {
         return $this->belongsTo(CompanyUser::class, 'created_by');
