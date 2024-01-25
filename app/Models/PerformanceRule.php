@@ -45,4 +45,14 @@ class PerformanceRule extends Model
     {
         return $this->hasMany(PerformanceRuleItem::class, 'performance_rule_id');
     }
+
+    public function goods()
+    {
+        return $this->belongsTo(Goods::class);
+    }
+
+    public function workingProcess()
+    {
+        return $this->belongsTo(WorkingProcess::class);
+    }
 }

@@ -16,6 +16,7 @@ class PerformanceRuleController extends Controller
 
         $list = PerformanceRule::filter($request->all())
             ->where('company_id', $user->company_id)
+            ->with(['performanceRuleItems', 'goods', 'workingProcess'])
             ->orderBy('id', 'desc')
             ->paginateOrGet();
         return $this->success(BaseResource::collection($list));
@@ -49,7 +50,7 @@ class PerformanceRuleController extends Controller
     {
         $this->authorize('own', $performanceRule);
 
-        return $this->success(new BaseResource($performanceRule->load(['performanceRuleItems'])));
+        return $this->success(new BaseResource($performanceRule->load(['performanceRuleItems', 'goods', 'workingProcess'])));
     }
 
     public function update(Request $request, PerformanceRule $performanceRule)
