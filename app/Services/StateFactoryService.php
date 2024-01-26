@@ -23,8 +23,8 @@ class StateFactoryService
         $stateFactoryInstance = StateFactoryInstance::query()->create([
             'company_id' => $stateFactory->company_id,
             'state_factory_id' => $stateFactory->id,
-            'model_type' => $modelType,
-            'model_id' => $modelId
+            'modelable_type' => $modelType,
+            'modelable_id' => $modelId
         ]);
 
         $stateFactoryItems = $stateFactory->stateFactoryItems;
