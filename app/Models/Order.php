@@ -15,8 +15,8 @@ class Order extends Model
     use Filterable;
 
     protected $fillable = [
-        'company_id', 'approve_instance_id', 'current_approve_item_instance_id', 'state_factory_instance_id', 'current_state_factory_item_instance_id', 'no', 'customer_id', 'order_at', 'turnover_at', 'payment_type', 'company_user_id', 'billing_address', 'total', 'received_amount', 'if_invoice', 'remark', 'is_deleted', 'status',
-        'collection_status'
+        'company_id', 'approve_instance_id', 'current_approve_item_instance_id', 'state_factory_instance_id', 'current_state_factory_item_instance_id', 'no', 'customer_id', 'order_at',
+        'turnover_at', 'payment_type', 'company_user_id', 'billing_address', 'total', 'received_amount', 'if_invoice', 'remark', 'is_deleted', 'status', 'collection_status', 'after_discount_total'
     ];
 
     protected $casts = [
