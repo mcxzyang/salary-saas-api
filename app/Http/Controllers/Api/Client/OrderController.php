@@ -21,7 +21,10 @@ class OrderController extends Controller
         $user = auth('client')->user();
 
         $list = Order::filter($request->all())
-            ->with(['customer', 'stateFactoryInstance.stateFactoryItemInstances', 'currentStateFactoryItemInstance', 'approveInstance.approveItemInstances', 'currentApproveItemInstance', 'orderItems.goods'])
+            ->with([
+                'customer', 'stateFactoryInstance.stateFactoryItemInstances', 'currentStateFactoryItemInstance',
+                'approveInstance.approveItemInstances', 'currentApproveItemInstance', 'orderItems.goods'
+            ])
             ->where('is_deleted', 0)
             ->where('company_id', $user->company_id)
             ->orderBy('id', 'desc')
@@ -33,7 +36,10 @@ class OrderController extends Controller
     {
         $this->authorize('own', $order);
 
-        return $this->success(new BaseResource($order->load(['customer', 'stateFactoryInstance.stateFactoryItemInstances', 'currentStateFactoryItemInstance', 'approveInstance.approveItemInstances', 'currentApproveItemInstance', 'orderItems.goods'])));
+        return $this->success(new BaseResource($order->load([
+            'customer', 'stateFactoryInstance.stateFactoryItemInstances', 'currentStateFactoryItemInstance',
+            'approveInstance.approveItemInstances', 'currentApproveItemInstance.approveInstance', 'orderItems.goods'
+        ])));
     }
 
     public function store(Request $request, Order $order)
