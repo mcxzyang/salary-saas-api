@@ -55,4 +55,14 @@ class Order extends Model
     {
         return $this->belongsTo(StateFactoryInstance::class);
     }
+
+    public function currentApproveItemInstance()
+    {
+        return $this->belongsTo(ApproveItemInstance::class, 'current_approve_item_instance_id');
+    }
+
+    public function approveInstance()
+    {
+        return $this->belongsTo(ApproveInstance::class);
+    }
 }
