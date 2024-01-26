@@ -16,4 +16,14 @@ class ApproveItem extends Model
     {
         return $this->hasMany(ApproveItemPerson::class);
     }
+
+    public function approve()
+    {
+        return $this->belongsTo(Approve::class);
+    }
+
+    public function approveInstance()
+    {
+        return $this->belongsTo(ApproveInstance::class);
+    }
 }
