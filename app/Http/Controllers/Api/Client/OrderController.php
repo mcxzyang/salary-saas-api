@@ -23,7 +23,7 @@ class OrderController extends Controller
         $list = Order::filter($request->all())
             ->with([
                 'customer', 'stateFactoryInstance.stateFactoryItemInstances', 'currentStateFactoryItemInstance',
-                'approveInstance.approveItemInstances', 'currentApproveItemInstance', 'orderItems.goods'
+                'approveInstance.approveItemInstances', 'currentApproveItemInstance.approveInstance', 'orderItems.goods'
             ])
             ->where('is_deleted', 0)
             ->where('company_id', $user->company_id)
