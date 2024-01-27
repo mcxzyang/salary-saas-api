@@ -15,6 +15,7 @@ class WorkingProcessController extends Controller
 
         $list = WorkingProcess::filter($request->all())
             ->where('company_id', $user->company_id)
+            ->with(['createdUser', 'defectives', 'approveUser'])
             ->orderBy('id', 'desc')
             ->paginateOrGet();
         return $this->success(BaseResource::collection($list));
