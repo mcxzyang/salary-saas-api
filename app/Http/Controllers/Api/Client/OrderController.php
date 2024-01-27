@@ -23,7 +23,7 @@ class OrderController extends Controller
         $list = Order::filter($request->all())
             ->with([
                 'customer', 'stateFactoryInstance.stateFactoryItemInstances', 'currentStateFactoryItemInstance',
-                'approveInstance.approveItemInstances', 'currentApproveItemInstance.approveInstance', 'orderItems.goods'
+                'approveInstance.approveItemInstances', 'currentApproveItemInstance.approveInstance', 'orderItems.goods', 'currentApproveItemInstance'
             ])
             ->where('is_deleted', 0)
             ->where('company_id', $user->company_id)
@@ -38,7 +38,7 @@ class OrderController extends Controller
 
         return $this->success(new BaseResource($order->load([
             'customer', 'stateFactoryInstance.stateFactoryItemInstances', 'currentStateFactoryItemInstance',
-            'approveInstance.approveItemInstances', 'currentApproveItemInstance.approveInstance', 'orderItems.goods'
+            'approveInstance.approveItemInstances', 'currentApproveItemInstance.approveInstance', 'orderItems.goods', 'currentApproveItemInstance'
         ])));
     }
 
