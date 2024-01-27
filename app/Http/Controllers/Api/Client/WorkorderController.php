@@ -48,30 +48,33 @@ class WorkorderController extends Controller
         $workorder->fill(array_merge($params, ['company_id' => $user->company_id]));
         $workorder->save();
 
-        if (isset($params['working_process_ids']) && count($params['working_process_ids'])) {
-            foreach ($params['working_process_ids'] as $working_process_id) {
-                $workingProcess = WorkingProcess::query()->where(['id' => $working_process_id, 'company_id' => $user->company_id])->first();
-                if ($workingProcess) {
-                    $workorderTask = WorkorderTask::query()->create([
-                        'workorder_id' => $workorder->id,
-                        'name' => $workingProcess->name,
-                        'no' => $workingProcess->no,
-                        'working_process_id' => $workingProcess->id,
-                        'report_working_rate' => $workingProcess->report_working_rate,
-                        'report_working_permission' => $workingProcess->report_working_permission,
-                        'plan_number' => $workorder->planned_number,
-                    ]);
+        if (isset($params['working_process_params']) && count($params['working_process_params'])) {
+            foreach ($params['working_process_params'] as $working_process_params) {
+                if (isset($working_process_params['working_process_id'])) {
+                    $workingProcess = WorkingProcess::query()->where(['id' => $working_process_params['working_process_id'], 'company_id' => $user->company_id])->first();
+                    if ($workingProcess) {
+                        $workorderTask = WorkorderTask::query()->create(array_merge([
+                            'workorder_id' => $workorder->id,
+                            'name' => $workingProcess->name,
+                            'no' => $workingProcess->no,
+                            'working_process_id' => $workingProcess->id,
+                            'report_working_rate' => $workingProcess->report_working_rate,
+                            'report_working_permission' => $workingProcess->report_working_permission,
+                            'plan_number' => $workorder->planned_number,
+                        ], $working_process_params['workorder_task_params']));
 
-                    $permissions = $workingProcess->report_working_permission;
-                    if ($permissions && count($permissions)) {
-                        foreach ($permissions as $companyUserId) {
-                            WorkorderTaskUser::query()->create([
-                                'workorder_task_id' => $workorderTask->id,
-                                'company_user_id' => $companyUserId
-                            ]);
+                        $permissions = $workingProcess->report_working_permission;
+                        if ($permissions && count($permissions)) {
+                            foreach ($permissions as $companyUserId) {
+                                WorkorderTaskUser::query()->create([
+                                    'workorder_task_id' => $workorderTask->id,
+                                    'company_user_id' => $companyUserId
+                                ]);
+                            }
                         }
                     }
                 }
+                
             }
         }
 
@@ -90,16 +93,24 @@ class WorkorderController extends Controller
         $user = auth('client')->user();
 
         $workorderTaskIds = [];
-        if (isset($params['working_process_ids']) && count($params['working_process_ids'])) {
-            foreach ($params['working_process_ids'] as $working_process_id) {
-                $workingProcess = WorkingProcess::query()->where(['id' => $working_process_id, 'company_id' => $user->company_id])->first();
-                if ($workingProcess) {
-                    $workorderTask = WorkorderTask::query()->firstOrCreate([
-                        'workorder_id' => $workorder->id,
-                        'name' => $workingProcess->name,
-                        'no' => $workingProcess->no
-                    ]);
-                    $workorderTaskIds[] = $workorderTask->id;
+        if (isset($params['working_process_params']) && count($params['working_process_params'])) {
+            foreach ($params['working_process_params'] as $working_process_params) {
+                if (isset($working_process_params['working_process_id'])) {
+                    $workingProcess = WorkingProcess::query()->where(['id' => $working_process_params['working_process_id'], 'company_id' => $user->company_id])->first();
+                    if ($workingProcess) {
+                        $workorderTask = new WorkorderTask([
+                            'workorder_id' => $workorder->id,
+                            'name' => $workingProcess->name,
+                            'no' => $workingProcess->no
+                        ]);
+                        if (isset($working_process_params['workorder_task_params']) && $working_process_params['workorder_task_params']['id']) {
+                            $workorderTask = WorkorderTask::query()->where('id', $working_process_params['workorder_task_params']['id'])->first();
+                        }
+                        $workorderTask->fill($working_process_params['workorder_task_params']);
+                        $workorderTask->save();
+                       
+                        $workorderTaskIds[] = $workorderTask->id;
+                    }
                 }
             }
         }
