@@ -17,7 +17,7 @@ class ApproveItemPersonInstanceController extends Controller
         $user = auth('client')->user();
 
         $list = ApproveItemPersonInstance::query()
-            ->with(['approveItemInstance.approveInstance'])
+            ->with(['approveItemInstance.approveInstance.modelable'])
             ->whereHas('approveItemInstance', function ($query) {
                 $query->whereHas('approveInstance', function ($q) {
                     $q->where('status', 1);
