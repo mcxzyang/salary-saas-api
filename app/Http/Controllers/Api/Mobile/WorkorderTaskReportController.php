@@ -16,6 +16,7 @@ class WorkorderTaskReportController extends Controller
 
         $list = WorkorderTaskReport::query()
             ->where('created_by', $user->id)
+            ->with(['workorder', 'workorderTask'])
             ->orderBy('id', 'desc')
             ->paginateOrGet();
         return $this->success(BaseResource::collection($list));
