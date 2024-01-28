@@ -54,7 +54,7 @@ class WorkorderController extends Controller
                 $workorderTask = WorkorderTask::query()->create(array_merge([
                     'workorder_id' => $workorder->id
                 ], $working_process_params));
-                $permissions = $workingProcess->report_working_permission;
+                $permissions = $working_process_params['report_working_permission'];
                 if ($permissions && count($permissions)) {
                     foreach ($permissions as $companyUserId) {
                         WorkorderTaskUser::query()->create([
