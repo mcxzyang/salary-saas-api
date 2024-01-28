@@ -15,7 +15,7 @@ class WorkingProcessController extends Controller
 
         $list = WorkingProcess::filter($request->all())
             ->where('company_id', $user->company_id)
-            ->with(['createdUser', 'defectives', 'approveUser'])
+            ->with(['createdUser', 'defectives', 'approveUser', 'reportWorkingPermissionUsers'])
             ->orderBy('id', 'desc')
             ->paginateOrGet();
         return $this->success(BaseResource::collection($list));
@@ -25,7 +25,7 @@ class WorkingProcessController extends Controller
     {
         $this->authorize('own', $workingProcess);
 
-        return $this->success(new BaseResource($workingProcess->load(['createdUser', 'defectives', 'approveUser'])));
+        return $this->success(new BaseResource($workingProcess->load(['createdUser', 'defectives', 'approveUser', 'reportWorkingPermissionUsers'])));
     }
 
     public function store(Request $request, WorkingProcess $workingProcess)
