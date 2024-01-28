@@ -29,7 +29,9 @@ class WorkorderController extends Controller
     {
         $this->authorize('own', $workorder);
 
-        return $this->success(new BaseResource($workorder->load(['workorderTasks.workingProcess', 'workorderTasks.workingProcessChargeUser', 'workorderTasks.reportWorkingChargeUser', 'goods'])));
+        return $this->success(new BaseResource($workorder->load([
+            'workorderTasks.workingProcess.defectives', 'workorderTasks.workingProcessChargeUser', 'workorderTasks.reportWorkingChargeUser', 'goods'
+        ])));
     }
 
     public function store(Request $request, Workorder $workorder)
