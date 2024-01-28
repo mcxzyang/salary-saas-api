@@ -16,7 +16,7 @@ class WorkorderTaskReportController extends Controller
 
         $list = WorkorderTaskReport::query()
             ->where('created_by', $user->id)
-            ->with(['workorder', 'workorderTask'])
+            ->with(['workorder.goods', 'workorderTask'])
             ->orderBy('id', 'desc')
             ->paginateOrGet();
         return $this->success(BaseResource::collection($list));
@@ -29,7 +29,7 @@ class WorkorderTaskReportController extends Controller
         if ($user->company_id !== $workorderTaskReport->workorder->company_id) {
             return $this->failed('权限错误');
         }
-        return $this->success(new BaseResource($workorderTaskReport->load(['workorder', 'workorderTask'])));
+        return $this->success(new BaseResource($workorderTaskReport->load(['workorder.goods', 'workorderTask'])));
     }
 
     public function store(Request $request, WorkorderTaskReport $workorderTaskReport)
