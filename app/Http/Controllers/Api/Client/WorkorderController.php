@@ -126,7 +126,7 @@ class WorkorderController extends Controller
                             'workorder_task_id' => $workorderTask->id,
                             'company_user_id' => $companyUserId
                         ]);
-                        $workorderTaskUserIds = $workorderTaskUser->id;
+                        $workorderTaskUserIds[] = $workorderTaskUser->id;
                     }
                 }
                 WorkorderTaskUser::query()->where('workorder_task_id', $workorderTask->id)->whereNotIn('id', $workorderTaskUserIds)->delete();
