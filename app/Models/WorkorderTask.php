@@ -20,7 +20,8 @@ class WorkorderTask extends Model
         'plan_end_at' => 'datetime',
         'actual_start_at' => 'datetime',
         'actual_end_at' => 'datetime',
-        'report_working_permission' => 'json'
+        'report_working_permission' => 'json',
+        'defectives' => 'json'
     ];
 
     public function workorder()
