@@ -30,7 +30,7 @@ class GoodsController extends Controller
     {
         $this->authorize('own', $goods);
 
-        return $this->success(new BaseResource($goods->load(['workingTechnology.workingTechnologyItems.workingProcess', 'goodsCategory', 'stash'])));
+        return $this->success(new BaseResource($goods->load(['workingTechnology.workingTechnologyItems.workingProcess.defectives', 'goodsCategory', 'stash'])));
     }
 
     public function store(Request $request, Goods $goods)
