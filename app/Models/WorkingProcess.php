@@ -44,10 +44,6 @@ class WorkingProcess extends Model
     {
         return $this->belongsToMany(Defective::class, 'working_process_defectives', 'working_process_id', 'defective_id');
     }
-    public function reportWorkingPermissionUsers()
-    {
-        return $this->belongsToMany(CompanyUser::class, 'report_working_permission');
-    }
 
     public function approveUser()
     {
