@@ -115,6 +115,19 @@ class WorkorderController extends Controller
                 $workorderTask->save();
 
                 $workorderTaskIds[] = $workorderTask->id;
+
+                $permissions = $working_process_params['report_working_permission'];
+                $workorderTaskUserIds = [];
+                if ($permissions && count($permissions)) {
+                    foreach ($permissions as $companyUserId) {
+                        $workorderTaskUser = WorkorderTaskUser::query()->firstOrCreate([
+                            'workorder_task_id' => $workorderTask->id,
+                            'company_user_id' => $companyUserId
+                        ]);
+                        $workorderTaskUserIds = $workorderTaskUser->id;
+                    }
+                }
+                WorkorderTaskUser::query()->where('workorder_task_id', $workorderTask->id)->whereNotIn('id', $workorderTaskUserIds)->delete();
             }
         }
         WorkorderTask::query()->where('workorder_id', $workorder->id)->whereNotIn('id', $workorderTaskIds)->delete();
