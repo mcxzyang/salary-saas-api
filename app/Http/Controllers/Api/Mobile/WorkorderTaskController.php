@@ -17,7 +17,7 @@ class WorkorderTaskController extends Controller
         $taskIds = WorkorderTaskUser::query()->where(['company_user_id' => $user->id])->pluck('workorder_task_id');
 
         $list = WorkorderTask::query()->whereIn('id', $taskIds)
-            ->with(['workorder.goods', 'workingProcess'])
+            ->with(['workorder.goods', 'workorder.workorderTasks', 'workingProcess'])
             ->where(['status' => 1])
             ->orderBy('id', 'desc')
             ->paginateOrGet();
