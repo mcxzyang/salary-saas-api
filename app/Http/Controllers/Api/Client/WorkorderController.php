@@ -108,23 +108,14 @@ class WorkorderController extends Controller
         $workorderTaskIds = [];
         if (isset($params['working_process_params']) && count($params['working_process_params'])) {
             foreach ($params['working_process_params'] as $working_process_params) {
-                if (isset($working_process_params['working_process_id'])) {
-                    $workingProcess = WorkingProcess::query()->where(['id' => $working_process_params['working_process_id'], 'company_id' => $user->company_id])->first();
-                    if ($workingProcess) {
-                        $workorderTask = new WorkorderTask([
-                            'workorder_id' => $workorder->id,
-                            'name' => $workingProcess->name,
-                            'no' => $workingProcess->no
-                        ]);
-                        if (isset($working_process_params['workorder_task_params']) && $working_process_params['workorder_task_params']['id']) {
-                            $workorderTask = WorkorderTask::query()->where('id', $working_process_params['workorder_task_params']['id'])->first();
-                        }
-                        $workorderTask->fill($working_process_params['workorder_task_params']);
-                        $workorderTask->save();
-
-                        $workorderTaskIds[] = $workorderTask->id;
-                    }
+                $workorderTask = new WorkorderTask(array_merge($working_process_params, ['workorder_id' => $workorder->id]));
+                if (isset($working_process_params['workorder_task_id'])) {
+                    $workorderTask = WorkorderTask::query()->where(['id' => $working_process_params['workorder_task_id'], 'workorder_id' => $workorder->id])->first();
                 }
+                $workorderTask->fill($working_process_params);
+                $workorderTask->save();
+
+                $workorderTaskIds[] = $workorderTask->id;
             }
         }
         WorkorderTask::query()->where('workorder_id', $workorder->id)->whereNotIn('id', $workorderTaskIds)->delete();
