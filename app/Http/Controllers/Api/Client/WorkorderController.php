@@ -50,7 +50,20 @@ class WorkorderController extends Controller
 
         if (isset($params['working_process_params']) && count($params['working_process_params'])) {
             foreach ($params['working_process_params'] as $working_process_params) {
-                if (isset($working_process_params['working_process_id'])) {
+                //修改
+                $workorderTask = WorkorderTask::query()->create(array_merge([
+                    'workorder_id' => $workorder->id
+                ], $working_process_params));
+                $permissions = $workingProcess->report_working_permission;
+                if ($permissions && count($permissions)) {
+                    foreach ($permissions as $companyUserId) {
+                        WorkorderTaskUser::query()->create([
+                            'workorder_task_id' => $workorderTask->id,
+                            'company_user_id' => $companyUserId
+                        ]);
+                    }
+                }
+                /*原始： if (isset($working_process_params['working_process_id'])) {
                     $workingProcess = WorkingProcess::query()->where(['id' => $working_process_params['working_process_id'], 'company_id' => $user->company_id])->first();
                     if ($workingProcess) {
                         $workorderTask = WorkorderTask::query()->create(array_merge([
@@ -73,8 +86,8 @@ class WorkorderController extends Controller
                             }
                         }
                     }
-                }
-                
+                } */
+
             }
         }
 
@@ -108,7 +121,7 @@ class WorkorderController extends Controller
                         }
                         $workorderTask->fill($working_process_params['workorder_task_params']);
                         $workorderTask->save();
-                       
+
                         $workorderTaskIds[] = $workorderTask->id;
                     }
                 }
