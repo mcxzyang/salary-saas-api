@@ -62,13 +62,17 @@ class WorkorderTaskReportController extends Controller
 
         $reportCallNumberNowCount = $workorderTaskReport::query()->where(['workorder_task_id' => $params['workorder_task_id']])->sum('report_call_number');
         if ($reportCallNumberNowCount >= $workorderTask->plan_number) {
-            // actual_start_at：最早一次报工的start_at
-            // actual_end_at：最后一次报工的end_at
             $workorderTask->status = 2;
             $workorderTask->save();
         }
 
-        // 现在我在 workorder_task_reports 表加了  defectives  字段，新增了  workorder_task_report_defectives  表，需要将 传递的字段 defectives  存储到 workorder_task_report_defectives 表，以备后面对不良品项做统计和分析
+        /*  需修改内容
+            1、现在我在 workorder_task_reports 表加了  defectives  字段，新增了  workorder_task_report_defectives  表，
+               需要将 传递的字段 defectives  存储到 workorder_task_report_defectives 表，以备后面对不良品项做统计和分析
+            2、根据 workorder_task_reports 表中的 ungood_product_number、good_product_number 字段更新（累加至） workorder_tasks 表中的 ungood_product_number、good_product_number
+            3、根据第一次报工的 start_at（workorder_task_reports表）更新 actual_start_at（workorder_tasks表）；
+               根据最后一次报工的 end_at（workorder_task_reports表）更新 actual_end_at（workorder_tasks表）
+        */
 
         return $this->message('操作成功');
     }
