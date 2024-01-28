@@ -35,7 +35,7 @@ class WorkorderTaskReportController extends Controller
     {
         $this->validate($request, [
             'workorder_task_id' => 'required|integer',
-            'product_person_ids' => 'required|array',
+            'product_person_id' => 'required|integer',
             'report_call_number' => 'required|integer',
             'good_product_number' => 'required|integer'
         ]);
