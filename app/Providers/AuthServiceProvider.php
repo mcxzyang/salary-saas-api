@@ -30,6 +30,7 @@ use App\Models\StockOut;
 use App\Models\WorkingProcess;
 use App\Models\WorkingTechnology;
 use App\Models\Workorder;
+use App\Models\WorkorderTaskReport;
 use App\Policies\Client\ApproveItemPersonInstancePolicy;
 use App\Policies\Client\ApprovePolicy;
 use App\Policies\Client\CategoryPolicy;
@@ -58,6 +59,7 @@ use App\Policies\Client\StockPolicy;
 use App\Policies\Client\WorkingProcessPolicy;
 use App\Policies\Client\WorkingTechnologyPolicy;
 use App\Policies\Client\WorkorderPolicy;
+use App\Policies\Client\WorkorderTaskReportPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -96,7 +98,8 @@ class AuthServiceProvider extends ServiceProvider
         CustomerPassLog::class => CustomerPassLogPolicy::class,
         GoodsCategory::class => GoodsCategoryPolicy::class,
         ApproveItemPersonInstance::class => ApproveItemPersonInstancePolicy::class,
-        CollectionAccount::class => CollectionAccountPolicy::class
+        CollectionAccount::class => CollectionAccountPolicy::class,
+        WorkorderTaskReport::class => WorkorderTaskReportPolicy::class
     ];
 
     /**

@@ -41,6 +41,7 @@ use App\Http\Controllers\Api\Client\ToolsController;
 use App\Http\Controllers\Api\Client\WorkingProcessController;
 use App\Http\Controllers\Api\Client\WorkingTechnologyController;
 use App\Http\Controllers\Api\Client\WorkorderController;
+use App\Http\Controllers\Api\Client\WorkorderTaskReportController;
 
 // common
 Route::get('/common/captcha/img', [CommonController::class, 'captcha']);
@@ -179,4 +180,9 @@ Route::group(['middleware' => 'auth:client'], function () {
 
     // 付款
     Route::resource('/payment', PaymentController::class);
+
+    // 报工审核
+    Route::get('/workorderTaskReport', [WorkorderTaskReportController::class, 'index']);
+    Route::get('/workorderTaskReport/{workorderTaskReport}', [WorkorderTaskReportController::class, 'show']);
+    Route::put('/workorderTaskReport/{workorderTaskReport}/audit', [WorkorderTaskReportController::class, 'audit']);
 });

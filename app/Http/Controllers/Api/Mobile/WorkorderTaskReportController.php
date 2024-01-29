@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseResource;
 use App\Models\WorkorderTask;
 use App\Models\WorkorderTaskReport;
+use App\Models\WorkorderTaskReportDefective;
 use Illuminate\Http\Request;
 
 class WorkorderTaskReportController extends Controller
@@ -60,11 +61,21 @@ class WorkorderTaskReportController extends Controller
         $workorderTaskReport->fill(array_merge($params, ['workorder_id' => $workorderTask->workorder_id, 'workorder_task_id' => $workorderTask->id, 'created_by' => $user->id]));
         $workorderTaskReport->save();
 
-        $reportCallNumberNowCount = $workorderTaskReport::query()->where(['workorder_task_id' => $params['workorder_task_id']])->sum('report_call_number');
-        if ($reportCallNumberNowCount >= $workorderTask->plan_number) {
-            $workorderTask->status = 2;
-            $workorderTask->save();
+        if (isset($params['defectives']) && count($params['defectives'])) {
+            foreach ($params['defectives'] as $defective) {
+                WorkorderTaskReportDefective::query()->create(array_merge([
+                    'workorder_id' => $workorderTaskReport->workorder_id,
+                    'workorder_task_id' => $workorderTaskReport->workorder_task_id,
+                    'workorder_task_report_id' => $workorderTaskReport->id,
+                ], $defective));
+            }
         }
+
+//        $reportCallNumberNowCount = $workorderTaskReport::query()->where(['workorder_task_id' => $params['workorder_task_id']])->sum('report_call_number');
+//        if ($reportCallNumberNowCount >= $workorderTask->plan_number) {
+//            $workorderTask->status = 2;
+//            $workorderTask->save();
+//        }
 
         /*  需修改内容
             1、现在我在 workorder_task_reports 表加了  defectives  字段，新增了  workorder_task_report_defectives  表，
