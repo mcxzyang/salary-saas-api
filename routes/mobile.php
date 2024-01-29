@@ -2,6 +2,7 @@
 
 // auth
 use App\Http\Controllers\Api\Mobile\AuthController;
+use App\Http\Controllers\Api\Mobile\DashboardController;
 use App\Http\Controllers\Api\Mobile\WorkorderTaskController;
 use App\Http\Controllers\Api\Mobile\WorkorderTaskReportController;
 
@@ -15,4 +16,6 @@ Route::group(['middleware' => 'auth:client'], function () {
     Route::get('/workorderTaskReport', [WorkorderTaskReportController::class, 'index']);
     Route::get('/workorderTaskReport/{workorderTaskReport}', [WorkorderTaskReportController::class, 'show']);
     Route::post('/workorderTaskReport', [WorkorderTaskReportController::class, 'store']);
+
+    Route::get('/dashboard/workorderTask', [DashboardController::class, 'workorderTask']);
 });
