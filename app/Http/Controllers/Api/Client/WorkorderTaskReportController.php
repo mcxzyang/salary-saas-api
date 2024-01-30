@@ -46,7 +46,7 @@ class WorkorderTaskReportController extends Controller
         if ($workorderTaskReport->approve_result === 1) {
             $workorderTask = $workorderTaskReport->workorderTask;
             if ($workorderTask) {
-                $reportCallNumberNowCount = WorkorderTaskReport::query()->where('workorder_task_id', $params['workorder_task_id'])->sum('report_call_number');
+                $reportCallNumberNowCount = WorkorderTaskReport::query()->where('workorder_task_id', $workorderTaskReport->workorder_task_id)->sum('report_call_number');
                 if ($workorderTask->status === 1 && $reportCallNumberNowCount >= $workorderTask->plan_number) {
                     $workorderTask->status = 2;
                 }
