@@ -16,7 +16,7 @@ class WorkorderTaskReport extends Model
 
     protected $fillable = [
         'workorder_id', 'workorder_task_id', 'created_by', 'product_person_id', 'report_call_number', 'good_product_number', 'ungood_product_number', 'start_at', 'end_at',
-        'approve_result', 'approve_company_user_id', 'defectives', 'commission_amount'
+        'approve_result', 'approve_company_user_id', 'commission_amount', 'reject_reason'
     ];
 
     protected $casts = [
@@ -32,5 +32,20 @@ class WorkorderTaskReport extends Model
     public function workorderTask()
     {
         return $this->belongsTo(WorkorderTask::class);
+    }
+
+    public function productPerson()
+    {
+         return $this->belongsTo(CompanyUser::class, 'product_person_id');
+    }
+
+    public function createdUser()
+    {
+         return $this->belongsTo(CompanyUser::class, 'created_by');
+    }
+
+    public function approveCompanyUser()
+    {
+         return $this->belongsTo(CompanyUser::class, 'approve_company_user_id');
     }
 }

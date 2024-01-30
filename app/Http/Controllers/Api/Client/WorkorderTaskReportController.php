@@ -14,9 +14,9 @@ class WorkorderTaskReportController extends Controller
         $user = auth('client')->user();
 
         $list = WorkorderTaskReport::query()
-            ->with(['workorder', 'workorderTask'])
-            ->where('approve_company_user_id', $user->id)
-            ->whereNull('approve_result')
+            ->with(['workorder.goods', 'workorderTask', 'productPerson', 'createdUser', 'approveCompanyUser'])
+            // ->where('approve_company_user_id', $user->id)
+            // ->where('approve_result', 0)
             ->orderBy('id', 'desc')
             ->paginateOrGet();
 
@@ -27,16 +27,16 @@ class WorkorderTaskReportController extends Controller
     {
         $this->authorize('own', $workorderTaskReport);
 
-        return $this->success(new BaseResource($workorderTaskReport->load(['workorder', 'workorderTask'])));
+        return $this->success(new BaseResource($workorderTaskReport->load(['workorder.goods', 'workorderTask', 'productPerson', 'createdUser', 'approveCompanyUser'])));
     }
 
     public function audit(Request $request, WorkorderTaskReport $workorderTaskReport)
     {
         $params = $this->validate($request, [
-            'approve_result' => 'required|in_array:1,2'
+            'approve_result' => 'required|in:1,2'
         ]);
         $this->authorize('own', $workorderTaskReport);
-        if ($workorderTaskReport->approve_result !== null) {
+        if ($workorderTaskReport->approve_result !== 0) {
             return $this->failed('已被操作');
         }
 
@@ -46,7 +46,7 @@ class WorkorderTaskReportController extends Controller
         if ($workorderTaskReport->approve_result === 1) {
             $workorderTask = $workorderTaskReport->workorderTask;
             if ($workorderTask) {
-                $reportCallNumberNowCount = WorkorderTaskReport::query()->where(['workorder_task_id' => $params['workorder_task_id']])->sum('report_call_number');
+                $reportCallNumberNowCount = WorkorderTaskReport::query()->where('workorder_task_id', $workorderTaskReport->workorder_task_id)->sum('report_call_number');
                 if ($workorderTask->status === 1 && $reportCallNumberNowCount >= $workorderTask->plan_number) {
                     $workorderTask->status = 2;
                 }
@@ -56,7 +56,7 @@ class WorkorderTaskReportController extends Controller
                 }
 
                 $workorderTask->ungood_score_number += $workorderTaskReport->ungood_product_number;
-                $workorderTask->good_product_number += $workorderTaskReport->good_product_number;
+                $workorderTask->good_score_number += $workorderTaskReport->good_product_number;
                 $workorderTask->save();
             }
         }

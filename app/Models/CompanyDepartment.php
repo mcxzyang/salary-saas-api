@@ -32,4 +32,11 @@ class CompanyDepartment extends Model
     {
         return $this->belongsTo(CompanyDepartment::class, 'pid');
     }
+
+    public function supervisor()
+    {
+        return $this->belongsTo(CompanyUser::class, 'supervisor_id');
+    }
+
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\ModelFilters;
 
+use App\Models\CompanyUserDepartment;
 use EloquentFilter\ModelFilter;
 
 class CompanyUserFilter extends ModelFilter
@@ -25,5 +26,10 @@ class CompanyUserFilter extends ModelFilter
     public function name($name)
     {
         return $this->where('name', 'like', sprintf('%%%s%%', $name));
+    }
+
+    public function department($departmentId) {
+        $companyUserIds = CompanyUserDepartment::query()->where('company_department_id', $departmentId)->pluck('company_user_id');
+        return $this->whereIn('id', $companyUserIds);
     }
 }
