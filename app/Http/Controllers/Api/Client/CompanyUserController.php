@@ -15,6 +15,7 @@ class CompanyUserController extends Controller
 
         $list = CompanyUser::filter($request->all())
             ->where('company_id', $user->company_id)
+            ->with(['roles', 'departments'])
             ->orderBy('id', 'desc')
             ->paginateOrGet();
         return $this->success(BaseResource::collection($list));
