@@ -19,7 +19,7 @@ class WorkorderTaskController extends Controller
         $list = WorkorderTask::query()->whereIn('id', $taskIds)
             ->with(['workorder.goods', 'workorder.workorderTasks', 'workingProcess'])
             ->where(['status' => 1])
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->paginateOrGet();
 
         return $this->success(BaseResource::collection($list));
