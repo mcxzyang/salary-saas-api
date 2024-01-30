@@ -43,4 +43,9 @@ class WorkorderTaskReport extends Model
     {
          return $this->belongsTo(CompanyUser::class, 'created_by');
     }
+
+    public function approveCompanyUser()
+    {
+         return $this->belongsTo(CompanyUser::class, 'approve_company_user_id');
+    }
 }

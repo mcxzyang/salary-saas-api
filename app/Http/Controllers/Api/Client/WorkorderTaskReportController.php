@@ -14,7 +14,7 @@ class WorkorderTaskReportController extends Controller
         $user = auth('client')->user();
 
         $list = WorkorderTaskReport::query()
-            ->with(['workorder.goods', 'workorderTask', 'productPerson', 'createdUser'])
+            ->with(['workorder.goods', 'workorderTask', 'productPerson', 'createdUser', 'approveCompanyUser'])
             // ->where('approve_company_user_id', $user->id)
             ->where('approve_result', 0)
             ->orderBy('id', 'desc')
@@ -27,7 +27,7 @@ class WorkorderTaskReportController extends Controller
     {
         $this->authorize('own', $workorderTaskReport);
 
-        return $this->success(new BaseResource($workorderTaskReport->load(['workorder.goods', 'workorderTask', 'productPerson', 'createdUser'])));
+        return $this->success(new BaseResource($workorderTaskReport->load(['workorder.goods', 'workorderTask', 'productPerson', 'createdUser', 'approveCompanyUser'])));
     }
 
     public function audit(Request $request, WorkorderTaskReport $workorderTaskReport)
