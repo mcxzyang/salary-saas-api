@@ -33,7 +33,7 @@ class WorkorderTaskReportController extends Controller
     public function audit(Request $request, WorkorderTaskReport $workorderTaskReport)
     {
         $params = $this->validate($request, [
-            'approve_result' => 'required|in_array:1,2'
+            'approve_result' => 'required|in:1,2'
         ]);
         $this->authorize('own', $workorderTaskReport);
         if ($workorderTaskReport->approve_result !== null) {
