@@ -28,7 +28,8 @@ class CompanyUserFilter extends ModelFilter
         return $this->where('name', 'like', sprintf('%%%s%%', $name));
     }
 
-    public function department($departmentId) {
+    public function department($departmentId)
+    {
         $companyUserIds = CompanyUserDepartment::query()->where('company_department_id', $departmentId)->pluck('company_user_id');
         return $this->whereIn('id', $companyUserIds);
     }

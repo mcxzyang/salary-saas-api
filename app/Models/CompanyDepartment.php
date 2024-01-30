@@ -37,6 +37,4 @@ class CompanyDepartment extends Model
     {
         return $this->belongsTo(CompanyUser::class, 'supervisor_id');
     }
-
-
 }
