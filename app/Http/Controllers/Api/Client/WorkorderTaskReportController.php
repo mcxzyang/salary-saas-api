@@ -56,7 +56,7 @@ class WorkorderTaskReportController extends Controller
                 }
 
                 $workorderTask->ungood_score_number += $workorderTaskReport->ungood_product_number;
-                $workorderTask->good_product_number += $workorderTaskReport->good_product_number;
+                $workorderTask->good_score_number += $workorderTaskReport->good_product_number;
                 $workorderTask->save();
             }
         }
