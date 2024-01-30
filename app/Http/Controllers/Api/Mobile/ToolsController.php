@@ -25,7 +25,7 @@ class ToolsController extends Controller
         $config = config('uploader.strategies.default');
         $inputName = 'pic';
         $directory = Arr::get($config, 'directory', '{Y}/{m}/{d}');
-        $disk = 'cos';
+        $disk = 'qiniu';
 
         if (!$request->hasFile($inputName)) {
             return $this->failed('请上传图片');
