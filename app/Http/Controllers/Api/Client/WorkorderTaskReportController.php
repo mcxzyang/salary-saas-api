@@ -36,7 +36,7 @@ class WorkorderTaskReportController extends Controller
             'approve_result' => 'required|in:1,2'
         ]);
         $this->authorize('own', $workorderTaskReport);
-        if ($workorderTaskReport->approve_result !== null) {
+        if ($workorderTaskReport->approve_result !== 0) {
             return $this->failed('已被操作');
         }
 
