@@ -16,7 +16,7 @@ class WorkorderTaskReport extends Model
 
     protected $fillable = [
         'workorder_id', 'workorder_task_id', 'created_by', 'product_person_id', 'report_call_number', 'good_product_number', 'ungood_product_number', 'start_at', 'end_at',
-        'approve_result', 'approve_company_user_id', 'commission_amount'
+        'approve_result', 'approve_company_user_id', 'commission_amount', 'reject_reason'
     ];
 
     protected $casts = [
