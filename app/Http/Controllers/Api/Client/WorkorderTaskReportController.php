@@ -15,7 +15,7 @@ class WorkorderTaskReportController extends Controller
 
         $list = WorkorderTaskReport::query()
             ->with(['workorder', 'workorderTask'])
-            ->where('approve_company_user_id', $user->id)
+            // ->where('approve_company_user_id', $user->id)
             ->where('approve_result', 0)
             ->orderBy('id', 'desc')
             ->paginateOrGet();
