@@ -33,4 +33,14 @@ class WorkorderTaskReport extends Model
     {
         return $this->belongsTo(WorkorderTask::class);
     }
+
+    public function productPerson()
+    {
+         return $this->belongsTo(CompanyUser::class, 'product_person_id');
+    }
+
+    public function createdUser()
+    {
+         return $this->belongsTo(CompanyUser::class, 'created_by');
+    }
 }
