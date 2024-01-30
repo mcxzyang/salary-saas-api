@@ -2,6 +2,7 @@
 
 namespace App\ModelFilters;
 
+use App\Models\CompanyUserDepartment;
 use EloquentFilter\ModelFilter;
 
 class CompanyUserFilter extends ModelFilter
