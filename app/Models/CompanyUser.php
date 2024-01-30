@@ -14,7 +14,7 @@ class CompanyUser extends Authenticatable implements JWTSubject
     use Filterable;
     use LogsActivityTrait;
 
-    protected $fillable = ['company_id', 'name', 'username', 'password', 'phone', 'is_super_admin', 'status'];
+    protected $fillable = ['company_id', 'name', 'username', 'password', 'phone', 'is_super_admin', 'status', 'avatar'];
 
     protected $hidden = [
         'password'

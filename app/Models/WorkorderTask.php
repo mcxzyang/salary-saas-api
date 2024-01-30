@@ -45,4 +45,9 @@ class WorkorderTask extends Model
     {
         return $this->belongsTo(CompanyUser::class, 'report_working_charge_user_id');
     }
+
+    public function workorderTaskReports()
+    {
+        return $this->hasMany(WorkorderTaskReport::class);
+    }
 }

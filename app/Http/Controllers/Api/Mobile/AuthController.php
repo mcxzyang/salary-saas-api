@@ -58,4 +58,38 @@ class AuthController extends Controller
 
         return $this->success(new BaseResource($user->load(['company'])));
     }
+
+    public function updateUser(Request $request)
+    {
+        $params = $request->only(['username', 'phone', 'name', 'avatar']);
+
+        $user = auth('client')->user();
+        if (isset($params['phone']) && $params['phone']) {
+            $companyUser = CompanyUser::query()->where('phone', $params['phone'])->where('id', '!=', $user->id)->first();
+            if ($companyUser) {
+                return $this->failed('该手机号码已被使用');
+            }
+        }
+        $user->fill($params);
+        $user->save();
+
+        return $this->message('操作成功');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $params = $this->validate($request, [
+            'old_password' => 'required',
+            'password' => 'required|confirmed|min:6',
+            'password_confirmation' => 'required'
+        ]);
+        $user = auth('client')->user();
+        if (!\Hash::check($params['old_password'], $user->password)) {
+            return $this->failed('原密码错误');
+        }
+        $user->password = $params['password'];
+        $user->save();
+
+        return $this->message('操作成功');
+    }
 }

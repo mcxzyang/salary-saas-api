@@ -71,19 +71,41 @@ class WorkorderTaskReportController extends Controller
             }
         }
 
-//        $reportCallNumberNowCount = $workorderTaskReport::query()->where(['workorder_task_id' => $params['workorder_task_id']])->sum('report_call_number');
-//        if ($reportCallNumberNowCount >= $workorderTask->plan_number) {
-//            $workorderTask->status = 2;
-//            $workorderTask->save();
-//        }
+        return $this->message('操作成功');
+    }
 
-        /*  需修改内容
-            1、现在我在 workorder_task_reports 表加了  defectives  字段，新增了  workorder_task_report_defectives  表，
-               需要将 传递的字段 defectives  存储到 workorder_task_report_defectives 表，以备后面对不良品项做统计和分析
-            2、根据 workorder_task_reports 表中的 ungood_product_number、good_product_number 字段更新（累加至） workorder_tasks 表中的 ungood_product_number、good_product_number
-            3、根据第一次报工的 start_at（workorder_task_reports表）更新 actual_start_at（workorder_tasks表）；
-               根据最后一次报工的 end_at（workorder_task_reports表）更新 actual_end_at（workorder_tasks表）
-        */
+    public function update(Request $request, WorkorderTaskReport $workorderTaskReport)
+    {
+        $user = auth('client')->user();
+        if ($user->id !== $workorderTaskReport->created_by) {
+            return $this->failed('权限错误');
+        }
+        $params = $request->all();
+        $workorderTaskReport->fill($params);
+        $workorderTaskReport->save();
+
+        $workorderTaskReportDefectiveIds = [];
+        if (isset($params['defectives']) && count($params['defectives'])) {
+            foreach ($params['defectives'] as $defective) {
+                $workorderTaskReportDefective = new WorkorderTaskReportDefective([
+                    'workorder_id' => $workorderTaskReport->workorder_id,
+                    'workorder_task_id' => $workorderTaskReport->workorder_task_id,
+                    'workorder_task_report_id' => $workorderTaskReport->id,
+                ]);
+                if (isset($defective['id']) && $defective['id']) {
+                    $workorderTaskReportDefective = WorkorderTaskReportDefective::query()->where('id', $defective['id'])->first();
+                }
+                $workorderTaskReportDefective->fill($defective);
+                $workorderTaskReportDefective->save();
+
+                $workorderTaskReportDefectiveIds[] = $workorderTaskReportDefective->id;
+            }
+        }
+        WorkorderTaskReportDefective::query()->where([
+            'workorder_id' => $workorderTaskReport->workorder_id,
+            'workorder_task_id' => $workorderTaskReport->workorder_task_id,
+            'workorder_task_report_id' => $workorderTaskReport->id,
+        ])->whereNotIn('id', $workorderTaskReportDefectiveIds)->delete();
 
         return $this->message('操作成功');
     }
