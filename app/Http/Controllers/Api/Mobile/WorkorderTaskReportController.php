@@ -53,9 +53,11 @@ class WorkorderTaskReportController extends Controller
         if ($workorderTask->status !== 1) {
             return $this->failed('当前状态不可进行报工');
         }
-        $reportCallNumberCount = $workorderTaskReport::query()->where(['workorder_task_id' => $params['workorder_task_id']])->sum('report_call_number');
-        if ($reportCallNumberCount + $params['report_call_number'] > $workorderTask->plan_number) {
-            return $this->failed('当前报工数大于可报工数');
+        $reportCallNumberCount = WorkorderTaskReport::query()->where(['workorder_task_id' => $params['workorder_task_id']])->whereIn('approve_result', [0, 1])->sum('report_call_number');
+        $canApply= $workorderTask->plan_number - $reportCallNumberCount;
+
+        if ($params['report_call_number'] > $canApply) {
+            return $this->failed('当前报工数大于可报工数，当前可报工数为：'.$canApply);
         }
         // $workorderTaskReport->fill(array_merge($params, ['workorder_id' => $workorderTask->workorder_id, 'workorder_task_id' => $workorderTask->id, 'created_by' => $user->id, 'approve_company_user_id' => $workorderTask->approve_company_user_id]));
         $workorderTaskReport->fill(array_merge($params, ['workorder_id' => $workorderTask->workorder_id, 'workorder_task_id' => $workorderTask->id, 'created_by' => $user->id]));
