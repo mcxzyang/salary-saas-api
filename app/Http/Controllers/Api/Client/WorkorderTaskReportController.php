@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseResource;
+use App\Models\WorkorderTask;
 use App\Models\WorkorderTaskReport;
 use Illuminate\Http\Request;
 
@@ -58,6 +59,15 @@ class WorkorderTaskReportController extends Controller
                 $workorderTask->ungood_score_number += $workorderTaskReport->ungood_product_number;
                 $workorderTask->good_score_number += $workorderTaskReport->good_product_number;
                 $workorderTask->save();
+            }
+            // 顺序型
+            if ($workorderTask->workorder->report_type === 2) {
+                $nextWorkorderTask = WorkorderTask::query()->where(['workorder_task_id' => $workorderTaskReport->workorder_task_id, 'status' => 0])->orderBy('sort', 'desc')->first();
+                if ($nextWorkorderTask) {
+                    $nextWorkorderTask->status = 1;
+                    $nextWorkorderTask->save();
+                }
+
             }
         }
 

@@ -14,7 +14,7 @@ class Workorder extends Model
     use LogsActivityTrait;
     use Filterable;
 
-    protected $fillable = ['company_id', 'no', 'goods_id', 'planned_number', 'plan_start_at', 'plan_end_at', 'status', 'is_deleted', 'remark'];
+    protected $fillable = ['company_id', 'no', 'goods_id', 'planned_number', 'plan_start_at', 'plan_end_at', 'status', 'is_deleted', 'remark', 'report_type'];
 
     protected $casts = [
         'planned_number' => 'int',

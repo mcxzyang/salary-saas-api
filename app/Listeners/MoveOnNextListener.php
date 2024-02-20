@@ -57,7 +57,11 @@ class MoveOnNextListener
                             ]);
 
                             if ($workingTechnologyItems && count($workingTechnologyItems)) {
-                                foreach ($workingTechnologyItems as $workingTechnologyItem) {
+                                foreach ($workingTechnologyItems as $key => $workingTechnologyItem) {
+                                    $status = 1;
+                                    if ($workorder->report_type === 2) { // 顺序型
+                                        $status = $key === 0 ? 1 : 0;
+                                    }
                                     $workingProcess = $workingTechnologyItem->workingProcess;
                                     if ($workingProcess) {
                                         $workorderTask = WorkorderTask::query()->create([
@@ -68,6 +72,8 @@ class MoveOnNextListener
                                             'report_working_rate' => $workingProcess->report_working_rate,
                                             'report_working_permission' => $workingProcess->report_working_permission,
                                             'plan_number' => $workorder->planned_number,
+                                            'sort' => $workingTechnologyItem->sort,
+                                            'status' => $status
                                         ]);
 
                                         $permissions = $workingProcess->report_working_permission;
