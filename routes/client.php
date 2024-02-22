@@ -38,6 +38,7 @@ use App\Http\Controllers\Api\Client\StockEnterController;
 use App\Http\Controllers\Api\Client\StockOutController;
 use App\Http\Controllers\Api\Client\TestController;
 use App\Http\Controllers\Api\Client\ToolsController;
+use App\Http\Controllers\Api\Client\VendorController;
 use App\Http\Controllers\Api\Client\WorkingProcessController;
 use App\Http\Controllers\Api\Client\WorkingTechnologyController;
 use App\Http\Controllers\Api\Client\WorkorderController;
@@ -185,4 +186,7 @@ Route::group(['middleware' => 'auth:client'], function () {
     Route::get('/workorderTaskReport', [WorkorderTaskReportController::class, 'index']);
     Route::get('/workorderTaskReport/{workorderTaskReport}', [WorkorderTaskReportController::class, 'show']);
     Route::put('/workorderTaskReport/{workorderTaskReport}/audit', [WorkorderTaskReportController::class, 'audit']);
+
+    // 供应商
+    Route::resource('/vendor', VendorController::class);
 });

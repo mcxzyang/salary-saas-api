@@ -67,7 +67,6 @@ class WorkorderTaskReportController extends Controller
                     $nextWorkorderTask->status = 1;
                     $nextWorkorderTask->save();
                 }
-
             }
         }
 
