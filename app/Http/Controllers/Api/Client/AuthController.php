@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseResource;
-use App\Jobs\ClientOperateLogJob;
 use App\Models\CompanyMenu;
 use App\Models\CompanyRoleMenu;
 use App\Models\CompanyUser;

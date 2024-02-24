@@ -13,7 +13,6 @@ namespace App\Http\Middleware;
 use App\Jobs\ClientRequestLogJob;
 use Closure;
 use Illuminate\Http\Request;
-use Jenssegers\Agent\Agent;
 
 class RequestLogMiddleware
 {

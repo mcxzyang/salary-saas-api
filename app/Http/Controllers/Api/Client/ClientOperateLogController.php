@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseResource;
-use App\Models\ClientOperateLog;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 

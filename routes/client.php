@@ -29,6 +29,8 @@ use App\Http\Controllers\Api\Client\OrderController;
 use App\Http\Controllers\Api\Client\PaymentController;
 use App\Http\Controllers\Api\Client\PerformanceRuleController;
 use App\Http\Controllers\Api\Client\ProductController;
+use App\Http\Controllers\Api\Client\PurchaseOrderController;
+use App\Http\Controllers\Api\Client\PurchasePlanController;
 use App\Http\Controllers\Api\Client\StashController;
 use App\Http\Controllers\Api\Client\StashTakeStockController;
 use App\Http\Controllers\Api\Client\StateFactoryController;
@@ -36,7 +38,6 @@ use App\Http\Controllers\Api\Client\StateFactoryItemPersonInstanceController;
 use App\Http\Controllers\Api\Client\StockController;
 use App\Http\Controllers\Api\Client\StockEnterController;
 use App\Http\Controllers\Api\Client\StockOutController;
-use App\Http\Controllers\Api\Client\TestController;
 use App\Http\Controllers\Api\Client\ToolsController;
 use App\Http\Controllers\Api\Client\VendorController;
 use App\Http\Controllers\Api\Client\WorkingProcessController;
@@ -189,4 +190,10 @@ Route::group(['middleware' => 'auth:client'], function () {
 
     // 供应商
     Route::resource('/vendor', VendorController::class);
+
+    // 采购计划
+    Route::resource('/purchasePlan', PurchasePlanController::class);
+
+    // 采购单
+    Route::resource('/purchaseOrder', PurchaseOrderController::class);
 });

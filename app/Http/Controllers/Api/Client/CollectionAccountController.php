@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\Client;
 
-use App\Http\Requests\Client\CreateCollectionAccountRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\CreateCollectionAccountRequest;
 use App\Http\Resources\BaseResource;
 use App\Models\CollectionAccount;
 use Illuminate\Http\Request;

@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Api\Client;
 use App\Exceptions\InvalidRequestException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseResource;
-use App\Models\Goods;
-use App\Models\ProductSku;
 use App\Models\Stock;
 use App\Models\StockOut;
 use App\Models\StockOutItem;

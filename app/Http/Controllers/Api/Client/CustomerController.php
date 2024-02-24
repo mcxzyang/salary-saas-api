@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Api\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseResource;
 use App\Models\Customer;
-use App\Models\CustomFieldModule;
-use App\Models\CustomFieldModuleContent;
 use App\Models\CustomModule;
 use App\Services\CustomFieldService;
 use Illuminate\Http\Request;

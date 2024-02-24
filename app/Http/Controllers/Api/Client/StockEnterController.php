@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseResource;
-use App\Models\ProductSku;
 use App\Models\Stock;
 use App\Models\StockEnter;
 use App\Models\StockEnterItem;

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\Client;
 
-use App\Http\Requests\Client\CreatePaymentRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\CreatePaymentRequest;
 use App\Http\Resources\BaseResource;
 use App\Models\Payment;
 use Illuminate\Http\Request;

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\Client;
 
-use App\Http\Requests\Client\CreateGoodsCategoryRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\CreateGoodsCategoryRequest;
 use App\Http\Resources\BaseResource;
 use App\Models\GoodsCategory;
 use Illuminate\Http\Request;

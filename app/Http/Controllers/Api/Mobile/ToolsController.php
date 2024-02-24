@@ -11,9 +11,7 @@
 namespace App\Http\Controllers\Api\Mobile;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Services\FileUploadService;
-use App\Services\SmsSendService;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;

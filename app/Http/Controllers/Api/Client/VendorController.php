@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\Client;
 
-use App\Http\Requests\Client\CreateVendorRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\CreateVendorRequest;
 use App\Http\Resources\BaseResource;
 use App\Models\Vendor;
 use Illuminate\Http\Request;

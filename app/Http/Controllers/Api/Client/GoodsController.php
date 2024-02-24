@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseResource;
-use App\Models\CustomFieldModule;
-use App\Models\CustomFieldModuleContent;
 use App\Models\CustomModule;
 use App\Models\Goods;
 use App\Services\CustomFieldService;

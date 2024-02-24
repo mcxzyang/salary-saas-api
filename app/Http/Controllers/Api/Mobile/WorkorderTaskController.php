@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseResource;
 use App\Models\WorkorderTask;
 use App\Models\WorkorderTaskUser;
-use Illuminate\Http\Request;
 
 class WorkorderTaskController extends Controller
 {

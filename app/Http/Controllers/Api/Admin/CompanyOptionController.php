@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-use App\Http\Requests\Admin\CreateCompanyOptionRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\CreateCompanyOptionRequest;
 use App\Http\Resources\BaseResource;
 use App\Models\CompanyOption;
 use Illuminate\Http\Request;
