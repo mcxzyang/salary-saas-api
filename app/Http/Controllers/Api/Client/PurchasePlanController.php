@@ -25,7 +25,7 @@ class PurchasePlanController extends Controller
     {
         // $this->authorize('own', $purchasePlan);
 
-        return $this->success(new BaseResource($purchasePlan->load(['purchasePlanItems'])));
+        return $this->success(new BaseResource($purchasePlan->load(['purchasePlanItems.goods'])));
     }
 
 
