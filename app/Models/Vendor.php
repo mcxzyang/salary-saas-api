@@ -32,10 +32,10 @@ class Vendor extends Model
         parent::boot();
 
         self::creating(function (Vendor $vendor) {
-            if (is_null($vendor->no)) {
+            if (is_null($vendor->code)) {
                 $code = str_pad(mt_rand(1, 999), 3, '0', STR_PAD_LEFT);
-                $no = 'GYS'.date('Ymd').$code;
-                $vendor->no = $no;
+                $code = 'GYS'.date('Ymd').$code;
+                $vendor->code = $code;
             }
         });
     }
