@@ -11,4 +11,10 @@ class PurchaseOrderItem extends Model
     use FormatDate;
 
     protected $fillable = ['purchase_order_id', 'goods_id', 'sku', 'unit', 'order_number', 'notify_number', 'delivery_number', 'amount', 'delivery_at', 'delivery_amount', 'remark'];
+
+
+    public function goods()
+    {
+        return $this->belongsTo(Goods::class);
+    }
 }
