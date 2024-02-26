@@ -26,7 +26,7 @@ class PurchaseOrderController extends Controller
     {
         // $this->authorize('own', $purchaseOrder);
 
-        return $this->success(new BaseResource($purchaseOrder->load(['purchaseOrderItems'])));
+        return $this->success(new BaseResource($purchaseOrder->load(['purchaseOrderItems.goods'])));
     }
 
 
