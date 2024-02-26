@@ -28,11 +28,11 @@ class PurchaseOrder extends Model
     {
         parent::boot();
 
-        self::creating(function (PurchasePlan $purchasePlan) {
-            if (is_null($purchasePlan->no)) {
+        self::creating(function (PurchaseOrder $PurchaseOrder) {
+            if (is_null($PurchaseOrder->no)) {
                 $code = str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
                 $no = 'CGD'.date('Ymd').$code;
-                $purchasePlan->no = $no;
+                $PurchaseOrder->no = $no;
             }
         });
     }
