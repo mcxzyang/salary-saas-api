@@ -61,7 +61,7 @@ class StateFactoryService
         $modelType = get_class($model);
         $modelId = $model->id;
 
-        $stateFactoryInstance = StateFactoryInstance::query()->where(['model_type' => $modelType, 'model_id' => $modelId])->first();
+        $stateFactoryInstance = StateFactoryInstance::query()->where(['modelable_type' => $modelType, 'modelable_id' => $modelId])->first();
         if (!$stateFactoryInstance) {
             throw new InvalidRequestException('自定义流程实例不存在');
         }
