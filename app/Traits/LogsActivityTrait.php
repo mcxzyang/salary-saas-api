@@ -14,16 +14,18 @@ trait LogsActivityTrait
     protected function getDescriptionForEvent(string $eventName): string
     {
         $description = '';
-        switch ($eventName) {
-            case 'created':
-                $description = '用户' . auth('client')->user()->name . '添加了' . $this->table.'表id为' . $this->id . '的数据';
-                break;
-            case 'updated':
-                $description = '用户' . auth('client')->user()->name . '修改了' . $this->table.'表id为' . $this->id . '的数据';
-                break;
-            case 'deleted':
-                $description = '用户' . auth('client')->user()->name . '删除了' . $this->table.'表id为' . $this->id . '的数据';
-                break;
+        if (auth('client')->user()) {
+            switch ($eventName) {
+                case 'created':
+                    $description = '用户' . auth('client')->user()->name . '添加了' . $this->table.'表id为' . $this->id . '的数据';
+                    break;
+                case 'updated':
+                    $description = '用户' . auth('client')->user()->name . '修改了' . $this->table.'表id为' . $this->id . '的数据';
+                    break;
+                case 'deleted':
+                    $description = '用户' . auth('client')->user()->name . '删除了' . $this->table.'表id为' . $this->id . '的数据';
+                    break;
+            }
         }
         return $description;
     }
