@@ -16,6 +16,7 @@ class PurchasePlanController extends Controller
     {
         $user = auth('client')->user();
         $list = PurchasePlan::filter($request->all())
+            ->with(['approveInstance', 'currentApproveItemInstance'])
             ->where('company_id', $user->company_id)
             ->orderBy('id', 'desc')
             ->paginateOrGet();
@@ -26,7 +27,7 @@ class PurchasePlanController extends Controller
     {
         // $this->authorize('own', $purchasePlan);
 
-        return $this->success(new BaseResource($purchasePlan->load(['purchasePlanItems.goods'])));
+        return $this->success(new BaseResource($purchasePlan->load(['purchasePlanItems.goods', 'approveInstance', 'currentApproveItemInstance'])));
     }
 
 
@@ -36,7 +37,6 @@ class PurchasePlanController extends Controller
         $params = $request->all();
 
         try {
-
             $purchasePlan->fill(array_merge($params, ['company_id' => $user->company_id]));
             $purchasePlan->save();
 
