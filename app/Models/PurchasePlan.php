@@ -15,7 +15,7 @@ class PurchasePlan extends Model
     use LogsActivityTrait;
     use RecordUserTrait;
 
-    protected $fillable = ['company_id', 'no', 'plan_at', 'audit_user_id', 'audit_at', 'approve_user_id', 'approve_at', 'status', 'created_by', 'updated_by'];
+    protected $fillable = ['company_id', 'no', 'plan_at', 'audit_user_id', 'audit_at', 'approve_user_id', 'approve_at', 'status', 'created_by', 'updated_by', 'approve_instance_id', 'current_approve_item_instance_id'];
 
     protected $casts = [];
 
@@ -40,5 +40,20 @@ class PurchasePlan extends Model
     public function purchasePlanItems()
     {
         return $this->hasMany(PurchasePlanItem::class);
+    }
+
+    public function purchaseOrderItems()
+    {
+        return $this->hasMany(PurchaseOrderItem::class);
+    }
+
+    public function currentApproveItemInstance()
+    {
+        return $this->belongsTo(ApproveItemInstance::class, 'current_approve_item_instance_id');
+    }
+
+    public function approveInstance()
+    {
+        return $this->belongsTo(ApproveInstance::class);
     }
 }

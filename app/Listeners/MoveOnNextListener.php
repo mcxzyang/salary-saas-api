@@ -7,6 +7,7 @@ use App\Models\CompanyOption;
 use App\Models\CompanyOptionSet;
 use App\Models\Order;
 use App\Models\PurchaseOrder;
+use App\Models\PurchasePlan;
 use App\Models\Workorder;
 use App\Models\WorkorderTask;
 use App\Models\WorkorderTaskUser;
@@ -101,6 +102,12 @@ class MoveOnNextListener
 
                 $purchaseOrder->status = 1;
                 $purchaseOrder->save();
+                break;
+            case PurchasePlan::class:
+                $purchasePlan = PurchasePlan::query()->find($approveInstance->modelable_id);
+
+                $purchasePlan->status = 1;
+                $purchasePlan->save();
                 break;
         }
     }

@@ -7,6 +7,7 @@ use App\Http\Requests\Client\CreatePurchasePlanRequest;
 use App\Http\Resources\BaseResource;
 use App\Models\PurchasePlan;
 use App\Models\PurchasePlanItem;
+use App\Services\ApproveService;
 use Illuminate\Http\Request;
 
 class PurchasePlanController extends Controller
@@ -34,14 +35,29 @@ class PurchasePlanController extends Controller
         $user = auth('client')->user();
         $params = $request->all();
 
-        $purchasePlan->fill(array_merge($params, ['company_id' => $user->company_id]));
-        $purchasePlan->save();
+        try {
 
-        if (isset($params['purchase_plan_items']) && count($params['purchase_plan_items'])) {
-            foreach ($params['purchase_plan_items'] as $item) {
-                PurchasePlanItem::query()->create(array_merge($item, ['purchase_plan_id' => $purchasePlan->id]));
+            $purchasePlan->fill(array_merge($params, ['company_id' => $user->company_id]));
+            $purchasePlan->save();
+
+            if (isset($params['purchase_plan_items']) && count($params['purchase_plan_items'])) {
+                foreach ($params['purchase_plan_items'] as $item) {
+                    PurchasePlanItem::query()->create(array_merge($item, ['purchase_plan_id' => $purchasePlan->id]));
+                }
             }
+
+            // 自定义审批
+            if (isset($params['approve_id']) && $params['approve_id']) {
+                // 生成 instance
+                app(ApproveService::class)->generateInstances($params['approve_id'], $purchasePlan);
+
+                // 执行审批流程
+                app(ApproveService::class)->approveBegin($purchasePlan);
+            }
+        } catch (\Exception $exception) {
+            return $this->failed($exception->getMessage());
         }
+
 
         return $this->message('操作成功');
     }
