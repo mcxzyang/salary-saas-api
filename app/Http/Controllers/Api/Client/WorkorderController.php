@@ -29,7 +29,7 @@ class WorkorderController extends Controller
         $this->authorize('own', $workorder);
 
         return $this->success(new BaseResource($workorder->load([
-            'workorderTasks.workingProcess.defectives', 'workorderTasks.workingProcessChargeUser', 'workorderTasks.reportWorkingChargeUser', 'goods'
+            'workorderTasks.workingProcess.defectives', 'workorderTasks.workingProcessChargeUser', 'workorderTasks.reportWorkingChargeUser', 'goods', 'order'
         ])));
     }
 
