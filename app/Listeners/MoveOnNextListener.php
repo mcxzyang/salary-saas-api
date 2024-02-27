@@ -6,6 +6,7 @@ use App\Events\ApproveInstanceFinishedEvent;
 use App\Models\CompanyOption;
 use App\Models\CompanyOptionSet;
 use App\Models\Order;
+use App\Models\PurchaseOrder;
 use App\Models\Workorder;
 use App\Models\WorkorderTask;
 use App\Models\WorkorderTaskUser;
@@ -94,6 +95,12 @@ class MoveOnNextListener
                         }
                     }
                 }
+                break;
+            case PurchaseOrder::class:
+                $purchaseOrder = PurchaseOrder::query()->find($approveInstance->modelable_id);
+
+                $purchaseOrder->status = 1;
+                $purchaseOrder->save();
                 break;
         }
     }
