@@ -38,6 +38,7 @@ use App\Http\Controllers\Api\Client\StateFactoryItemPersonInstanceController;
 use App\Http\Controllers\Api\Client\StockController;
 use App\Http\Controllers\Api\Client\StockEnterController;
 use App\Http\Controllers\Api\Client\StockOutController;
+use App\Http\Controllers\Api\Client\TestController;
 use App\Http\Controllers\Api\Client\ToolsController;
 use App\Http\Controllers\Api\Client\VendorController;
 use App\Http\Controllers\Api\Client\WorkingProcessController;
@@ -53,7 +54,7 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::post('/tools/uploadPic', [ToolsController::class, 'uploadPic']);
 
-//Route::get('/test', [TestController::class, 'index']);
+Route::get('/testJob', [TestController::class, 'testJob']);
 //Route::get('/setStock', [TestController::class, 'setStock']);
 //Route::get('/decr', [TestController::class, 'decr']);
 
