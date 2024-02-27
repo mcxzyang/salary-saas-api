@@ -30,6 +30,8 @@ class MoveOnNextListener
         $model = $event->model;
         $approveInstance = $event->approveInstance;
 
+        \Log::info('已进入');
+
         switch ($approveInstance->modelable_type) {
             case Order::class:
                 // 从草稿变成正常

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Api\Client;
 
+use App\Events\ApproveInstanceFinishedEvent;
 use App\Http\Controllers\Controller;
+use App\Models\ApproveInstance;
+use App\Models\Order;
 use App\Models\ProductSku;
 use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Support\Facades\Cache;
@@ -56,5 +59,13 @@ class TestController extends Controller
     public function decr()
     {
         Redis::decr('productSku');
+    }
+
+    public function testJob()
+    {
+        $model = Order::query()->where('id', 13)->first();
+        $approveInstance = ApproveInstance::query()->where('id', 7)->first();
+
+        event(new ApproveInstanceFinishedEvent($model, $approveInstance));
     }
 }
