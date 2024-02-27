@@ -7,6 +7,7 @@ use App\Http\Requests\Client\CreatePurchaseOrderRequest;
 use App\Http\Resources\BaseResource;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderItem;
+use App\Services\ApproveService;
 use Illuminate\Http\Request;
 
 class PurchaseOrderController extends Controller
@@ -17,6 +18,7 @@ class PurchaseOrderController extends Controller
 
         $list = PurchaseOrder::filter($request->all())
             ->where('company_id', $user->company_id)
+            ->with(['approveInstance', 'currentApproveItemInstance'])
             ->orderBy('id', 'desc')
             ->paginateOrGet();
         return $this->success(BaseResource::collection($list));
@@ -26,7 +28,7 @@ class PurchaseOrderController extends Controller
     {
         // $this->authorize('own', $purchaseOrder);
 
-        return $this->success(new BaseResource($purchaseOrder->load(['purchaseOrderItems.goods'])));
+        return $this->success(new BaseResource($purchaseOrder->load(['purchaseOrderItems.goods', 'approveInstance', 'currentApproveItemInstance'])));
     }
 
 
@@ -35,14 +37,28 @@ class PurchaseOrderController extends Controller
         $user = auth('client')->user();
         $params = $request->all();
 
-        $purchaseOrder->fill(array_merge($params, ['company_id' => $user->company_id]));
-        $purchaseOrder->save();
+        try {
+            $purchaseOrder->fill(array_merge($params, ['company_id' => $user->company_id]));
+            $purchaseOrder->save();
 
-        if (isset($params['purchase_order_items']) && count($params['purchase_order_items'])) {
-            foreach ($params['purchase_order_items'] as $item) {
-                PurchaseOrderItem::query()->create(array_merge($item, ['purchase_order_id' => $purchaseOrder->id]));
+            if (isset($params['purchase_order_items']) && count($params['purchase_order_items'])) {
+                foreach ($params['purchase_order_items'] as $item) {
+                    PurchaseOrderItem::query()->create(array_merge($item, ['purchase_order_id' => $purchaseOrder->id]));
+                }
             }
+
+            // 自定义审批
+            if (isset($params['approve_id']) && $params['approve_id']) {
+                // 生成 instance
+                app(ApproveService::class)->generateInstances($params['approve_id'], $purchaseOrder);
+
+                // 执行审批流程
+                app(ApproveService::class)->approveBegin($purchaseOrder);
+            }
+        } catch (\Exception $exception) {
+            return $this->failed($exception->getMessage());
         }
+
 
         return $this->message('操作成功');
     }

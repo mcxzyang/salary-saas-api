@@ -137,4 +137,19 @@ class ApproveService
 
         return $next;
     }
+
+    /**
+     * 执行审批流程并回写
+     *
+     * @throws \App\Exceptions\InvalidRequestException
+     */
+    public function approveBegin(Model $model)
+    {
+        $currentApproveItemInstance = app(ApproveService::class)->nextStep($model);
+        if ($currentApproveItemInstance && (!$model->approve_instance_id || !$model->current_approve_item_instance_id)) {
+            $model->approve_instance_id = $currentApproveItemInstance->approve_instance_id;
+            $model->current_approve_item_instance_id = $currentApproveItemInstance->id;
+            $model->save();
+        }
+    }
 }

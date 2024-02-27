@@ -15,7 +15,8 @@ class PurchaseOrder extends Model
     use LogsActivityTrait;
     use RecordUserTrait;
 
-    protected $fillable = ['company_id', 'purchase_plan_id', 'no', 'vendor_id', 'linkman', 'phone', 'fax', 'delivery_type', 'exp_at', 'audit_user_id', 'audit_at', 'approve_user_id', 'approve_at', 'remark', 'status', 'created_by', 'updated_by'];
+    protected $fillable = ['company_id', 'purchase_plan_id', 'no', 'vendor_id', 'linkman', 'phone', 'fax', 'delivery_type', 'exp_at', 'audit_user_id', 'audit_at', 'approve_user_id', 'approve_at', 'remark', 'status', 'created_by', 'updated_by',
+        'approve_instance_id', 'current_approve_item_instance_id'];
 
     protected $casts = [];
 
@@ -40,5 +41,15 @@ class PurchaseOrder extends Model
     public function purchaseOrderItems()
     {
         return $this->hasMany(PurchaseOrderItem::class);
+    }
+
+    public function currentApproveItemInstance()
+    {
+        return $this->belongsTo(ApproveItemInstance::class, 'current_approve_item_instance_id');
+    }
+
+    public function approveInstance()
+    {
+        return $this->belongsTo(ApproveInstance::class);
     }
 }
