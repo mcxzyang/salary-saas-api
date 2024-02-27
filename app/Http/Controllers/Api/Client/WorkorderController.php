@@ -16,7 +16,7 @@ class WorkorderController extends Controller
         $user = auth('client')->user();
 
         $list = Workorder::filter($request->all())
-            ->with(['goods'])
+            ->with(['goods', 'order'])
             ->where('is_deleted', 0)
             ->where('company_id', $user->company_id)
             ->orderBy('id', 'desc')

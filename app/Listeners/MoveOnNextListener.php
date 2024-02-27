@@ -54,6 +54,7 @@ class MoveOnNextListener
 
                             $workorder = Workorder::query()->create([
                                 'company_id' => $order->company_id,
+                                'order_id' => $order->id,
                                 'goods_id' => $orderItem->goods_id,
                                 'planned_number' => $orderItem->number,
                             ]);

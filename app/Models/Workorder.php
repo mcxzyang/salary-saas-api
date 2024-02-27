@@ -14,7 +14,7 @@ class Workorder extends Model
     use LogsActivityTrait;
     use Filterable;
 
-    protected $fillable = ['company_id', 'no', 'goods_id', 'planned_number', 'plan_start_at', 'plan_end_at', 'status', 'is_deleted', 'remark', 'report_type'];
+    protected $fillable = ['company_id', 'no', 'goods_id', 'planned_number', 'plan_start_at', 'plan_end_at', 'status', 'is_deleted', 'remark', 'report_type', 'order_id'];
 
     protected $casts = [
         'planned_number' => 'int',
@@ -43,5 +43,10 @@ class Workorder extends Model
     public function goods()
     {
         return $this->belongsTo(Goods::class);
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
     }
 }
