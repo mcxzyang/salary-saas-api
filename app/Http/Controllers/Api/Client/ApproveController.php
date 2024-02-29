@@ -124,14 +124,19 @@ class ApproveController extends Controller
         $approveItemIds = [];
         if (isset($params['approve_items']) && count($params['approve_items'])) {
             foreach ($params['approve_items'] as $approveItemParams) {
-                $approveItem = ApproveItem::query()->firstOrCreate([
-                    'approve_id' => $approve->id,
+                $approveItem = new ApproveItem([
                     'name' => $approveItemParams['name'] ?? null,
                     'is_allow_edit' => $approveItemParams['is_allow_edit'] ?? null,
                     'condition_type' => $approveItemParams['condition_type'] ?? null,
                     'sort' => $approveItemParams['sort'] ?? null,
                     'status' => 1
                 ]);
+                if (isset($approveItemParams['id']) && $approveItemParams['id']) {
+                    $approveItem = ApproveItem::query()->where('id', $approveItemParams['id'])->first();
+                }
+                $approveItem->fill($approveItemParams);
+                $approveItem->save();
+
                 $approveItemIds[] = $approveItem->id;
 
                 // persons
