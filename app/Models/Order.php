@@ -66,11 +66,6 @@ class Order extends Model
         return $this->belongsTo(ApproveInstance::class);
     }
 
-    public function approveItem()
-    {
-        return $this->belongsTo(ApproveItem::class);
-    }
-
     public function companyUser()
     {
         return $this->belongsTo(CompanyUser::class);
