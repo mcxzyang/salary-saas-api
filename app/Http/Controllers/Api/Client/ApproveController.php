@@ -68,6 +68,7 @@ class ApproveController extends Controller
             foreach ($params['approve_items'] as $approveItemParams) {
                 $approveItem = ApproveItem::query()->create([
                     'approve_id' => $approve->id,
+                    'name' => $approveItemParams['name'] ?? null,
                     'is_allow_edit' => $approveItemParams['is_allow_edit'] ?? null,
                     'condition_type' => $approveItemParams['condition_type'] ?? null,
                     'sort' => $approveItemParams['sort'] ?? null,
@@ -125,6 +126,7 @@ class ApproveController extends Controller
             foreach ($params['approve_items'] as $approveItemParams) {
                 $approveItem = ApproveItem::query()->firstOrCreate([
                     'approve_id' => $approve->id,
+                    'name' => $approveItemParams['name'] ?? null,
                     'is_allow_edit' => $approveItemParams['is_allow_edit'] ?? null,
                     'condition_type' => $approveItemParams['condition_type'] ?? null,
                     'sort' => $approveItemParams['sort'] ?? null,
