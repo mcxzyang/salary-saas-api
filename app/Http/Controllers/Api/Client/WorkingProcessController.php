@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseResource;
 use App\Models\WorkingProcess;
+use App\Models\WorkingProcessApproveUser;
+use App\Models\WorkingProcessReportUser;
 use Illuminate\Http\Request;
 
 class WorkingProcessController extends Controller
@@ -15,7 +17,7 @@ class WorkingProcessController extends Controller
 
         $list = WorkingProcess::filter($request->all())
             ->where('company_id', $user->company_id)
-            ->with(['createdUser', 'defectives', 'approveUser'])
+            ->with(['createdUser', 'defectives', 'approveUsers', 'reportUsers'])
             ->orderBy('id', 'desc')
             ->paginateOrGet();
         return $this->success(BaseResource::collection($list));
@@ -25,14 +27,15 @@ class WorkingProcessController extends Controller
     {
         $this->authorize('own', $workingProcess);
 
-        return $this->success(new BaseResource($workingProcess->load(['createdUser', 'defectives', 'approveUser'])));
+        return $this->success(new BaseResource($workingProcess->load(['createdUser', 'defectives', 'approveUsers', 'reportUsers'])));
     }
 
     public function store(Request $request, WorkingProcess $workingProcess)
     {
         $params = $this->validate($request, [
             'name' => 'required',
-            'approve_company_user_id' => 'required'
+            'approve_company_user_id' => 'required|array',
+            'report_working_permission' => 'array',
         ], [
             'name.required' => '请填写工序名称',
             'approve_company_user_id.required' => '请选择报工审批人'
@@ -46,6 +49,9 @@ class WorkingProcessController extends Controller
         $defectives = $request->input('defective_ids', []);
 
         $workingProcess->defectives()->sync($defectives);
+
+        $workingProcess->reportUsers()->sync($request->input('report_working_permission', []));
+        $workingProcess->approveUsers()->sync($request->input('approve_company_user_id', []));
 
         return $this->message('操作成功');
     }
@@ -62,6 +68,9 @@ class WorkingProcessController extends Controller
 
         $workingProcess->defectives()->sync($defectives);
 
+        $workingProcess->reportUsers()->sync($request->input('report_working_permission', []));
+        $workingProcess->approveUsers()->sync($request->input('approve_company_user_id', []));
+
         return $this->message('操作成功');
     }
 
@@ -70,6 +79,9 @@ class WorkingProcessController extends Controller
         $this->authorize('own', $workingProcess);
 
         $workingProcess->delete();
+
+        WorkingProcessReportUser::query()->where('working_process_id', $workingProcess->id)->delete();
+        WorkingProcessApproveUser::query()->where('working_process_id', $workingProcess->id)->delete();
 
         return $this->message('操作成功');
     }
